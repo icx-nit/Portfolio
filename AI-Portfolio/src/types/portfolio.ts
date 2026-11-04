@@ -39,7 +39,7 @@ export interface Project {
   title: string;
   description: string;
   overview: string;
-  category: 'Full-Stack' | 'Web Development' | 'System & Tools' | 'Mobile & AI';
+  category: "Full-Stack" | "Web Development" | "System & Tools" | "Mobile & AI";
   tags: string[];
   imageUrl: string;
   demoUrl?: string;
@@ -47,6 +47,18 @@ export interface Project {
   highlights: string[];
   likesCount: number;
   featured: boolean;
+}
+
+export interface Post {
+  id: string;
+  content: string;
+  contentTh?: string;
+  category: string;
+  categoryTh?: string;
+  images?: string[];
+  likesCount: number;
+  isPublished: boolean;
+  publishedAt: string;
 }
 
 export interface ContactMessage {
@@ -63,5 +75,7 @@ export interface PortfolioStats {
   projectsCount: number;
   followersCount: number;
   totalLikesCount: number;
+  totalPostLikesCount: number;
   repositoriesCount: number;
+  postsCount: number;
 }

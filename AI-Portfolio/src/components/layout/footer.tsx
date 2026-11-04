@@ -1,21 +1,26 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { Github, Mail, ArrowUpRight } from "lucide-react";
+import { useApp } from "@/lib/i18n/context";
 
 export const Footer: React.FC = () => {
+  const { t } = useApp();
+
   return (
-    <footer className="w-full border-t border-char bg-obsidian text-bone py-16 px-6">
+    <footer className="w-full border-t border-white/10 bg-night-violet text-soft-quartz py-16 px-6">
       <div className="max-w-container mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
         {/* Left Column */}
         <div className="space-y-2">
-          <p className="font-display text-2xl tracking-tight text-bone">
-            Nittaya Pana
+          <p className="font-display font-bold text-2xl tracking-tight text-soft-quartz">
+            Nittaya Pana (นิตยา ปานา)
           </p>
-          <p className="text-[14px] text-slate max-w-md">
-            Software Engineering · School of Information and Communication Technology · University of Phayao
+          <p className="text-[14px] text-ash-lilac max-w-md">
+            {t.footer.description}
           </p>
-          <p className="text-[12px] text-slate/70 pt-2 font-mono">
-            Designed with Clyde Editorial System & Next.js.
+          <p className="text-[12px] text-dim-fog pt-2 font-mono">
+            {t.footer.builtWith}
           </p>
         </div>
 
@@ -25,16 +30,16 @@ export const Footer: React.FC = () => {
             href="https://github.com/icx-nit"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-[14px] text-bone/80 hover:text-bone transition-colors"
+            className="inline-flex items-center gap-2 text-[14px] text-ash-lilac hover:text-soft-quartz transition-colors"
           >
             <Github className="w-4 h-4" />
             <span>GitHub (icx-nit)</span>
-            <ArrowUpRight className="w-3.5 h-3.5 text-slate" />
+            <ArrowUpRight className="w-3.5 h-3.5 text-dim-fog" />
           </a>
 
           <a
             href="mailto:nittaya503555@gmail.com"
-            className="inline-flex items-center gap-2 text-[14px] text-bone/80 hover:text-bone transition-colors"
+            className="inline-flex items-center gap-2 text-[14px] text-ash-lilac hover:text-soft-quartz transition-colors"
           >
             <Mail className="w-4 h-4" />
             <span>nittaya503555@gmail.com</span>
@@ -42,9 +47,9 @@ export const Footer: React.FC = () => {
 
           <Link
             href="/admin"
-            className="text-[13px] text-slate hover:text-bone underline underline-offset-4 transition-colors"
+            className="text-[13px] text-dim-fog hover:text-soft-quartz underline underline-offset-4 transition-colors font-mono"
           >
-            Owner Dashboard
+            {t.footer.adminLink}
           </Link>
         </div>
       </div>

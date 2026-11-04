@@ -1,174 +1,226 @@
-# PLAN.md 
-# Personal Portfolio Website - Project Development Plan
+# PLAN.md — Personal Portfolio Website
 
 ## 1. Project Overview
 
 ### 1.1 Project Name
 
-Personal Portfolio Website
+Personal Portfolio Website with Admin Dashboard and Interactive Social Feed.
 
 ### 1.2 Project Description
 
-Develop an interactive and professional Personal Portfolio Website that showcases the developer's personal information, educational background, technical skills, projects, resume, and contact information.
+Develop a modern, responsive, full-stack personal portfolio website that allows visitors to explore the owner's profile, educational background, projects, technical skills, resume, and social posts.
 
-The website will include an owner-only administration dashboard and interactive visitor features.
+The website will also provide interactive features such as following the portfolio owner, liking posts and projects, contacting the owner through an email form, and asking questions through a free, knowledge-based chatbot.
 
-The owner can manage portfolio content through the dashboard without manually editing source code.
+The owner will have access to a secure Admin Dashboard where they can manage all website content, including profile information, education, projects, posts, resume files, contact messages, and GitHub repositories.
 
-Visitors can explore the portfolio, follow the owner, like projects, download the resume, contact the owner, and interact with a portfolio chatbot.
+### 1.3 Access Permissions
 
-### 1.3 Project Objectives
+The website must support two types of users:
 
-- Create a professional online portfolio.
-- Present personal and educational information.
-- Showcase software development projects.
-- Allow the owner to manage portfolio content.
-- Provide visitor interaction without requiring visitor accounts.
-- Implement a secure owner-only dashboard.
-- Provide a chatbot that answers questions using portfolio information without paid AI APIs.
-- Integrate GitHub repositories into the owner dashboard.
-- Provide a responsive experience across devices.
+**Public Visitors**
+- Anyone can access and view the portfolio without logging in.
+- Visitors can view public posts, projects, profile information, education, and skills.
+- Visitors can follow the owner.
+- Visitors can like the portfolio, posts, and individual projects.
+- Visitors can contact the owner.
+- Visitors can interact with the portfolio chatbot.
+- Visitors can download the owner's resume.
+- Visitors cannot create, edit, or delete any content.
+- Visitors cannot comment on posts or projects.
 
-### 1.4 Target Users
+**Portfolio Owner (Administrator)**
+- Only the owner can log in.
+- The owner must authenticate before accessing the Admin Dashboard.
+- The owner can manage all portfolio content.
+- The owner can create, edit, and delete posts.
+- The owner can manage projects, profile information, education, and resume files.
+- The owner can view contact messages, followers, and likes.
+- The owner can view GitHub repositories from the Admin Dashboard.
 
-**Owner (Administrator)**
-- Has exclusive access to the administration dashboard.
-- Can manage all portfolio content.
-- Can manage projects and resume files.
-- Can view visitor interactions and contact messages.
-
-**Visitors**
-- Can view public portfolio information.
-- Can follow and like content.
-- Can send contact messages.
-- Can ask questions through the chatbot.
-- Cannot modify portfolio content.
+Important: The public portfolio must remain accessible without authentication. Authentication is required only for the owner's administrative area.
 
 ---
 
-## 2. Proposed Technology Stack
+## 2. Technology Stack
 
-The following technology stack is recommended for this project. Final provider selection must be approved before Phase 2.5.
+Use the following technologies as the primary development stack.
 
-| Category | Proposed Technology | Purpose |
+| Category | Technology | Responsibility |
 |---|---|---|
-| Frontend | Next.js | Website and application framework |
-| Language | TypeScript | Type safety |
-| Styling | Tailwind CSS | Responsive styling |
-| UI Components | Reusable React Components | Consistent interface |
-| Backend | Next.js Route Handlers | Server-side APIs |
-| Database | Supabase PostgreSQL | Store portfolio and visitor data |
+| Frontend | Next.js | Main web framework |
+| Language | TypeScript | Application development |
+| Styling | Tailwind CSS | Responsive styling and layouts |
+| UI Components | React | Reusable interface components |
+| Backend | Next.js Route Handlers | Server-side logic and APIs |
+| Database | Supabase PostgreSQL | Store website data |
 | Authentication | Supabase Auth | Owner authentication |
-| File Storage | Supabase Storage | Images and PDF resume |
-| Email | Resend or another approved provider | Contact notifications |
-| Chatbot | Rule-Based + Information Retrieval | Free portfolio Q&A |
-| GitHub Integration | GitHub REST API | Display repository information |
+| File Storage | Supabase Storage | Store images and PDF files |
+| Email | Resend | Contact notifications |
+| Chatbot | Rule-Based + Information Retrieval | Free knowledge-based chatbot |
+| GitHub Integration | GitHub REST API | Retrieve repository information |
 | Deployment | Vercel | Website hosting |
-| Version Control | Git and GitHub | Source code management |
+| Version Control | Git / GitHub | Source code management |
 
-### 2.1 Technology Selection Rules
+### 2.1 Important Technology Requirements
 
-- Prefer Supabase PostgreSQL over Firebase for the initial implementation because the project contains relational data.
-- Use Supabase Auth for the single owner account.
-- Use Supabase Storage for portfolio images and resume files.
-- Use server-side API routes for privileged operations.
-- Use GitHub REST API to retrieve public repository information.
-- Use a free or open-source chatbot implementation without paid AI API calls.
-- Avoid introducing additional services unless necessary.
-
-All third-party providers, service limits, and potential costs must be reviewed and approved before implementation.
-
-### 2.2 Cost Considerations
-
-Prioritize free tiers and open-source tools.
-
-However, free-tier availability, quotas, storage limits, email limits, and deployment restrictions may change.
-
-Do not assume that all infrastructure is permanently free.
-
-Before implementation, report:
-- Expected service costs.
-- Free-tier limitations.
-- Usage quotas.
-- Potential paid features.
-- Alternative providers.
-
-Do not activate paid services without owner approval.
+- Use TypeScript throughout the project.
+- Use Next.js App Router.
+- Use reusable React components.
+- Use Tailwind CSS for consistent styling.
+- Use Supabase as the primary database and storage service.
+- Use server-side authentication and authorization.
+- Do not expose API keys or sensitive environment variables to the browser.
+- Avoid unnecessary paid services.
+- Prefer free-tier services where practical.
+- Check service limits and pricing before integrating external services.
 
 ---
 
-## 3. Website Features and Functional Requirements
+## 3. Website Structure and Main Features
 
-## 3.1 Personal Profile Management
+### 3.1 Public Website
 
-The owner can create, view, update, and delete or replace personal profile information through the dashboard.
+The public website must contain the following sections:
 
-Profile fields:
+1. Home / Social Feed
+2. About Me
+3. Education
+4. Skills
+5. Projects
+6. Resume
+7. Contact Me
+8. Chatbot
 
-| Field | Description |
-|---|---|
-| Display Name | Name displayed on the website |
-| Professional Title | Interested career or professional role |
-| Introduction | Short personal introduction |
-| Profile Image | Upload, replace, and delete profile image |
+The website must be responsive and support desktop, tablet, and mobile devices.
 
-Requirements:
+### 3.2 Home Page — Social Feed
 
-- Display public profile information on the homepage.
-- Allow the owner to edit information through the dashboard.
-- Support profile image uploads.
-- Validate uploaded image types and file sizes.
-- Display a default image when no profile image exists.
-- Save updated information to the database.
+The homepage will function as a personal social feed.
 
----
+The owner can publish posts containing:
 
-## 3.2 Education Management
+- Text content.
+- One or multiple images.
+- Publication date.
+- Optional post categories or tags.
+- Like count.
 
-The owner can add, view, edit, and delete education records.
+Visitors can:
 
-Each education record contains:
+- View all published posts.
+- Like and unlike posts.
+- View the number of likes.
+- Open images.
+- View publication dates.
 
-- Institution Name.
-- Degree or Qualification.
-- Field of Study.
+Visitors cannot:
 
-Default field of study: Software Engineering.
+- Create posts.
+- Edit posts.
+- Delete posts.
+- Comment on posts.
+- Reply to other users.
+- Upload content.
 
-The default value must remain editable.
+Only the owner can create, edit, and delete posts through the Admin Dashboard.
 
-Requirements:
+The feed should have a clean social-media-inspired layout without unnecessary social networking features.
 
-- Support multiple education records.
-- Display education information on the public website.
-- Allow the owner to manage education records through the dashboard.
-- Validate required fields.
-- Store education records in the database.
+### 3.3 About Me — Owner Profile
 
----
+The owner must be able to manage:
 
-## 3.3 Contact Information Management
+- Display name.
+- Professional title or career interests.
+- Short personal introduction.
+- Profile picture.
+- Optional additional profile information.
 
-The owner can manage public contact information.
+The information must be editable through the Admin Dashboard.
 
-Fields:
+### 3.4 Education
 
-- Contact Email.
-- GitHub Profile URL.
+The owner can add, edit, and delete educational records.
 
-Public website requirements:
+Each education record should contain:
 
-- Display the owner's contact email.
-- Display a link to the owner's GitHub profile.
-- Open external GitHub links in a new browser tab.
-- Use safe external link attributes such as `rel="noopener noreferrer"` when appropriate.
-- Validate email and URL formats.
+- Institution name.
+- Major or field of study.
+- Start year.
+- Graduation year or expected graduation year.
+- Optional description.
 
-### Contact Form
+Default major: Software Engineering.
 
-The website must provide a Contact Me form.
+The default value must be editable.
 
-Form fields:
+### 3.5 Skills
+
+Display the owner's technical skills in organized categories, such as:
+
+- Programming Languages.
+- Frontend Development.
+- Backend Development.
+- Database.
+- Tools and Technologies.
+- Other Technical Skills.
+
+The owner must be able to add, edit, and delete skills through the Dashboard.
+
+### 3.6 Projects
+
+Display projects in a structured project gallery.
+
+Each project should contain:
+
+- Project name.
+- Short description.
+- Detailed description.
+- Project images.
+- Technology tags.
+- Project category.
+- GitHub repository URL.
+- Live demo URL (optional).
+- Publication or creation date.
+- Like count.
+
+Visitors can:
+
+- View project cards.
+- Open project details.
+- Like individual projects.
+- Visit the project's GitHub repository.
+- Open the live demo when available.
+
+Important: Visitors must be able to click the GitHub link to view the actual source code and repository on GitHub.
+
+The owner can:
+
+- Create projects.
+- Edit project information.
+- Upload and replace project images.
+- Delete projects.
+
+### 3.7 Resume
+
+The owner can:
+
+- Upload a resume in PDF format.
+- Replace the existing resume.
+- Delete the resume.
+- Manage the currently published resume.
+
+Visitors can:
+
+- View the resume information.
+- Download the latest published PDF.
+
+Only the owner can upload, replace, or delete resume files.
+
+### 3.8 Contact Me
+
+Provide a contact form with three required fields:
 
 1. Name.
 2. Email.
@@ -176,1029 +228,811 @@ Form fields:
 
 Requirements:
 
-- Validate all fields.
+- Validate all input fields.
+- Validate email format.
 - Sanitize user input.
-- Prevent empty submissions.
-- Apply rate limiting.
-- Save messages to the database.
-- Send an email notification to the owner.
-- Display success and error feedback.
-- Do not expose email provider credentials to the browser.
+- Save contact messages in Supabase.
+- Send an email notification to the owner using Resend.
+- Display success and error messages.
+- Prevent spam through server-side rate limiting.
+- Do not expose email service credentials to the client.
 
-The owner can read contact messages through the dashboard and reply using their email application.
+The owner must be able to view submitted messages through the Admin Dashboard.
 
-An integrated email inbox or reply system is not required in the initial version.
+The owner can respond to messages through their normal email account.
 
----
+### 3.9 Follow System
 
-## 3.4 Project Management
-
-The owner can add, view, edit, and delete projects through the dashboard.
-
-Each project contains:
-
-| Field | Description |
-|---|---|
-| Project Name | Project title |
-| Description | Project overview |
-| Images | Project screenshots or cover images |
-| Tags | Technologies or relevant keywords |
-| Category | Project classification |
-| Demo URL | Live project link |
-| GitHub URL | Source code repository link |
+Visitors can follow the portfolio owner without logging in.
 
 Requirements:
 
-- Support multiple projects.
-- Upload and manage project images.
-- Allow project details to be edited.
-- Allow projects to be deleted.
-- Display projects on the public portfolio.
-- Provide project detail pages or an appropriate project detail view.
-- Display technologies and project categories.
-- Support external demo and GitHub links.
-- Validate URLs and uploaded files.
-- Save project information in the database.
-
-### Project Interaction
-
-Visitors can like individual projects.
-
-Visitors cannot:
-- Create projects.
-- Edit projects.
-- Delete projects.
-- Publish posts.
-- Comment on projects.
-- Reply to other visitors.
-
-Only the owner can manage project content.
-
----
-
-## 3.5 Resume Management
-
-The owner can manage resume files through the dashboard.
-
-Requirements:
-
-- Upload PDF resume files.
-- Replace existing resume files.
-- Delete resume files.
-- Store files in Supabase Storage.
-- Validate PDF file types and file sizes.
-- Display a resume viewing option on the public website.
-- Allow visitors to download the resume.
-- Prevent unauthorized file management.
-- Ensure the public resume is accessible without owner authentication.
-
-The website should clearly display the latest available resume.
-
----
-
-## 3.6 Visitor Follow System
-
-Visitors can follow the owner without creating an account.
-
-Requirements:
-
-- Provide a Follow button.
+- Provide a Follow / Following button.
 - Display the total follower count.
-- Record visitor follow status.
-- Allow each visitor to follow only once.
-- Prevent duplicate follow records.
-- Provide feedback when the visitor has already followed.
-- Update the displayed follower count after successful actions.
+- Allow visitors to follow and unfollow.
+- Store visitor identification using a persistent anonymous visitor ID.
+- Enforce one active follow per visitor.
+- Validate all follow requests on the server.
+- Apply rate limiting to prevent abuse.
 
-Visitor identification:
+The system must not require visitor registration.
 
-- Generate a unique visitor identifier.
-- Store the identifier in a persistent first-party cookie or another appropriate browser storage mechanism.
-- Associate follow records with the visitor identifier.
-- Enforce uniqueness at the database level.
-- Apply server-side rate limiting.
+### 3.10 Like System
 
-Important limitations:
+Visitors can like the following items:
 
-Browser-based visitor identifiers are not equivalent to verified user identities.
-
-Visitors may create a new identifier by clearing browser storage, using another browser, or using another device.
-
-The system should prevent ordinary duplicate requests but must not claim to guarantee one follow per real person.
-
----
-
-## 3.7 Visitor Like System
-
-Visitors can like:
-
-1. The overall portfolio.
-2. Individual projects.
+- Main portfolio.
+- Individual social posts.
+- Individual projects.
 
 Requirements:
 
-- Display the total like count.
-- Allow one like per visitor for each target item.
-- Prevent duplicate likes.
-- Record visitor identification.
-- Store like records in the database.
-- Enforce uniqueness at the database level.
-- Apply server-side rate limiting.
-- Update like counts after successful actions.
-- Provide visual feedback when an item has already been liked.
+- Display the number of likes for each item.
+- Allow visitors to like and unlike.
+- Store anonymous visitor identification.
+- Enforce one active like per visitor per item.
+- Prevent duplicate active likes.
+- Apply server-side validation and rate limiting.
 
-Visitors cannot:
-- Add comments.
-- Reply to comments.
-- Publish content.
-- Edit or delete existing content.
+There must be no comment or discussion system.
 
-Only the owner can manage portfolio and project content.
+Note: Anonymous visitor identification is a best-effort mechanism. It cannot completely prevent abuse through browser data resets or identity changes.
+
+### 3.11 Language Switching
+
+The website must support two languages:
+
+- Thai (TH).
+- English (EN).
+
+Requirements:
+
+- Provide a language switcher in the website navigation.
+- Allow visitors to switch between Thai and English.
+- Translate interface elements, navigation, buttons, labels, validation messages, and system notifications.
+- Support Thai and English content in the chatbot.
+- Store the selected language in localStorage.
+- Remember the selected language when visitors return.
+- Use English as the default language unless another preference is detected.
+
+The website must not automatically translate user-generated content incorrectly. Owner-created content should support language-specific versions where appropriate.
+
+### 3.12 Dark Mode and Light Mode
+
+Requirements:
+
+- Support Dark Mode and Light Mode.
+- Follow the operating system preference on the first visit.
+- Allow visitors to switch themes manually.
+- Store the selected theme in localStorage.
+- Remember the selected theme on subsequent visits.
+- Ensure all components remain readable in both themes.
 
 ---
 
-## 3.8 Portfolio Chatbot (No Paid AI API)
+## 4. Free Knowledge-Based Chatbot
 
-### 3.8.1 Objective
+### 4.1 Objective
 
-Implement a chat-style Portfolio Assistant that answers visitor questions using only the information available on the public portfolio.
+Implement a chatbot that can answer questions about the portfolio owner's information without using paid AI APIs.
 
-The chatbot must not require OpenAI API, Anthropic API, or another paid generative AI service.
+Do not use:
 
-### 3.8.2 Recommended Approach
+- OpenAI API.
+- Anthropic API.
+- Other paid generative AI APIs.
 
 Use a combination of:
 
-- Rule-Based Question Matching.
-- Keyword Matching.
-- Synonym Matching.
+- Rule-Based Responses.
 - Information Retrieval.
-- Structured Portfolio Data.
+- Keyword Matching.
+- Text Search.
+- Relevance Scoring.
 - Predefined Response Templates.
 
-Optional open-source libraries may be used when they provide a clear benefit.
+The chatbot must retrieve information from the website's public content.
 
-For example:
-- Fuse.js for fuzzy text searching.
-- MiniSearch for lightweight full-text search.
-- A custom keyword and intent matching engine.
+### 4.2 Supported Knowledge Sources
 
-Do not introduce unnecessary machine learning models or paid API dependencies.
+The chatbot can answer questions based on:
 
-### 3.8.3 Knowledge Sources
-
-The chatbot may retrieve information only from approved public portfolio data:
-
-- Personal Profile.
+- Owner profile.
+- Personal introduction.
 - Education.
-- Technical Skills.
+- Technical skills.
 - Projects.
-- Professional Experience, if available.
-- Public Resume Information.
+- Project descriptions.
+- Resume information.
+- Public portfolio information.
 
-The chatbot must use the latest published portfolio data.
+The chatbot should retrieve the latest published information from the database instead of relying on outdated hardcoded content.
 
-Do not expose:
-- Owner account credentials.
-- Private dashboard data.
-- Contact messages.
-- Visitor identifiers.
-- Private database records.
-- Environment variables.
-- Internal system information.
+### 4.3 Chatbot Behavior
 
-### 3.8.4 Question Processing
+Examples of supported questions:
 
-The chatbot should follow this process:
-
-1. Receive the visitor's message.
-2. Normalize the text.
-3. Identify relevant keywords and question intent.
-4. Search approved portfolio information.
-5. Calculate a relevance score.
-6. Check whether the retrieved information is sufficient.
-7. Generate a response using predefined templates.
-8. Return a relevant answer or an out-of-scope response.
-
-### 3.8.5 Supported Questions
-
-Examples:
-
-- What is the developer's name?
-- What does the developer study?
-- What programming languages does the developer know?
-- What projects has the developer developed?
+- Who is the portfolio owner?
+- What is the owner's educational background?
+- What programming languages does the owner know?
+- What projects has the owner developed?
 - What technologies were used in a particular project?
-- What is the developer's educational background?
-- Where can I find the developer's GitHub?
-- How can I contact the developer?
-- Can I view the developer's resume?
+- Where can I view the owner's GitHub?
+- How can I contact the owner?
 
-### 3.8.6 Out-of-Scope Questions
+The chatbot must:
 
-The chatbot must refuse questions unrelated to the portfolio.
+1. Analyze the visitor's question.
+2. Identify relevant keywords and topics.
+3. Search the available portfolio information.
+4. Calculate a relevance score.
+5. Return a response using retrieved information.
+6. Provide related project links when applicable.
+7. Refuse questions that are unrelated to the portfolio.
 
-Examples:
+Example refusal:
 
-- General knowledge questions.
-- Mathematics problems.
-- Restaurant recommendations.
-- Weather forecasts.
-- Programming tutorials unrelated to the developer's portfolio.
-- Questions requiring information that does not exist in the portfolio.
+"I'm sorry, I can only answer questions related to the portfolio owner's profile, education, skills, projects, and contact information."
 
-Suggested response:
+### 4.4 Language Support
 
-"I'm sorry, I can only answer questions about the portfolio owner, including their profile, education, skills, projects, and experience."
+- Support Thai and English questions.
+- Detect the language of the visitor's question.
+- Return answers in the same language when possible.
+- Use predefined Thai and English response templates.
+- Support Thai and English keyword dictionaries.
 
-### 3.8.7 Accuracy Rules
+### 4.5 Chatbot Limitations
 
-- Never invent missing information.
-- Never guess answers when information is insufficient.
-- Never answer unrelated questions.
-- Use only retrieved portfolio information.
-- Return a clarification or fallback response when no reliable match is found.
-- Clearly distinguish unavailable information from negative information.
+The chatbot must not:
 
-### 3.8.8 User Interface
+- Answer general knowledge questions.
+- Answer unrelated personal questions.
+- Invent information that does not exist in the portfolio.
+- Generate unsupported technical claims.
+- Pretend to have information that cannot be retrieved.
+- Access private Dashboard information.
+- Reveal contact messages or administrative information.
 
-The chatbot interface should include:
+### 4.6 Cost and Performance
 
-- Chat window.
-- Welcome message.
-- Message input.
-- Send button.
-- Conversation history during the current session.
-- Loading or searching indicator.
-- Clear conversation option.
-- Suggested questions.
-- Error and fallback messages.
+- No paid AI API is required.
+- All retrieval and response generation must run through the application's own server.
+- Use lightweight search and matching algorithms.
+- Cache frequently requested public information when appropriate.
+- Apply server-side rate limiting.
+- Keep the implementation modular so a future AI integration can be added if explicitly approved.
 
-### 3.8.9 Cost and Performance
-
-- No paid AI API calls.
-- No external generative AI dependency.
-- Use lightweight search logic.
-- Cache public portfolio data when appropriate.
-- Apply rate limiting to prevent abuse.
-- Avoid storing unnecessary visitor messages.
-- Keep chatbot processing efficient.
-
-Important limitation:
-
-This chatbot is a retrieval-based assistant, not a fully generative AI model.
-
-It can answer questions that match available information but may not understand complex or ambiguous natural-language questions as effectively as paid AI models.
-
-The system should prioritize accurate answers over attempting to answer every question.
+Important: This chatbot is a deterministic retrieval-based assistant, not a full generative AI model. Its answers will be limited to the available portfolio information.
 
 ---
 
-## 3.9 Dark Mode and Light Mode
+## 5. Admin Dashboard
 
-Visitors can switch between:
+### 5.1 Authentication
 
-- Light Mode.
-- Dark Mode.
+Only the portfolio owner can access the Admin Dashboard.
+
+Use Supabase Auth.
 
 Requirements:
 
-- Follow the operating system theme by default.
-- Provide a manual theme toggle.
-- Save the visitor's selected theme in localStorage.
-- Restore the selected theme on subsequent visits.
-- Maintain consistent colors across all pages.
-- Prevent unnecessary theme flashing during page loading.
-- Ensure sufficient contrast in both themes.
+- Owner login using email and password.
+- Secure session management.
+- Protected Dashboard routes.
+- Server-side authorization.
+- Logout functionality.
+- Secure password handling.
+- Prevent public registration.
+
+Do not rely on hiding Dashboard buttons or frontend route protection alone.
+
+Every administrative API endpoint must verify the authenticated owner's identity and authorization on the server.
+
+Unauthorized requests must return HTTP 401 or 403.
+
+### 5.2 Dashboard Overview
+
+The Dashboard should display:
+
+- Total followers.
+- Total portfolio likes.
+- Total post likes.
+- Total project likes.
+- Total published posts.
+- Total projects.
+- New contact messages.
+- GitHub repository overview.
+
+### 5.3 Profile Management
+
+The owner can:
+
+- Edit display name.
+- Edit professional title.
+- Edit personal introduction.
+- Upload a profile picture.
+- Replace the profile picture.
+- Delete or update the profile picture.
+
+### 5.4 Education Management
+
+The owner can:
+
+- Add education records.
+- Edit education records.
+- Delete education records.
+
+### 5.5 Skills Management
+
+The owner can:
+
+- Add skills.
+- Edit skills.
+- Delete skills.
+- Organize skills by category.
+
+### 5.6 Post Management
+
+The owner can:
+
+- Create new posts.
+- Write text content.
+- Upload one or multiple images.
+- Edit existing posts.
+- Delete posts.
+- Publish or unpublish posts.
+- View post publication dates.
+- View post likes.
+
+Only the owner can manage posts.
+
+### 5.7 Project Management
+
+The owner can:
+
+- Add projects.
+- Edit project information.
+- Upload project images.
+- Manage technology tags.
+- Add GitHub repository URLs.
+- Add live demo URLs.
+- Delete projects.
+- View project likes.
+
+### 5.8 Resume Management
+
+The owner can:
+
+- Upload PDF files.
+- Replace the current PDF.
+- Delete old files.
+- Set the currently published resume.
+
+Validate file types and file sizes on the server.
+
+### 5.9 Contact Message Management
+
+The owner can:
+
+- View all contact messages.
+- View sender names.
+- View sender email addresses.
+- Read message content.
+- View submission dates.
+- Mark messages as read or unread.
+- Delete messages.
+
+The owner can reply through their normal email account.
+
+### 5.10 GitHub Repository Management
+
+Integrate GitHub REST API into the Admin Dashboard.
+
+The owner should be able to:
+
+- Connect or configure their GitHub account.
+- View public repositories.
+- View repository names.
+- View repository descriptions.
+- View programming languages.
+- View repository URLs.
+- View stars and forks.
+- View last updated dates.
+- Open repositories directly on GitHub.
+- Refresh repository information.
+
+Requirements:
+
+- Use public repository data where possible.
+- Keep GitHub tokens on the server if authentication is necessary.
+- Never expose private GitHub tokens to the browser.
+- Cache repository information to reduce unnecessary API requests.
+- Handle GitHub API rate limits.
+- Do not automatically publish repositories as portfolio projects.
+
+The owner must manually select which repositories should appear in the public Projects section.
 
 ---
 
-## 3.10 GitHub Integration
+## 6. Database and Storage Architecture
 
-The website must integrate with GitHub to display the owner's repositories inside the administration dashboard.
+Use Supabase PostgreSQL as the primary database.
 
-### Dashboard Requirements
-
-- Connect the owner's GitHub profile.
-- Retrieve public repository information using the GitHub REST API.
-- Display repository names.
-- Display repository descriptions.
-- Display programming languages when available.
-- Display repository URLs.
-- Display repository visibility when available.
-- Display stars and forks when available.
-- Provide a link to open the repository on GitHub.
-- Allow the owner to refresh repository information.
-- Display loading, empty, and error states.
-
-### Technical Requirements
-
-- Use GitHub's public API for public repositories.
-- Keep API requests server-side when appropriate.
-- Respect GitHub API rate limits.
-- Cache repository information when appropriate.
-- Do not expose private GitHub tokens to the browser.
-
-Private repository access is optional and requires explicit approval before implementing GitHub authentication or token-based access.
-
-The initial version only requires public repository information.
-
----
-
-## 4. Visitor Permissions and Owner Permissions
-
-### 4.1 Visitor Permissions
-
-| Feature | Permission |
-|---|---|
-| View portfolio | Allowed |
-| View projects | Allowed |
-| View education | Allowed |
-| View resume | Allowed |
-| Download resume | Allowed | 
-| Follow owner | Allowed |
-| Like portfolio | Allowed |
-| Like projects | Allowed |
-| Contact owner | Allowed |
-| Use chatbot | Allowed |
-| Change theme | Allowed |
-| Create posts | Not allowed |
-| Comment | Not allowed |
-| Edit portfolio | Not allowed |
-| Delete portfolio content | Not allowed |
-| Access dashboard | Not allowed | 
-
-### 4.2 Owner Permissions
-
-| Feature | Permission |
-|---|---|
-| Login | Allowed |
-| Access dashboard | Allowed |
-| Edit profile | Allowed |
-| Manage education | Allowed |
-| Edit contact information | Allowed |
-| Manage projects | Allowed |
-| Manage resume | Allowed |
-| View contact messages | Allowed |
-| View follower count | Allowed |
-| View like counts | Allowed |
-| View GitHub repositories | Allowed |
-| Refresh GitHub data | Allowed |
-| Manage public portfolio content | Allowed |
-
-There must be only one authorized owner account.
-
-Do not implement public registration.
-
----
-
-## 5. Database Design
-
-Use Supabase PostgreSQL as the proposed database.
-
-The following tables are recommended.
+### 6.1 Suggested Database Tables
 
 | Table | Purpose |
 |---|---|
 | profiles | Owner profile information |
-| education | Education records |
+| education | Educational records |
 | skills | Technical skills |
-| projects | Project information |
-| project_images | Project image references |
-| resumes | Resume metadata |
-| follows | Visitor follow records |
-| likes | Portfolio and project likes |
-| contact_messages | Visitor contact messages |
-| github_repositories_cache | Cached GitHub repository information |
+| projects | Portfolio projects |
+| posts | Social feed posts |
+| post_images | Images attached to posts |
+| follows | Anonymous visitor follow records |
+| likes | Portfolio, post, and project likes |
+| contact_messages | Contact form submissions |
+| resumes | Published resume information |
 
-### 5.1 Database Requirements
+Additional tables may be introduced when necessary.
 
-- Use primary keys.
-- Use appropriate foreign keys.
-- Define timestamps.
-- Add unique constraints where needed.
-- Add indexes for frequently queried fields.
-- Validate relationships.
-- Prevent unauthorized database access.
-- Use database policies appropriately.
+### 6.2 Database Requirements
 
-### 5.2 Visitor Identification
+- Use UUID primary keys where appropriate.
+- Define foreign key relationships.
+- Add appropriate indexes.
+- Add unique constraints to prevent duplicate active likes and follows.
+- Use timestamps for created_at and updated_at.
+- Use database constraints to protect data integrity.
+- Use migrations for database changes.
 
-Visitor IDs must not be treated as authenticated user accounts.
+### 6.3 Storage Buckets
 
-Use appropriate uniqueness constraints for follow and like records.
+Create appropriate Supabase Storage buckets for:
 
-Apply server-side validation before inserting records.
+- Profile images.
+- Project images.
+- Post images.
+- Resume PDF files.
 
----
-
-## 6. Authentication and Security Architecture
-
-### 6.1 Owner Authentication
-
-- Use Supabase Auth.
-- Support owner email and password authentication.
-- Allow only the pre-authorized owner account.
-- Disable public registration.
-- Protect dashboard routes.
-- Implement secure session handling.
-- Provide logout functionality.
-
-### 6.2 Server-Side Authorization
-
-All owner-specific operations must be authorized on the server.
-
-Examples:
-
-- Create project.
-- Update project.
-- Delete project.
-- Update profile.
-- Manage education.
-- Upload resume.
-- Delete resume.
-- Read contact messages.
-- Access private dashboard data.
-
-Unauthenticated requests must receive HTTP 401.
-
-Authenticated users without the required permissions must receive HTTP 403.
-
-Hiding dashboard buttons is not sufficient security.
-
-### 6.3 Database Security
-
-- Enable Row Level Security (RLS) where appropriate.
-- Restrict owner-only database operations.
-- Prevent visitors from directly modifying portfolio content.
-- Allow visitors to perform only approved interactions.
-- Never expose service-role credentials to the client.
-- Validate all API requests on the server.
-
-### 6.4 File Security
+Storage requirements:
 
 - Validate file types.
 - Validate file sizes.
-- Restrict upload permissions.
-- Use appropriate storage policies.
-- Prevent unauthorized file deletion.
-- Keep private configuration out of public assets.
+- Restrict uploads to the owner.
+- Allow public reading only for intended public assets.
+- Protect private files when necessary.
+- Delete unused files when their associated records are deleted.
+
+### 6.4 Row Level Security (RLS)
+
+Enable Row Level Security for all relevant tables.
+
+Policies must ensure:
+
+- Public visitors can only read published public content.
+- Public visitors cannot modify portfolio content.
+- Only the authenticated owner can create, update, and delete administrative content.
+- Anonymous visitors can interact with Follow and Like through validated server-side operations.
+- Contact messages cannot be publicly retrieved.
+- Administrative information remains private.
+
+Never rely on frontend restrictions as the primary security mechanism.
 
 ---
 
-## 7. API and Backend Requirements
+## 7. Development Phases
 
-Create server-side API routes for the following operations.
+Development must be completed in the following order.
 
-### Public APIs
+Each phase must be tested and verified before moving to the next phase.
 
-- Retrieve public profile.
-- Retrieve education records.
-- Retrieve technical skills.
-- Retrieve public projects.
-- Retrieve public resume information.
-- Follow owner.
-- Like portfolio.
-- Like projects.
-- Submit contact form.
-- Search portfolio knowledge for chatbot responses.
+### Phase 1 — Project Setup and Environment
 
-### Owner APIs
+- [x] Initialize the Next.js project.
+- [x] Configure TypeScript.
+- [x] Configure Tailwind CSS.
+- [x] Configure ESLint and code formatting.
+- [x] Set up the App Router structure.
+- [x] Create the initial folder structure.
+- [x] Configure environment variables.
+- [x] Set up Git and GitHub.
+- [x] Create the initial README.md.
+- [x] Verify that the project runs successfully.
 
-- Update profile.
-- Create education record.
-- Update education record.
-- Delete education record.
-- Manage technical skills.
-- Create project.
-- Update project.
-- Delete project.
-- Upload resume.
-- Replace resume.
-- Delete resume.
-- Retrieve contact messages.
-- Retrieve follow statistics.
-- Retrieve like statistics.
-- Retrieve GitHub repositories.
-- Refresh GitHub repository information.
+### Phase 2 — UI Design and Core Components
 
-All owner APIs must verify authentication and authorization on the server.
+- [x] Design the website layout.
+- [x] Create the navigation bar.
+- [x] Create the footer.
+- [x] Create reusable UI components.
+- [x] Build the homepage layout.
+- [x] Build the social feed layout.
+- [x] Build the profile section.
+- [x] Build the education section.
+- [x] Build the skills section.
+- [x] Build the project gallery.
+- [x] Build the contact section.
+- [x] Build the chatbot interface.
+- [x] Implement responsive layouts.
+- [x] Implement dark mode and light mode.
+- [x] Implement Thai and English language switching.
 
-### API Protection
+At this stage, use temporary sample data where necessary.
 
-- Validate request bodies.
-- Sanitize user input.
-- Apply rate limiting.
-- Use appropriate HTTP status codes.
-- Return consistent error responses.
-- Avoid exposing internal errors or sensitive information.
+### Phase 2.5 — Database, Authentication, and Storage
 
----
+Before implementation, the AI Agent must:
 
-## 8. Development Phases
-
-Development must be performed incrementally.
-
-Do not start multiple major phases simultaneously.
-
-Complete testing and update the checklist before moving to the next phase.
-
-### Phase 0 - Requirement Analysis and Planning
-
-- [x] Confirm project objectives. (Owner: Nittaya Pana, Software Developer, University of Phayao)
-- [x] Confirm functional requirements. (Public portfolio first, then owner dashboard)
-- [x] Confirm visitor permissions. (Resume download explicitly allowed)
-- [x] Confirm owner permissions. (Exclusive management of content via Supabase Auth)
-- [x] Review project documentation. (AGENTS.md, DESIGN.md Clyde theme, GEMINI.md, README.md)
-- [x] Confirm the proposed technology stack. (Next.js, TypeScript, Tailwind, Supabase, Resend, Fuse.js)
-- [x] Identify required third-party services. (Supabase free tier, Resend free tier, GitHub REST public)
-- [x] Estimate potential costs. (Zero cost / $0 under free-tier limits)
-- [x] Create the initial project architecture. (Documented in AI-Portfolio/IMPLEMENTATION_PLAN.md)
-
-**Deliverable:** Approved project requirements and development architecture.
-
-### Phase 1 - Project Setup
-
-- [ ] Create the Next.js project.
-- [ ] Configure TypeScript.
-- [ ] Configure Tailwind CSS.
-- [ ] Set up the source directory.
-- [ ] Configure global styles.
-- [ ] Create the initial folder structure.
-- [ ] Configure environment variables.
-- [ ] Set up Git.
-- [ ] Create the initial README.md.
-
-**Deliverable:** A working development environment and initial application.
-
-### Phase 2 - Core UI Components
-
-- [ ] Create the main website layout.
-- [ ] Create navigation components.
-- [ ] Create reusable buttons.
-- [ ] Create reusable cards.
-- [ ] Create form components.
-- [ ] Create modal components when needed.
-- [ ] Create loading states.
-- [ ] Create error states.
-- [ ] Establish design tokens.
-- [ ] Implement responsive foundations.
-
-**Deliverable:** Reusable UI components and the initial design system.
-
-### Phase 2.5 - Database and Authentication
-
-IMPORTANT:
-
-Before starting this phase, present the proposed external services and request owner approval.
-
-Required service decisions:
-
-- Database provider.
-- Authentication provider.
-- File storage provider.
-- Email provider.
-- GitHub integration method.
-- Chatbot implementation approach.
+- [ ] Present the required external services.
+- [ ] Explain the purpose of each service.
+- [ ] Explain free-tier limitations and possible costs.
+- [ ] Present the proposed database schema.
+- [ ] Present the storage configuration.
+- [ ] Request explicit approval before connecting external services.
 
 After approval:
 
-- [ ] Create and configure the Supabase project.
-- [ ] Design the PostgreSQL database schema.
-- [ ] Create the required database tables.
-- [ ] Define primary keys and relationships.
-- [ ] Add unique constraints and indexes.
+- [ ] Configure Supabase.
+- [ ] Create database tables.
+- [ ] Configure relationships and indexes.
 - [ ] Configure Row Level Security.
-- [ ] Configure storage buckets.
-- [ ] Implement owner authentication.
+- [ ] Configure Supabase Storage.
+- [ ] Configure Supabase Auth.
+- [ ] Create the owner's login system.
 - [ ] Disable public registration.
-- [ ] Protect owner dashboard routes.
-- [ ] Implement server-side authorization.
-- [ ] Create owner-specific API routes.
-- [ ] Configure `.env.local`.
-- [ ] Verify that secrets are not exposed to the client.
+- [ ] Implement secure session management.
+- [ ] Protect administrative routes on the server.
+- [ ] Create API routes for administrative operations.
+- [ ] Test authentication and authorization.
 
-**Deliverable:** A secure database, storage system, authentication system, and protected backend.
+### Phase 2.6 — Public Visitor Features
 
-### Phase 2.6 - Visitor Interaction Features
-
-- [ ] Implement visitor identification.
-- [ ] Implement the Follow button.
-- [ ] Display follower counts.
-- [ ] Prevent duplicate follows.
+- [ ] Implement the Follow system.
 - [ ] Implement portfolio likes.
+- [ ] Implement post likes.
 - [ ] Implement project likes.
-- [ ] Display like counts.
-- [ ] Prevent duplicate likes.
+- [ ] Implement anonymous visitor identification.
+- [ ] Prevent duplicate active likes and follows.
 - [ ] Implement server-side rate limiting.
 - [ ] Implement the Contact Me form.
-- [ ] Save contact messages to the database.
-- [ ] Integrate email notifications.
-- [ ] Implement the retrieval-based chatbot.
-- [ ] Implement out-of-scope question rejection.
-- [ ] Add suggested chatbot questions.
-- [ ] Test chatbot accuracy.
-- [ ] Implement dark and light themes.
-- [ ] Persist theme preferences.
+- [ ] Save contact messages to Supabase.
+- [ ] Integrate Resend for email notifications.
+- [ ] Implement input validation and sanitization.
+- [ ] Implement the free Rule-Based chatbot.
+- [ ] Implement Information Retrieval.
+- [ ] Implement relevance scoring and refusal behavior.
+- [ ] Implement Thai and English chatbot responses.
+- [ ] Test public access and visitor permissions.
 
-**Deliverable:** Fully functional visitor interaction features.
+### Phase 3 — Admin Dashboard
 
-### Phase 3 - Owner Administration Dashboard
+- [ ] Create the Admin Dashboard layout.
+- [ ] Implement the Dashboard overview.
+- [ ] Implement profile management.
+- [ ] Implement education management.
+- [ ] Implement skills management.
+- [ ] Implement post creation.
+- [ ] Implement post editing.
+- [ ] Implement post deletion.
+- [ ] Implement image uploads.
+- [ ] Implement project management.
+- [ ] Implement resume upload and deletion.
+- [ ] Implement contact message management.
+- [ ] Display follower statistics.
+- [ ] Display portfolio, post, and project likes.
+- [ ] Integrate GitHub REST API.
+- [ ] Display GitHub repositories.
+- [ ] Implement logout.
+- [ ] Verify all administrative operations on the server.
 
-Create a private dashboard accessible only to the owner.
+### Phase 4 — Database Integration and Dynamic Content
 
-#### 3.1 Dashboard Overview
+Replace temporary sample data and static content with database-driven content.
 
-- [ ] Create dashboard layout.
-- [ ] Create dashboard navigation.
-- [ ] Create overview page.
-- [ ] Display total followers.
-- [ ] Display total portfolio likes.
-- [ ] Display project like statistics.
-- [ ] Display contact message statistics.
-- [ ] Display recent contact messages.
+- [ ] Connect the public profile section to Supabase.
+- [ ] Connect education data to Supabase.
+- [ ] Connect skills data to Supabase.
+- [ ] Connect projects to Supabase.
+- [ ] Connect social posts to Supabase.
+- [ ] Connect likes and follows to Supabase.
+- [ ] Connect contact messages to Supabase.
+- [ ] Connect resume information to Supabase.
+- [ ] Connect the chatbot to published portfolio data.
+- [ ] Implement loading states.
+- [ ] Implement empty states.
+- [ ] Implement error handling.
+- [ ] Verify that content updates appear on the public website.
 
-#### 3.2 Profile Management
+The `/data` directory must only contain initial seed data, shared constants, schemas, and TypeScript types when appropriate.
 
-- [ ] Display existing profile information.
-- [ ] Edit display name.
-- [ ] Edit professional title.
-- [ ] Edit personal introduction.
-- [ ] Upload profile image.
-- [ ] Replace profile image.
-- [ ] Delete profile image when appropriate.
-- [ ] Save changes to the database.
+It must not be used as the permanent database for dynamic website content.
 
-#### 3.3 Education Management
+### Phase 5 — GitHub Integration
 
-- [ ] Display education records.
-- [ ] Add education records.
-- [ ] Edit education records.
-- [ ] Delete education records.
-- [ ] Save changes to the database.
+- [ ] Configure GitHub REST API.
+- [ ] Retrieve public repository information.
+- [ ] Display repository details in the Dashboard.
+- [ ] Handle API errors and rate limits.
+- [ ] Implement repository refresh.
+- [ ] Allow the owner to select repositories for portfolio projects.
+- [ ] Verify that public visitors can open the selected GitHub repositories.
 
-#### 3.4 Skills Management
+### Phase 6 — Security and Validation
 
-- [ ] Add technical skills.
-- [ ] Edit technical skills.
-- [ ] Delete technical skills.
-- [ ] Organize skills by category.
-- [ ] Save changes to the database.
-
-#### 3.5 Project Management
-
-- [ ] Display all projects.
-- [ ] Add new projects.
-- [ ] Edit project details.
-- [ ] Upload project images.
-- [ ] Replace project images.
-- [ ] Delete projects.
-- [ ] Manage project tags.
-- [ ] Manage project categories.
-- [ ] Manage demo and GitHub links.
-
-#### 3.6 Resume Management
-
-- [ ] Display current resume.
-- [ ] Upload PDF resume.
-- [ ] Replace existing resume.
-- [ ] Delete resume.
-- [ ] Verify public resume access.
-
-#### 3.7 Contact Message Management
-
-- [ ] Display contact messages.
-- [ ] View message details.
-- [ ] Display sender name.
-- [ ] Display sender email.
-- [ ] Display message content.
-- [ ] Display submission date.
-- [ ] Mark messages as read.
-- [ ] Allow the owner to reply using their email application.
-
-#### 3.8 Visitor Statistics
-
-- [ ] Display follower count.
-- [ ] Display portfolio like count.
-- [ ] Display project like counts.
-- [ ] Provide clear statistics.
-
-#### 3.9 GitHub Repository Management
-
-- [ ] Connect to the owner's public GitHub profile.
-- [ ] Retrieve public repositories.
-- [ ] Display repository names.
-- [ ] Display descriptions.
-- [ ] Display programming languages.
-- [ ] Display repository URLs.
-- [ ] Display stars and forks when available.
-- [ ] Add repository refresh functionality.
-- [ ] Handle API rate limits.
-- [ ] Display loading and error states.
-
-**Deliverable:** A functional owner dashboard for managing portfolio content and viewing visitor activity.
-
-### Phase 4 - Public Portfolio Integration
-
-Replace temporary local data with database-driven information.
-
-- [ ] Retrieve profile information from the database.
-- [ ] Retrieve education records.
-- [ ] Retrieve technical skills.
-- [ ] Retrieve public projects.
-- [ ] Retrieve project images.
-- [ ] Retrieve public resume information.
-- [ ] Integrate Follow functionality.
-- [ ] Integrate Like functionality.
-- [ ] Integrate Contact Me functionality.
-- [ ] Integrate chatbot functionality.
-- [ ] Integrate GitHub profile links.
-- [ ] Ensure the public website displays the latest published data.
-
-Important:
-
-The `/data` directory should only contain:
-
-- Initial or seed data.
-- Static configuration.
-- Type definitions when appropriate.
-
-Do not use local JSON files as the primary database for dynamic portfolio content.
-
-The database must be the source of truth for managed content.
-
-**Deliverable:** A fully integrated public portfolio website.
-
-### Phase 5 - Chatbot Knowledge and Accuracy Testing
-
-- [ ] Verify that the chatbot uses current public portfolio information.
-- [ ] Test profile-related questions.
-- [ ] Test education-related questions.
-- [ ] Test technical skill questions.
-- [ ] Test project-related questions.
-- [ ] Test resume-related questions.
-- [ ] Test synonym matching.
-- [ ] Test spelling variations.
-- [ ] Test ambiguous questions.
-- [ ] Test unrelated questions.
-- [ ] Verify that unsupported questions are rejected.
-- [ ] Verify that the chatbot does not invent information.
-- [ ] Optimize search performance.
-
-**Deliverable:** A reliable retrieval-based Portfolio Assistant.
-
-### Phase 6 - Security and Quality Assurance
-
-- [ ] Test owner login and logout.
-- [ ] Test unauthorized dashboard access.
+- [ ] Verify authentication.
+- [ ] Verify server-side authorization.
+- [ ] Verify Supabase RLS policies.
+- [ ] Verify file upload permissions.
+- [ ] Validate file types and file sizes.
+- [ ] Sanitize user inputs.
+- [ ] Prevent SQL injection through safe database operations.
+- [ ] Prevent XSS through proper output handling.
+- [ ] Implement rate limiting.
+- [ ] Protect API routes.
+- [ ] Verify environment variables are not exposed.
+- [ ] Verify that private contact messages cannot be accessed publicly.
+- [ ] Verify that visitors cannot modify website content.
 - [ ] Test unauthorized API requests.
-- [ ] Verify HTTP 401 and 403 responses.
-- [ ] Test database access policies.
-- [ ] Test visitor Follow restrictions.
-- [ ] Test visitor Like restrictions.
-- [ ] Test duplicate request prevention.
-- [ ] Test API rate limiting.
-- [ ] Test contact form validation.
-- [ ] Test file upload validation.
-- [ ] Verify API keys remain server-side.
-- [ ] Verify environment variables are protected.
-- [ ] Test chatbot scope restrictions.
-- [ ] Test error handling.
 
-**Deliverable:** A secure and verified application.
+### Phase 7 — Testing and Quality Assurance
 
-### Phase 7 - Responsive Design and Performance
-
-- [ ] Test desktop layout.
-- [ ] Test laptop layout.
-- [ ] Test tablet layout.
-- [ ] Test mobile layout.
-- [ ] Fix horizontal overflow.
-- [ ] Optimize images.
-- [ ] Optimize page loading.
-- [ ] Review accessibility.
-- [ ] Review SEO metadata.
-- [ ] Test dark and light modes.
-- [ ] Verify navigation and interactions.
-
-**Deliverable:** A responsive and optimized portfolio website.
-
-### Phase 8 - Deployment and Final Documentation
-
-- [ ] Prepare production environment variables.
-- [ ] Configure production database access.
-- [ ] Configure production storage.
-- [ ] Configure email provider.
-- [ ] Configure deployment.
-- [ ] Deploy the application.
-- [ ] Test the production website.
-- [ ] Test owner authentication.
-- [ ] Test public interactions.
-- [ ] Test contact email notifications.
+- [ ] Test public website navigation.
+- [ ] Test responsive layouts.
+- [ ] Test Thai and English switching.
+- [ ] Test dark mode and light mode.
+- [ ] Test Follow and Like functionality.
+- [ ] Test duplicate interaction prevention.
+- [ ] Test Contact Me submission.
+- [ ] Test email notifications.
+- [ ] Test chatbot supported questions.
+- [ ] Test chatbot refusal behavior.
+- [ ] Test project GitHub links.
 - [ ] Test resume downloads.
-- [ ] Test chatbot functionality.
-- [ ] Update README.md.
-- [ ] Document environment configuration.
-- [ ] Document deployment instructions.
+- [ ] Test Dashboard authentication.
+- [ ] Test CRUD operations.
+- [ ] Test image and PDF uploads.
+- [ ] Test GitHub integration.
+- [ ] Test loading and error states.
+- [ ] Fix all critical bugs.
 
-**Deliverable:** A deployed and documented production portfolio website.
+### Phase 8 — Deployment and Final Verification
+
+- [ ] Configure production environment variables.
+- [ ] Configure Supabase production settings.
+- [ ] Configure Resend production settings.
+- [ ] Configure Vercel deployment.
+- [ ] Deploy the website.
+- [ ] Verify the public website.
+- [ ] Verify owner login.
+- [ ] Verify Dashboard permissions.
+- [ ] Verify database connections.
+- [ ] Verify file storage.
+- [ ] Verify email notifications.
+- [ ] Verify GitHub integration.
+- [ ] Verify chatbot functionality.
+- [ ] Run final security checks.
+- [ ] Update README.md.
+- [ ] Document deployment and maintenance procedures.
+
+---
+
+## 8. Security Requirements
+
+Security must be considered throughout the entire development process.
+
+### 8.1 Authentication and Authorization
+
+- Only the owner can authenticate.
+- Public registration must be disabled.
+- All Dashboard routes must be protected.
+- Every administrative API request must verify the owner session on the server.
+- Never trust client-side role information.
+- Unauthorized requests must return HTTP 401 or 403.
+
+### 8.2 Environment Variables
+
+Store secrets in `.env.local` during development and configure production secrets through the deployment platform.
+
+Never commit sensitive files to Git.
+
+Examples of protected variables:
+
+- Supabase service role key.
+- Resend API key.
+- GitHub personal access token.
+- Authentication secrets.
+
+Never expose server-only variables through `NEXT_PUBLIC_` prefixes.
+
+### 8.3 API Security
+
+- Validate all incoming requests.
+- Sanitize user-provided data.
+- Apply rate limiting.
+- Use secure database operations.
+- Verify authorization before performing administrative actions.
+- Return only the information required by the client.
+- Avoid exposing internal error details.
+
+### 8.4 File Upload Security
+
+- Allow only approved file formats.
+- Validate MIME types and file extensions.
+- Enforce upload size limits.
+- Restrict upload operations to the owner.
+- Use safe file naming.
+- Prevent unauthorized file deletion.
 
 ---
 
 ## 9. Acceptance Criteria
 
-The project is considered successful when all the following conditions are met.
+The project is considered complete only when all the following conditions are satisfied.
 
-### 9.1 Public Portfolio
+### Public Website
 
-- [ ] Visitors can access public portfolio information.
-- [ ] Visitors can view education and technical skills.
-- [ ] Visitors can view projects.
-- [ ] Visitors can open external project links.
-- [ ] Visitors can view and download the resume.
-- [ ] Visitors can view the owner's GitHub profile.
+- [ ] Anyone can access the public portfolio without logging in.
+- [ ] Visitors can view the owner's profile and education.
+- [ ] Visitors can view technical skills and projects.
+- [ ] Visitors can view published social posts.
+- [ ] Visitors can open project GitHub repositories.
+- [ ] Visitors can download the published resume.
+- [ ] Visitors can follow the owner.
+- [ ] Visitors can like the portfolio, posts, and projects.
+- [ ] Duplicate active likes and follows are prevented.
+- [ ] Visitors cannot create, edit, or delete content.
+- [ ] Visitors cannot comment on posts.
+- [ ] Visitors can submit the Contact Me form.
+- [ ] The chatbot answers only portfolio-related questions.
+- [ ] The chatbot refuses unrelated questions.
+- [ ] Thai and English language switching works.
+- [ ] Dark mode and light mode work.
+- [ ] Selected language and theme preferences persist after refreshing.
 
-### 9.2 Owner Management
+### Admin Dashboard
 
-- [ ] Only the owner can access the dashboard.
-- [ ] The owner can update personal information.
-- [ ] The owner can add, edit, and delete education records.
-- [ ] The owner can manage technical skills.
-- [ ] The owner can add, edit, and delete projects.
+- [ ] Only the owner can log in.
+- [ ] Only the owner can access the Dashboard.
+- [ ] Unauthenticated administrative API requests return HTTP 401 or 403.
+- [ ] The owner can manage profile information.
+- [ ] The owner can manage education and skills.
+- [ ] The owner can create, edit, and delete posts.
+- [ ] The owner can manage projects.
 - [ ] The owner can upload, replace, and delete resume files.
 - [ ] The owner can view contact messages.
-- [ ] The owner can view Follow and Like statistics.
-- [ ] The owner can retrieve and view GitHub repositories.
+- [ ] The owner can view follower and like statistics.
+- [ ] The owner can view GitHub repositories.
 
-### 9.3 Visitor Interaction
+### Backend and Security
 
-- [ ] Visitors can follow without logging in.
-- [ ] Visitors can like the portfolio without logging in.
-- [ ] Visitors can like individual projects.
-- [ ] Duplicate Follow and Like requests are prevented.
-- [ ] Visitors cannot create or modify portfolio content.
-- [ ] Visitors cannot comment.
-- [ ] Visitors can submit the contact form.
-- [ ] Contact messages are stored in the database.
-- [ ] The owner receives email notifications.
+- [ ] Dynamic content is stored in Supabase.
+- [ ] Database access is protected by appropriate RLS policies.
+- [ ] File uploads are restricted to the owner.
+- [ ] Contact messages are stored successfully.
+- [ ] Email notifications are delivered successfully.
+- [ ] Rate limiting is implemented.
+- [ ] No secret API keys are exposed in client-side code.
+- [ ] No unauthorized user can modify portfolio data.
 
-### 9.4 Chatbot
- 
-- [ ] The chatbot can answer questions about public portfolio information.
-- [ ] The chatbot can retrieve profile information.
-- [ ] The chatbot can retrieve education information.
-- [ ] The chatbot can retrieve technical skills.
-- [ ] The chatbot can retrieve project information.
-- [ ] The chatbot can answer supported resume questions.
-- [ ] The chatbot rejects unrelated questions.
+### Chatbot
+
+- [ ] No paid AI API is required.
+- [ ] The chatbot retrieves information from published portfolio content.
+- [ ] The chatbot supports Thai and English.
 - [ ] The chatbot does not invent information.
-- [ ] The chatbot does not use paid AI APIs.
-- [ ] The chatbot does not expose private information.
-
-### 9.5 Security
-
-- [ ] Only the owner can access administrative functions.
-- [ ] Unauthenticated owner API requests return HTTP 401.
-- [ ] Unauthorized authenticated requests return HTTP 403.
-- [ ] Owner permissions are verified server-side.
-- [ ] Database access policies are configured.
-- [ ] No API keys or private credentials are exposed to the client.
-- [ ] Rate limiting is implemented for public interaction APIs.
-
-### 9.6 User Experience
-
-- [ ] Dark mode works.
-- [ ] Light mode works.
-- [ ] Theme preference persists after refreshing.
-- [ ] The website supports desktop, tablet, and mobile.
-- [ ] Buttons and links work correctly.
-- [ ] Loading, success, and error states are displayed appropriately.
+- [ ] The chatbot refuses unrelated questions.
+- [ ] The chatbot cannot access private administrative information.
 
 ---
 
-## 10. Environment Variables
+## 10. AI Agent Instructions (Antigravity)
 
-Sensitive configuration must be stored in `.env.local`.
+The AI Agent must follow these instructions throughout the project.
 
-Potential variables:
+### 10.1 Development Workflow
 
-```env
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
+1. Read `AGENTS.md`, `PLAN.md`, `DESIGN.md`, `GEMINI.md`, and `README.md` before starting development when these files are available.
+2. Understand the existing project structure before creating or modifying files.
+3. Follow the development phases in this PLAN.md.
+4. Complete one phase at a time.
+5. Do not skip phases without explicit approval.
+6. Do not implement unnecessary features.
+7. Reuse existing components and code whenever appropriate.
+8. Follow TypeScript best practices.
+9. Keep the code modular and maintainable.
+10. Update this PLAN.md checklist after completing and verifying each task.
 
-SUPABASE_SERVICE_ROLE_KEY=
+### 10.2 Approval Requirements
 
-RESEND_API_KEY=
+Before Phase 2.5:
 
-GITHUB_USERNAME=
+- Present all required external services.
+- Explain their purpose.
+- Identify free-tier limitations and potential costs.
+- Present the database schema.
+- Explain the authentication and storage configuration.
+- Ask for explicit approval before connecting external services.
 
-OWNER_EMAIL=
-```
+Do not make decisions about unclear requirements without asking the owner.
 
-Important rules:
+### 10.3 Cost Control
 
-- Never commit `.env.local`.
-- Never expose service-role keys to the browser.
-- Never expose email API keys to the browser.
-- Only use `NEXT_PUBLIC_` for values explicitly intended to be public.
-- Keep private credentials in server-side code.
-- Document required variables in `.env.example` using placeholder values.
+- Prefer free-tier services.
+- Do not use OpenAI API or Anthropic API for the chatbot.
+- Do not introduce paid services without approval.
+- Explain potential usage costs before integrating external services.
+- Avoid unnecessary API requests.
 
-The final variable names must match the actual implementation and selected providers.
+### 10.4 Security Rules
 
----
-
-## 11. AI Agent Instructions for This Project
-
-Antigravity must follow these instructions.
-
-### Before Development
-
-1. Read AGENTS.md.
-2. Read GEMINI.md.
-3. Read PLAN.md.
-4. Read DESIGN.md.
-5. Inspect the current project structure.
-6. Identify missing requirements.
-7. Present the implementation plan for major features.
-
-### Before Phase 2.5
-
-Present the proposed providers for:
-
-- Database.
-- Authentication.
-- Storage.
-- Email.
-- GitHub integration.
-- Chatbot implementation.
-
-Explain costs, limitations, and alternatives.
-
-Wait for explicit owner approval before configuring external services.
-
-### During Development
-
-- Follow the development phases.
-- Do not skip security implementation.
-- Do not expose private credentials.
-- Do not use paid AI APIs for the chatbot.
-- Use the database as the source of truth.
-- Keep `/data` for seed data and static configuration.
+- Never expose API keys or secrets to the client.
+- Use environment variables.
+- Never commit `.env` files.
+- Verify all administrative permissions on the server.
+- Implement appropriate RLS policies.
 - Validate all user inputs.
-- Enforce owner permissions server-side.
-- Test each feature after implementation.
-- Avoid unnecessary code changes.
+- Do not bypass authentication or authorization for convenience.
 
-### After Each Phase
+### 10.5 Testing Requirements
 
-1. Run relevant tests.
-2. Review modified files.
-3. Fix identified issues.
-4. Update the corresponding checklist in PLAN.md.
-5. Report completed tasks.
-6. Report remaining issues.
-7. Ask for approval before proceeding to a major phase when required.
+After completing each phase:
 
-Only mark a checklist item as completed after its implementation has been verified.
+1. Run the application.
+2. Run TypeScript checks.
+3. Run ESLint.
+4. Run relevant tests.
+5. Check for runtime errors.
+6. Verify the implemented features.
+7. Fix identified issues before moving forward.
+8. Report the completed work and remaining tasks.
 
-### Important Restrictions
+### 10.6 Progress Reporting
 
-- Do not invent personal information.
-- Do not invent project achievements.
-- Do not create fake visitor statistics.
-- Do not implement visitor comments.
-- Do not allow visitor content management.
-- Do not create public owner registration.
-- Do not bypass server-side authorization.
-- Do not claim that an untested feature works.
-- Do not activate paid services without approval.
+After each phase, provide:
+
+- Completed tasks.
+- Files created or modified.
+- Features implemented.
+- Tests performed.
+- Test results.
+- Known issues.
+- Remaining tasks.
+- Next development phase.
+
+Update the checkboxes in PLAN.md only after the corresponding work has been completed and verified.
+
+Never mark an incomplete or untested task as completed.
+
+### 10.7 Git and GitHub Rules
+
+- Follow the project's Git workflow.
+- Check `git status` before committing.
+- Review all changes before committing.
+- Never commit secrets, credentials, or private configuration files.
+- Never force-push or overwrite remote history without explicit approval.
+- Request permission before performing Git commits and pushes if not already authorized.
+- Keep commits focused and descriptive.
 
 ---
 
-## 12. Project Completion Definition
+## 11. Final Project Goal
 
-The project is complete when:
+The final product should be a professional, secure, responsive, and maintainable personal portfolio website.
 
-- All approved requirements are implemented.
-- Public portfolio features work correctly.
-- Owner dashboard features work correctly.
-- Owner authentication and authorization are secure.
-- Visitor interactions work as specified.
-- Contact messages are saved and email notifications are delivered.
-- The chatbot answers only from approved portfolio information without paid AI APIs.
-- GitHub public repository integration works.
-- Resume uploads and downloads work.
-- Dark mode and light mode work.
-- Responsive layouts are verified.
-- Security and quality tests are completed.
-- Production deployment is verified.
-- Project documentation is updated.
+It should combine:
 
-## Final Project Principle
+- A professional personal portfolio.
+- A social-media-inspired public feed.
+- An interactive Follow and Like system.
+- A project showcase with GitHub integration.
+- A secure owner-only Admin Dashboard.
+- A free knowledge-based chatbot.
+- A contact form with email notifications.
+- Thai and English language support.
+- Dark mode and light mode.
 
-Build a professional, secure, interactive, and maintainable portfolio website.
+The website must provide a smooth experience for public visitors while ensuring that only the owner can manage and modify portfolio content.
 
-Prioritize real functionality, accurate information, security, and a good user experience.
+The implementation must prioritize security, maintainability, accessibility, performance, and cost efficiency.
 
-Develop incrementally, test every phase, and never sacrifice security or code quality for implementation speed.

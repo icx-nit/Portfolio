@@ -10,32 +10,48 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        obsidian: "#000000",
-        bone: "#f6f6f4",
-        slate: "#7d7d7d",
-        paper: "#ffffff",
-        char: "#1a1a1a",
+        // Wope Design Tokens from DESIGN.md
+        "night-violet": "#0a0118",
+        "void-plum": "#0c0616",
+        "soft-quartz": "#ffffff",
+        "muted-steel": "#d2d0dd",
+        "ash-lilac": "#9b96b0",
+        "dim-fog": "#85808c",
+        "ultraviolet-core": "#713dff",
+        "lilac-beam": "#b7a4fb",
+        "horizon-glow": "#8562ff",
+        // Backward-compatible semantic aliases
+        obsidian: "#0a0118",
+        bone: "#ffffff",
+        char: "rgba(255, 255, 255, 0.1)",
+        slate: "#9b96b0",
       },
       backgroundImage: {
-        "solstice-gradient": "linear-gradient(90deg, #feed7a 0%, #ff8400 48.96%, #df91f7 100%)",
+        "ultraviolet-horizon":
+          "linear-gradient(180deg, rgba(183, 164, 251, 0) 0%, rgba(183, 164, 251, 0.5) 50%, rgba(133, 98, 255, 0.5) 75%, rgba(133, 98, 255, 0) 100%)",
+        "violet-beam":
+          "linear-gradient(180deg, rgba(183, 164, 251, 0) 0%, rgb(183, 164, 251) 50%, rgb(133, 98, 255) 75%, rgba(133, 98, 255, 0) 100%)",
+        "deep-fade-veil":
+          "linear-gradient(180deg, rgba(11, 2, 23, 0) 22.69%, rgba(22, 9, 42, 0.5) 100%)",
       },
       fontFamily: {
-        display: ["var(--font-display)", "Georgia", "serif"],
-        sans: ["var(--font-sans)", "Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+        display: ["var(--font-display)", "Sora", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ["var(--font-sans)", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       borderRadius: {
-        pill: "100px",
+        pill: "999px",
         card: "16px",
-        link: "12px",
-        input: "4px",
-        panel: "38px",
+        overlay: "10px",
+        input: "0px",
       },
       maxWidth: {
-        container: "1200px",
+        container: "1248px",
       },
       letterSpacing: {
-        tighter: "-0.05em",
-        tight: "-0.025em",
+        display: "-1.44px",
+        "heading-lg": "-1.12px",
+        "heading-sm": "-0.48px",
+        body: "-0.16px",
       },
     },
   },

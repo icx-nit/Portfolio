@@ -1,62 +1,62 @@
-# Clyde — Style Reference
-> Vault showroom with a single spotlight — a near-black gallery where one warm gradient orb is the only color in the room.
+# Wope — Style Reference
+> Wope - violet horizon interface. Think of a dark observatory table with a purple light bloom rising from below the glass.
 
 **Theme:** dark
 
 Source measurements are normalized; roles and recommendations are interpreted. Font summary lists are independent, not paired by position. HTML examples are reconstructions, not source components.
 
-Clyde treats product protection as luxury editorial: a near-black canvas dominates every section, warm cream (#f6f6f4) carries all text and hairline borders, and a single yellow-to-orange-to-purple gradient appears only inside 3D abstract shapes and product accents. Display headlines at 80–125px in Recoleta serif create magazine-cover scale, while Oldschool Grotesk at 300/400 handles all UI and body copy at a measured, compact rhythm. The palette is 99% achromatic — buttons are dark fills or cream-outlined pills, never chromatic, and surfaces separate through tonal contrast and hairline borders rather than shadows.
+Wope - violet horizon interface. The page feels like a control deck lit from beneath by ultraviolet light: a nearly black-violet canvas, pale gray body copy, and concentrated purple glow under the product UI. The signature move is contrast by illumination rather than by layering — surfaces stay close to #0a0118 and depth comes from translucent white borders, blur, and radiant gradients instead of heavy shadow. Rebond Grotesque appears only where the brand wants scale and impact, while Inter V handles everything else with tight negative tracking in larger sizes and occasional wide-tracked utility text. Buttons, badges, and small controls are all full pills at 999px radius, set against mostly 16px cards, so soft controls float inside a more architectural content frame.
 
 ## Tokens — Colors
 
 | Name | Value | Token | Role |
 |------|-------|-------|------|
-| Obsidian | `#000000` | `--color-obsidian` | Dark borders and separators for elevated surfaces and inverted UI. Do not promote it to the primary CTA color |
-| Bone | `#f6f6f4` | `--color-bone` | Primary text on dark surfaces, hairline borders, light section backgrounds, ghost-button outlines, nav links — the warm cream that defines the entire light/dark polarity |
-| Slate | `#7d7d7d` | `--color-slate` | Mid-gray surface accent, secondary UI fill, muted element backgrounds — sits between bone and obsidian for tonal layering |
-| Paper | `#ffffff` | `--color-paper` | Inner product-image containers, pure-white card panels, maximum-contrast text — the brightest surface in the stack |
-| Char | `#1a1a1a` | `--color-char` | Near-black hairline borders, subtle dark surface differentiation from the true-black canvas |
-| Solstice Gradient | `linear-gradient(90deg, #feed7a 0%, #ff8400 48.96%, #df91f7 100%)` | `--color-solstice-gradient` | Supporting palette color for small decorative accents when the core palette needs contrast. Do not promote it to the primary CTA color |
+| Night Violet | `#0a0118` | `--color-night-violet` | Page background, dark card surfaces, footer and section canvas |
+| Void Plum | `#0c0616` | `--color-void-plum` | Inverse text on light treatments, occasional dark text on pale surfaces |
+| Soft Quartz | `#ffffff` | `--color-soft-quartz` | Primary headings, buttons, borders, icons, input text, dominant foreground |
+| Muted Steel | `#d2d0dd` | `--color-muted-steel` | Secondary heading tone, brighter muted copy over Night Violet |
+| Ash Lilac | `#9b96b0` | `--color-ash-lilac` | Body copy, navigation links, supporting labels, low-emphasis UI text |
+| Dim Fog | `#85808c` | `--color-dim-fog` | Inactive icons, subtle separators, tertiary interface details |
+| Ultraviolet Core | `#713dff` | `--color-ultraviolet-core` | Primary accent, active links, luminous highlights — saturated violet against the black-violet canvas creates the site’s underlit glow |
+| Lilac Beam | `#b7a4fb` | `--color-lilac-beam` | Gradient flare, line effects, ambient glow edges — used as the cooler top note inside purple light blooms |
+| Horizon Glow | `#8562ff` | `--color-horizon-glow` | Gradient midpoint and visual hotspot — the brighter violet that makes hero illumination feel energized instead of flat |
+| Glass White 04 | `#ffffff` | `--color-glass-white-04` | Tinted fills for ghost pills, badge backgrounds, translucent overlays |
+| Glass White 10 | `#ffffff` | `--color-glass-white-10` | Hairline borders on pills and glass panels |
+| Ultraviolet Horizon | `linear-gradient(180deg, rgba(183, 164, 251, 0) 0%, rgba(183, 164, 251, 0.5) 50%, rgba(133, 98, 255, 0.5) 75%, rgba(133, 98, 255, 0) 100%)` | `--color-ultraviolet-horizon` | Hero light field, illuminated dividers, ambient section glow |
+| Violet Beam | `linear-gradient(180deg, rgba(183, 164, 251, 0) 0%, rgb(183, 164, 251) 50%, rgb(133, 98, 255) 75%, rgba(133, 98, 255, 0) 100%)` | `--color-violet-beam` | Brighter line and halo treatments where the glow should read crisp instead of misty |
+| Deep Fade Veil | `linear-gradient(180deg, rgba(11, 2, 23, 0) 22.69%, rgba(22, 9, 42, 0.5) 100%)` | `--color-deep-fade-veil` | Section overlays and bottom fades that darken content without breaking the purple atmosphere |
 
 ## Tokens — Typography
 
-### Recoleta — All display and heading text from 36px to 125px. The single weight (400) and dramatic size range create an editorial magazine-cover scale. Line-height tightens to 1.00 at 80px+ for a luxurious, sculpted feel. Negative letter-spacing increases with size: -0.36px at 36px up to -3.75px at 125px. · `--font-recoleta`
-- **Substitute:** GT Super, Canela, or Tiempos Headline
-- **Weights:** 400
-- **Sizes:** 36px, 47px, 61px, 80px, 125px
-- **Line height:** 1.00–1.10
-- **Letter spacing:** -0.36px at 36px, -0.94px at 47px, -1.22px at 61px, -2.4px at 80px, -3.75px at 125px
-- **OpenType features:** `"clig" on, "liga" on`
-- **Role:** All display and heading text from 36px to 125px. The single weight (400) and dramatic size range create an editorial magazine-cover scale. Line-height tightens to 1.00 at 80px+ for a luxurious, sculpted feel. Negative letter-spacing increases with size: -0.36px at 36px up to -3.75px at 125px.
+### Inter V — System font for navigation, body copy, links, buttons, badges, inputs, and smaller headings. The custom build is doing more than a stock Inter install: disabled standard ligature behavior plus alternate stylistic sets make the text feel slightly engineered rather than default SaaS. Use 400 for body, 500 for controls and links, 700 for compact emphasis; apply tighter tracking at larger UI sizes and the wide tracking only for utility-style labels. · `--font-inter-v`
+- **Substitute:** Inter
+- **Weights:** 400, 500, 700
+- **Sizes:** 14px, 16px, 18px, 20px, 24px, 28px
+- **Line height:** 1.15, 1.33, 1.40, 1.43, 1.50, 1.56, 1.71
+- **Letter spacing:** -0.28px at 14px, -0.16px at 16px, -0.36px at 18px, -0.40px at 20px, -0.48px at 24px, 2.24px at 28px
+- **OpenType features:** `"calt" 0, "cv06", "liga" 0; "cv01", "dlig", "salt", "ss01", "ss03", "ss14"; "cv01", "cv02", "cv03", "cv04", "cv09", "cv10", "ss14"; "calt" 0, "cv06", "dlig", "liga" 0; "cv01", "salt", "ss01", "ss03", "ss14"`
+- **Role:** System font for navigation, body copy, links, buttons, badges, inputs, and smaller headings. The custom build is doing more than a stock Inter install: disabled standard ligature behavior plus alternate stylistic sets make the text feel slightly engineered rather than default SaaS. Use 400 for body, 500 for controls and links, 700 for compact emphasis; apply tighter tracking at larger UI sizes and the wide tracking only for utility-style labels.
 
-### Oldschool Grotesk — All UI, body copy, sub-labels, button text, nav, and supporting content. Weight 300 for secondary descriptions adds quietness; weight 400 for primary body and interactive elements. The slightly negative tracking at body size tightens the grotesque to feel engineered rather than casual. · `--font-oldschool-grotesk`
-- **Substitute:** Söhne, Inter, or Neue Haas Grotesk
-- **Weights:** 300, 400
-- **Sizes:** 15px, 16px, 21px, 80px, 138px
-- **Line height:** 1.30–1.60
-- **Letter spacing:** 0.15px at 15px, -0.16px at 16px, -0.42px at 21px
-- **OpenType features:** `"clig" on, "liga" on`
-- **Role:** All UI, body copy, sub-labels, button text, nav, and supporting content. Weight 300 for secondary descriptions adds quietness; weight 400 for primary body and interactive elements. The slightly negative tracking at body size tightens the grotesque to feel engineered rather than casual.
-
-### Times (system fallback) — System-fallback serif for secondary annotations; rarely surfaces as the primary typeface when Recoleta is unavailable. · `--font-times-system-fallback`
-- **Substitute:** Times New Roman, Georgia
-- **Weights:** 400
-- **Sizes:** 16px
-- **Line height:** 1.20–1.25
-- **OpenType features:** `"clig" on, "liga" on`
-- **Role:** System-fallback serif for secondary annotations; rarely surfaces as the primary typeface when Recoleta is unavailable.
+### Rebond Grotesque — Display and headline font for hero statements and major section titles. The heavier serifless grotesque gives Wope its large-scale voice: broad, compact, and slightly formal, which keeps the glowing purple environment from feeling playful. Use only for headline moments, not for buttons or dense UI. · `--font-rebond-grotesque`
+- **Substitute:** Sora
+- **Weights:** 700
+- **Sizes:** 20px, 24px, 56px, 72px
+- **Line height:** 1.11, 1.14, 1.33, 1.60
+- **Letter spacing:** -0.40px at 20px, -0.48px at 24px, -1.12px at 56px, -1.44px at 72px
+- **OpenType features:** `"cv01", "salt", "ss01", "ss03", "ss14"`
+- **Role:** Display and headline font for hero statements and major section titles. The heavier serifless grotesque gives Wope its large-scale voice: broad, compact, and slightly formal, which keeps the glowing purple environment from feeling playful. Use only for headline moments, not for buttons or dense UI.
 
 ### Type Scale
 
 | Role | Family | Weight | Size | Line Height | Letter Spacing | Token |
 |------|--------|--------|------|-------------|----------------|-------|
-| body-sm | — | — | 15px | 1.6 | 0.15px | `--text-body-sm` |
-| body-lg | — | — | 21px | 1.3 | -0.42px | `--text-body-lg` |
-| subheading | — | — | 36px | 1.1 | -0.36px | `--text-subheading` |
-| heading-sm | — | — | 47px | 1.1 | -0.94px | `--text-heading-sm` |
-| heading | — | — | 61px | 1.1 | -1.22px | `--text-heading` |
-| heading-lg | — | — | 80px | 1 | -2.4px | `--text-heading-lg` |
-| display | — | — | 125px | 1 | -3.75px | `--text-display` |
+| caption | — | — | 14px | 16 | -0.28px | `--text-caption` |
+| body | — | — | 16px | 21 | -0.16px | `--text-body` |
+| subheading | — | — | 18px | 28 | -0.36px | `--text-subheading` |
+| heading-sm | — | — | 24px | 36 | -0.48px | `--text-heading-sm` |
+| heading | — | — | 28px | 48 | 2.24px | `--text-heading` |
+| heading-lg | — | — | 56px | 74 | -1.12px | `--text-heading-lg` |
+| display | — | — | 72px | 80 | -1.44px | `--text-display` |
 
 ## Tokens — Spacing & Shapes
 
@@ -68,165 +68,150 @@ Clyde treats product protection as luxury editorial: a near-black canvas dominat
 
 | Name | Value | Token |
 |------|-------|-------|
+| 4 | 4px | `--spacing-4` |
+| 8 | 8px | `--spacing-8` |
+| 12 | 12px | `--spacing-12` |
+| 16 | 16px | `--spacing-16` |
 | 20 | 20px | `--spacing-20` |
 | 24 | 24px | `--spacing-24` |
-| 44 | 44px | `--spacing-44` |
+| 28 | 28px | `--spacing-28` |
+| 32 | 32px | `--spacing-32` |
+| 40 | 40px | `--spacing-40` |
 | 64 | 64px | `--spacing-64` |
-| 92 | 92px | `--spacing-92` |
-| 100 | 100px | `--spacing-100` |
-| 144 | 144px | `--spacing-144` |
+| 80 | 80px | `--spacing-80` |
+| 96 | 96px | `--spacing-96` |
+| 108 | 108px | `--spacing-108` |
+| 112 | 112px | `--spacing-112` |
+| 120 | 120px | `--spacing-120` |
+| 124 | 124px | `--spacing-124` |
 
 ### Border Radius
 
 | Element | Value |
 |---------|-------|
-| tags | 100px | 
 | cards | 16px |
-| links | 12px |
-| inputs | 4px |
-| buttons | 100px |
-| large-panels | 38px |
+| badges | 999px |
+| inputs | 0px |
+| buttons | 999px |
+| overlayCards | 10px |
 
 ### Layout
 
-- **Page max-width:** 1200px
-- **Section gap:** 80px
-- **Card padding:** 24px
-- **Element gap:** 20px
+- **Page max-width:** 1248px
+- **Section gap:** 108px
+- **Card padding:** 28px
+- **Element gap:** 16px
 
 ## Components
 
-### Announcement Bar
-**Role:** Top-of-page promotional strip
+### Primary Glass CTA Pill
+**Role:** Main action button in hero and high-attention areas
 
-Full-width #f6f6f4 bar with centered text. 12px vertical padding. Text in Oldschool Grotesk 15px weight 400, #000000. No border, no shadow — just a tonal band break at the top edge.
+Use a 999px pill with background rgba(255,255,255,0.04), 1px solid rgba(255,255,255,0.1), white label text, and padding 7px 24px. Keep the fill translucent so the button reads like lit glass floating above #0a0118 rather than a solid chip.
 
-### Dark Navigation Header
-**Role:** Primary site navigation
+### Header Outline Pill Button
+**Role:** Secondary header actions such as Log in
 
-Transparent over dark canvas, logo centered (Clyde wordmark + 'by Cover Genius' lockup), nav links left-aligned (Product, Resources), Login + Demo pill right-aligned. No background fill, no bottom border — nav floats on the dark canvas. Text in Oldschool Grotesk 15px weight 400, #f6f6f4.
+Transparent background, 1px solid rgba(255,255,255,0.1), 999px radius, padding 4px 16px, label in white or Ash Lilac depending on emphasis. This variant should feel lighter and smaller than the primary CTA.
 
-### Hero Display Section
-**Role:** Above-the-fold brand statement
+### Text Navigation Pill
+**Role:** Minimal nav actions and tertiary controls
 
-Full-bleed #000000 canvas with centered Recoleta serif headline at 80–125px, line-height 1.00, #f6f6f4. Floating 3D abstract shape (the Solstice Gradient blob) positioned below as the only chromatic element. Left-aligned supporting body copy in Oldschool Grotesk 16px weight 400, #f6f6f4 at ~50% width.
+Transparent background, no visible border, 999px radius, padding 4px 24px, white text. Use when the interface wants pill spacing without a framed container.
 
-### Filled Pill Button
-**Role:** Primary action (Request a Demo)
+### Hero Trial Badge
+**Role:** Compact promotional label above or below hero copy
 
-100px border-radius, solid #000000 fill, 20px 28px padding. Text in Oldschool Grotesk 15px weight 400, #f6f6f4. Used on light/bone surfaces. No shadow, no hover gradient — just tonal inversion.
+Pill badge with background rgba(255,255,255,0.04), white text, 999px radius, and padding 4px 14px. Border may be omitted or kept at 1px rgba(255,255,255,0.1) when placed over a strong glow.
 
-### Ghost Pill Button
-**Role:** Secondary action on dark surfaces
+### Feature Surface Card
+**Role:** Primary content card for feature summaries and product panels
 
-100px border-radius, 1px #f6f6f4 border, transparent fill, 20px 28px padding. Text in Oldschool Grotesk 15px weight 400, #f6f6f4. The default action style on dark hero and section backgrounds.
+Use Night Violet #0a0118 background, 16px radius, no shadow, and internal padding of 28px when content sits inside. Separate from the page with 1px translucent white borders or slight glow edges rather than elevation.
 
-### Product Protection Card
-**Role:** Feature illustration with product image
+### Frosted Info Card
+**Role:** Secondary glass panel for smaller callouts
 
-16px border-radius, #f6f6f4 background, 24px internal padding. Product image contained in an inner #ffffff container. Headline in Oldschool Grotesk 21px weight 400, #000000, uppercase or sentence case. Bulleted feature list in Oldschool Grotesk 15px weight 300 below.
+Use background rgba(255,255,255,0.02), 16px radius, no shadow, 28px padding, and optional backdrop blur(4px). This reads as a lighter film over the dark canvas.
 
-### Program Performance Card
-**Role:** Data visualization panel
+### Overlay Mini Card
+**Role:** Floating stat, tooltip, or decorative UI inset
 
-16px border-radius, #f6f6f4 background, 44px horizontal padding. Tab/filter pills (Running Total, Month over month, Day over day) at top — 100px radius, small, with the active tab filled #7d7d7d or bordered. Chart area below uses a muted green/mint accent for data lines. Heading in Oldschool Grotesk 21px weight 400, uppercase, #000000.
+Use background rgba(10,1,24,0.2), 10px radius, no shadow. Combine with blur(8px) and a thin rgba(255,255,255,0.1) border when it sits on top of product visuals.
 
-### Stats Feature Bar
-**Role:** Horizontal credibility row
+### Product Screenshot Frame
+**Role:** Large hero UI showcase container
 
-Full-width horizontal strip with 4–5 items separated by hairline #f6f6f4 borders (1px). Each item: small circular check icon (#f6f6f4) + Oldschool Grotesk 15px weight 400 #f6f6f4 text. No card background, no elevation — items sit directly on the dark canvas.
+Large 16px rounded frame in #0a0118 with subtle internal glow, no shadow, and an underlighting treatment using the Ultraviolet Horizon gradient. The screenshot should appear embedded into the purple light field, not hovering above it.
 
-### Case Study Card
-**Role:** Client testimonial or proof point
+### Header Bar
+**Role:** Top navigation container
 
-16px border-radius, #1a1a1a or #000000 background, 24px padding. Client logo (square outlined box, 40–48px) top-left, body text in Oldschool Grotesk 16px weight 300, #f6f6f4, ghost pill CTA button at bottom. An inner product illustration fills the lower half with the Solstice Gradient on select elements.
+Full-width bar over the dark canvas, content centered within 1248px, low-contrast links in Ash Lilac, and action pills aligned right. Use 16px horizontal grouping gaps and a restrained 78px height zone.
 
-### Filter Tab Pill
-**Role:** Toggle/filter control within cards
+### Borderless Input Field
+**Role:** Email or search input inside dark callout forms
 
-100px border-radius, 10px 16px padding. Inactive: transparent with #000000 1px border. Active: #7d7d7d fill with #000000 text. Text in Oldschool Grotesk 14–15px weight 400.
+Transparent background, no visible border, 0px radius, white text, padding 14px 130px 14px 20px. Pair with a surrounding card or underline rather than boxing the field itself.
 
-### Section Heading Block
-**Role:** Major content section title
+### Logo Rail
+**Role:** Social-proof brand strip
 
-Left-aligned Recoleta serif, 47–80px, #f6f6f4 on dark sections or #000000 on bone sections. Line-height 1.00–1.10. No eyebrow tag, no subtitle — the type IS the heading.
+Contained horizontal row of monochrome partner logos in white or Dim Fog on the dark canvas. Keep the rail low contrast and evenly spaced so it sits as a quiet separator between hero and feature content.
 
-### Body Description Block
-**Role:** Supporting paragraph copy
+### Section Block
+**Role:** Standard vertical content band
 
-Max-width ~520px, Oldschool Grotesk 16px weight 300–400, #f6f6f4 at ~70% opacity on dark surfaces, #000000 on light surfaces. Line-height 1.40–1.60. No bullet styling, no special formatting — clean editorial paragraph.
+Transparent section wrapper with 124px top and bottom padding when used as a major page band. Inside, center content and keep internal stacks at 16px or 24px gaps.
 
 ## Do's and Don'ts
 
 ### Do
-- Use Recoleta serif (weight 400) for all text 36px and above — never substitute a sans-serif for display sizes
-- Apply increasingly negative letter-spacing as type scales: -0.36px at 36px up to -3.75px at 125px
-- Use 100px border-radius for every interactive element — buttons, tags, filter pills, and tab controls
-- Keep the palette 99% achromatic; the Solstice Gradient is the only chromatic element and belongs exclusively in 3D decorative shapes
-- Define surface separation with 1px #f6f6f4 or #1a1a1a hairline borders — never use box-shadows for elevation
-- Set display headlines at line-height 1.00 to create the tight, editorial vertical rhythm that defines the brand
-- Use Oldschool Grotesk weight 300 for descriptive body copy and weight 400 for primary body and interactive text
+- Use Night Violet #0a0118 as the dominant canvas and keep most sections within that same dark-violet family.
+- Use Rebond Grotesque 56px or 72px with -1.12px to -1.44px tracking for hero and section headlines.
+- Set body and navigation text in Inter V using Ash Lilac #9b96b0 for default copy and Soft Quartz #ffffff for emphasis.
+- Use 999px radius for buttons and badges; reserve 16px radius for cards and 10px for floating overlays.
+- Build glow with Ultraviolet Core #713dff, Lilac Beam #b7a4fb, and Horizon Glow #8562ff gradients instead of heavy drop shadows.
+- Use 1px borders in rgba(255,255,255,0.1) on pills, glass cards, and framed surfaces.
+- Keep vertical section rhythm large: 108px section gaps and 124px padding on major content bands.
 
 ### Don't
-- Do not introduce any new chromatic color to the UI — the gradient is the only color permitted
-- Do not use Recoleta for body text below 36px — Oldschool Grotesk handles everything at UI scale
-- Do not use box-shadows for card elevation; the system is intentionally flat with border-based separation
-- Do not apply the Solstice Gradient as a button fill, text color, border, or UI surface — it is decorative only
-- Do not use letter-spacing of 0 or positive values on display sizes — large type must always be tightened
-- Do not use border-radius values outside {4px, 12px, 16px, 38px, 100px} — these five values are the complete radius scale
-- Do not mix chromatic button styles — actions are either #000000 filled pills or #f6f6f4 ghost outlines, never both
+- Do not introduce bright non-violet accents like teal, green, or orange into primary UI actions.
+- Do not use square or lightly rounded buttons; controls are pills at 999px radius.
+- Do not place strong opaque white cards on the page; surfaces stay dark or translucent over #0a0118.
+- Do not add conventional black box-shadows; depth comes from blur, borders, and glow gradients.
+- Do not use Rebond Grotesque for body copy, labels, or buttons.
+- Do not collapse muted text and primary text into one tone; keep #9b96b0 for support text and #ffffff for primary content.
+- Do not use bordered rectangular inputs; the input itself is borderless and relies on its container treatment.
 
 ## Surfaces
 
 | Level | Name | Value | Purpose |
 |-------|------|-------|---------|
-| 0 | Obsidian Canvas | `#000000` | Default page and section background |
-| 1 | Bone Section | `#f6f6f4` | Light-alternating section background, announcement bar, oversized surface contrast |
-| 2 | Slate Surface | `#7d7d7d` | Mid-tone UI panels and secondary backgrounds |
-| 3 | Paper Card | `#ffffff` | Product image containers and highest-contrast card panels |
-| 4 | Char Edge | `#1a1a1a` | Subtle dark surface separation above the canvas |
+| 0 | Night Canvas | `#0a0118` | Global page background and default section base |
+| 1 | Glass Film | `#ffffff` | Translucent fills at 2% to 4% opacity for badges, CTAs, and frosted cards |
+| 2 | Dark Panel | `#0a0118` | Primary cards and screenshot frames with 16px radius |
+| 3 | Overlay Veil | `#16092a` | Gradient fades and blurred overlays above the base canvas |
+| 4 | Ultraviolet Glow | `#713dff` | Illuminated accent field beneath hero imagery and active focal points |
 
 ## Elevation
 
-Elevation is achieved entirely through surface tonal contrast and 1px hairline borders, never through drop shadows. Dark sections use #f6f6f4-on-#000000 for definition; light sections use #1a1a1a-on-#f6f6f4. Cards separate from their parent surface through a 16px radius and a 1px #f6f6f4 border rather than shadow depth. The absence of shadows is a deliberate choice — it keeps the design flat, editorial, and gallery-like.
+Wope avoids conventional elevation. Cards and UI frames sit nearly flush with the #0a0118 canvas, then separate through 1px translucent borders, backdrop blur(4px), blur(8px), and purple underlighting gradients. Even large product panels feel embedded in the page, as if backlit from below rather than raised above it.
 
 ## Imagery
 
-Imagery is split between two distinct registers: (1) a signature 3D abstract shape — a fluid, organic blob with the Solstice Gradient (yellow→orange→purple) applied as a soft, luminous surface treatment — that floats in hero and transition zones as the sole chromatic atmosphere; (2) clean product photography (Marshall amplifier, headphones) contained within rounded white or bone cards, treated as tight product crops on pure white with no lifestyle context — the object is the hero. No illustrations, no stock photography, no icons beyond small circular check marks. The visual density is very low: imagery occupies less than 20% of any viewport, with the majority given to massive serif type and breathing room.
-
-## Layout
-
-Max-width 1200px centered content within a full-bleed dark canvas. The hero is a full-viewport dark band with a centered massive serif headline and a floating gradient 3D shape as atmosphere. Sections alternate between dark (#000000) and light (#f6f6f4) bands in a deliberate rhythm — dark hero → light product feature section → dark stats bar → dark case study. Content within sections is typically 2-column (text-left, visual-right) or single-column centered. A 3-column card grid appears for product protection features. The page model is contained-max-width on a full-bleed dark canvas, with generous vertical breathing room (80px section gaps). Navigation is a minimal transparent header — no sticky behavior, no sidebar, no mega-menu.
+The page is product-visual first: large contained screenshots of the SEO interface, framed with rounded corners and immersed in purple glow. Graphics are abstract and atmospheric rather than illustrative — grid lines, light rays, and radiant horizon effects create the scene around the UI. Logos are monochrome and quiet. The layout is text-dominant at the top, then gives substantial visual area to the product frame, so imagery works as proof of the software rather than decoration.
 
 ## Agent Prompt Guide
 
-## Quick Color Reference
-- Page background: #000000
-- Light text on dark: #f6f6f4
-- Light surface / card: #f6f6f4
-- Inner product container: #ffffff
-- Mid-gray surface: #7d7d7d
-- Accent gradient: linear-gradient(90deg, #feed7a 0%, #ff8400 48.96%, #df91f7 100%)
-- primary action: no distinct CTA color
-
-## Example Component Prompts
-
-1. **Dark hero section**: #000000 full-bleed background. Centered display headline in Recoleta weight 400 at 125px, color #f6f6f4, letter-spacing -3.75px, line-height 1.00. Floating 3D decorative shape below headline with Solstice Gradient surface. Ghost pill button: 100px radius, 1px #f6f6f4 border, transparent fill, 20px 28px padding, text in Oldschool Grotesk 15px weight 400, #f6f6f4.
-
-2. **Light product feature card**: #f6f6f4 background, 16px border-radius, 24px padding. Product image in an inner #ffffff container (16px radius, centered). Headline in Oldschool Grotesk 21px weight 400, #000000. Bulleted features below in Oldschool Grotesk 15px weight 300, #000000 at 70% opacity.
-
-3. **Stats credibility bar**: Full-width strip on #000000 background. Row of 4 items separated by 1px #f6f6f4 vertical dividers. Each item: 20px circular outlined check icon (#f6f6f4, 1.5px stroke) + Oldschool Grotesk 15px weight 400, #f6f6f4. 24px vertical padding, 25px horizontal gap between items.
-
-No distinct primary action color was observed; use the extracted neutral button treatments instead of inventing a filled CTA color.
-
-5. **Section heading + body block**: Left-aligned Recoleta weight 400 at 61px, #f6f6f4, letter-spacing -1.22px, line-height 1.10. Body paragraph below in Oldschool Grotesk 16px weight 400, #f6f6f4, max-width 520px, line-height 1.40.
+Quick Color Reference: background #0a0118; primary text #ffffff; body text #9b96b0; border rgba(255,255,255,0.1); CTA accent #713dff; glow highlight #8562ff. Example component prompts: 1) Create a hero section with background #0a0118, centered Rebond Grotesque headline at 72px weight 700 line-height 1.11 letter-spacing -1.44px in #ffffff, supporting Inter text at 18px weight 400 line-height 1.56 in #9b96b0, and a glass CTA pill with rgba(255,255,255,0.04) fill, 1px rgba(255,255,255,0.1) border, 999px radius, 7px 24px padding, white text. 2) Create a dark product screenshot frame: 16px radius card in #0a0118, no shadow, thin rgba(255,255,255,0.1) border, purple underglow using linear-gradient(180deg, rgba(183,164,251,0) 0%, rgba(183,164,251,0.5) 50%, rgba(133,98,255,0.5) 75%, rgba(133,98,255,0) 100%). 3) Create a header bar inside 1248px max width with Inter 14px/16px links in #9b96b0, 16px item gaps, a transparent outline login pill with 4px 16px padding and 999px radius, plus a stronger glass signup pill. 4) Create a feature card using #0a0118 background, 16px radius, 28px padding, headline in Rebond Grotesque 24px #ffffff, body in Inter 16px #9b96b0, and no drop shadow. 5) Create a promo badge with rgba(255,255,255,0.04) fill, 999px radius, padding 4px 14px, white 14px Inter text, placed above a dark section title.
 
 ## Similar Brands
 
-- **Aesop** — Same editorial restraint — warm cream and near-black palette, serif display type, zero chromatic UI elements, product treated as object on white
-- **Vercel** — Shared dark-canvas dominance, hairline border definition, pill-shaped CTAs, and the conviction that a single accent moment is stronger than a full palette
-- **The Row** — Identical luxury-monograph atmosphere — massive serif at tight line-height, nearly monochromatic surfaces, and 3D organic forms as the only expressive element
-- **Linear** — Same ultra-restrained dark UI with 1px hairline borders, pill controls, and a refusal to use color for anything that isn't structurally meaningful
+- **Linear** — Shared dark product-first presentation with restrained neutrals and concentrated violet illumination
+- **Raycast** — Similar black-purple glow field and glassy, pill-based control styling
+- **Arc** — Uses atmospheric gradients and soft-luminous dark surfaces instead of traditional shadows
+- **Warp** — Comparable dark developer-style canvas with bright accent lighting and centered hero statements
 
 ## Quick Start
 
@@ -235,83 +220,99 @@ No distinct primary action color was observed; use the extracted neutral button 
 ```css
 :root {
   /* Colors */
-  --color-obsidian: #000000;
-  --color-bone: #f6f6f4;
-  --color-slate: #7d7d7d;
-  --color-paper: #ffffff;
-  --color-char: #1a1a1a;
-  --color-solstice-gradient: #ff8400;
-  --gradient-solstice-gradient: linear-gradient(90deg, #feed7a 0%, #ff8400 48.96%, #df91f7 100%);
+  --color-night-violet: #0a0118;
+  --color-void-plum: #0c0616;
+  --color-soft-quartz: #ffffff;
+  --color-muted-steel: #d2d0dd;
+  --color-ash-lilac: #9b96b0;
+  --color-dim-fog: #85808c;
+  --color-ultraviolet-core: #713dff;
+  --color-lilac-beam: #b7a4fb;
+  --color-horizon-glow: #8562ff;
+  --color-glass-white-04: #ffffff;
+  --color-glass-white-10: #ffffff;
+  --color-ultraviolet-horizon: #8562ff;
+  --gradient-ultraviolet-horizon: linear-gradient(180deg, rgba(183, 164, 251, 0) 0%, rgba(183, 164, 251, 0.5) 50%, rgba(133, 98, 255, 0.5) 75%, rgba(133, 98, 255, 0) 100%);
+  --color-violet-beam: #8562ff;
+  --gradient-violet-beam: linear-gradient(180deg, rgba(183, 164, 251, 0) 0%, rgb(183, 164, 251) 50%, rgb(133, 98, 255) 75%, rgba(133, 98, 255, 0) 100%);
+  --color-deep-fade-veil: #16092a;
+  --gradient-deep-fade-veil: linear-gradient(180deg, rgba(11, 2, 23, 0) 22.69%, rgba(22, 9, 42, 0.5) 100%);
 
   /* Typography — Font Families */
-  --font-recoleta: 'Recoleta', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-oldschool-grotesk: 'Oldschool Grotesk', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-times-system-fallback: 'Times (system fallback)', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-inter-v: 'Inter V', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-rebond-grotesque: 'Rebond Grotesque', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Typography — Scale */
-  --text-body-sm: 15px;
-  --leading-body-sm: 1.6;
-  --tracking-body-sm: 0.15px;
-  --text-body-lg: 21px;
-  --leading-body-lg: 1.3;
-  --tracking-body-lg: -0.42px;
-  --text-subheading: 36px;
-  --leading-subheading: 1.1;
+  --text-caption: 14px;
+  --leading-caption: 16;
+  --tracking-caption: -0.28px;
+  --text-body: 16px;
+  --leading-body: 21;
+  --tracking-body: -0.16px;
+  --text-subheading: 18px;
+  --leading-subheading: 28;
   --tracking-subheading: -0.36px;
-  --text-heading-sm: 47px;
-  --leading-heading-sm: 1.1;
-  --tracking-heading-sm: -0.94px;
-  --text-heading: 61px;
-  --leading-heading: 1.1;
-  --tracking-heading: -1.22px;
-  --text-heading-lg: 80px;
-  --leading-heading-lg: 1;
-  --tracking-heading-lg: -2.4px;
-  --text-display: 125px;
-  --leading-display: 1;
-  --tracking-display: -3.75px;
+  --text-heading-sm: 24px;
+  --leading-heading-sm: 36;
+  --tracking-heading-sm: -0.48px;
+  --text-heading: 28px;
+  --leading-heading: 48;
+  --tracking-heading: 2.24px;
+  --text-heading-lg: 56px;
+  --leading-heading-lg: 74;
+  --tracking-heading-lg: -1.12px;
+  --text-display: 72px;
+  --leading-display: 80;
+  --tracking-display: -1.44px;
 
   /* Typography — Weights */
-  --font-weight-light: 300;
   --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
 
   /* Spacing */
   --spacing-unit: 4px;
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
   --spacing-20: 20px;
   --spacing-24: 24px;
-  --spacing-44: 44px;
+  --spacing-28: 28px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
   --spacing-64: 64px;
-  --spacing-92: 92px;
-  --spacing-100: 100px;
-  --spacing-144: 144px;
+  --spacing-80: 80px;
+  --spacing-96: 96px;
+  --spacing-108: 108px;
+  --spacing-112: 112px;
+  --spacing-120: 120px;
+  --spacing-124: 124px;
 
   /* Layout */
-  --page-max-width: 1200px;
-  --section-gap: 80px;
-  --card-padding: 24px;
-  --element-gap: 20px;
+  --page-max-width: 1248px;
+  --section-gap: 108px;
+  --card-padding: 28px;
+  --element-gap: 16px;
 
   /* Border Radius */
-  --radius-md: 4px;
-  --radius-xl: 12px;
+  --radius-lg: 10px;
   --radius-2xl: 16px;
-  --radius-3xl: 38px;
-  --radius-full: 100px;
+  --radius-full: 999px;
 
   /* Named Radii */
-  --radius-tags: 100px;
   --radius-cards: 16px;
-  --radius-links: 12px;
-  --radius-inputs: 4px;
-  --radius-buttons: 100px;
-  --radius-large-panels: 38px;
+  --radius-badges: 999px;
+  --radius-inputs: 0px;
+  --radius-buttons: 999px;
+  --radius-overlaycards: 10px;
 
   /* Surfaces */
-  --surface-obsidian-canvas: #000000;
-  --surface-bone-section: #f6f6f4;
-  --surface-slate-surface: #7d7d7d;
-  --surface-paper-card: #ffffff;
-  --surface-char-edge: #1a1a1a;
+  --surface-night-canvas: #0a0118;
+  --surface-glass-film: #ffffff;
+  --surface-dark-panel: #0a0118;
+  --surface-overlay-veil: #16092a;
+  --surface-ultraviolet-glow: #713dff;
 }
 ```
 
@@ -320,55 +321,69 @@ No distinct primary action color was observed; use the extracted neutral button 
 ```css
 @theme {
   /* Colors */
-  --color-obsidian: #000000;
-  --color-bone: #f6f6f4;
-  --color-slate: #7d7d7d;
-  --color-paper: #ffffff;
-  --color-char: #1a1a1a;
-  --color-solstice-gradient: #ff8400;
+  --color-night-violet: #0a0118;
+  --color-void-plum: #0c0616;
+  --color-soft-quartz: #ffffff;
+  --color-muted-steel: #d2d0dd;
+  --color-ash-lilac: #9b96b0;
+  --color-dim-fog: #85808c;
+  --color-ultraviolet-core: #713dff;
+  --color-lilac-beam: #b7a4fb;
+  --color-horizon-glow: #8562ff;
+  --color-glass-white-04: #ffffff;
+  --color-glass-white-10: #ffffff;
+  --color-ultraviolet-horizon: #8562ff;
+  --color-violet-beam: #8562ff;
+  --color-deep-fade-veil: #16092a;
 
   /* Typography */
-  --font-recoleta: 'Recoleta', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-oldschool-grotesk: 'Oldschool Grotesk', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-times-system-fallback: 'Times (system fallback)', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-inter-v: 'Inter V', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-rebond-grotesque: 'Rebond Grotesque', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Typography — Scale */
-  --text-body-sm: 15px;
-  --leading-body-sm: 1.6;
-  --tracking-body-sm: 0.15px;
-  --text-body-lg: 21px;
-  --leading-body-lg: 1.3;
-  --tracking-body-lg: -0.42px;
-  --text-subheading: 36px;
-  --leading-subheading: 1.1;
+  --text-caption: 14px;
+  --leading-caption: 16;
+  --tracking-caption: -0.28px;
+  --text-body: 16px;
+  --leading-body: 21;
+  --tracking-body: -0.16px;
+  --text-subheading: 18px;
+  --leading-subheading: 28;
   --tracking-subheading: -0.36px;
-  --text-heading-sm: 47px;
-  --leading-heading-sm: 1.1;
-  --tracking-heading-sm: -0.94px;
-  --text-heading: 61px;
-  --leading-heading: 1.1;
-  --tracking-heading: -1.22px;
-  --text-heading-lg: 80px;
-  --leading-heading-lg: 1;
-  --tracking-heading-lg: -2.4px;
-  --text-display: 125px;
-  --leading-display: 1;
-  --tracking-display: -3.75px;
+  --text-heading-sm: 24px;
+  --leading-heading-sm: 36;
+  --tracking-heading-sm: -0.48px;
+  --text-heading: 28px;
+  --leading-heading: 48;
+  --tracking-heading: 2.24px;
+  --text-heading-lg: 56px;
+  --leading-heading-lg: 74;
+  --tracking-heading-lg: -1.12px;
+  --text-display: 72px;
+  --leading-display: 80;
+  --tracking-display: -1.44px;
 
   /* Spacing */
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
   --spacing-20: 20px;
   --spacing-24: 24px;
-  --spacing-44: 44px;
+  --spacing-28: 28px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
   --spacing-64: 64px;
-  --spacing-92: 92px;
-  --spacing-100: 100px;
-  --spacing-144: 144px;
+  --spacing-80: 80px;
+  --spacing-96: 96px;
+  --spacing-108: 108px;
+  --spacing-112: 112px;
+  --spacing-120: 120px;
+  --spacing-124: 124px;
 
   /* Border Radius */
-  --radius-md: 4px;
-  --radius-xl: 12px;
+  --radius-lg: 10px;
   --radius-2xl: 16px;
-  --radius-3xl: 38px;
-  --radius-full: 100px;
+  --radius-full: 999px;
 }
 ```

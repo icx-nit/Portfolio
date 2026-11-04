@@ -1,34 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// In-memory like tracker for local state
-const projectLikesMap = new Map<string, number>([
+// In-memory like counters for local state
+const likesMap = new Map<string, number>([
   ["ai-portfolio", 14],
   ["academic-management-system", 8],
   ["dev-insights-hub", 11],
+  ["post-launch", 19],
+  ["post-coursework", 12],
+  ["portfolio-main", 33],
 ]);
 
-const visitorLikedProjects = new Map<string, Set<string>>();
+const visitorLikedItems = new Map<string, Set<string>>();
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
-  const projectId = url.searchParams.get("projectId") || "ai-portfolio";
+  const targetId = url.searchParams.get("targetId") || url.searchParams.get("projectId") || "ai-portfolio";
   const visitorId = req.cookies.get("visitor_id")?.value;
 
-  const count = projectLikesMap.get(projectId) || 0;
-  const isLiked = visitorId
-    ? visitorLikedProjects.get(visitorId)?.has(projectId) ?? false
-    : false;
+  const count = likesMap.get(targetId) || 0;
+  const isLiked = visitorId ? visitorLikedItems.get(visitorId)?.has(targetId) ?? false : false;
 
-  return NextResponse.json({ projectId, count, isLiked });
+  return NextResponse.json({ targetId, count, isLiked });
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { projectId } = body;
+    const targetId = body.targetId || body.projectId;
+    const targetType = body.targetType || "project"; // 'project' | 'post' | 'portfolio'
 
-    if (!projectId) {
-      return NextResponse.json({ error: "projectId is required" }, { status: 400 });
+    if (!targetId) {
+      return NextResponse.json({ error: "targetId is required" }, { status: 400 });
     }
 
     let visitorId = req.cookies.get("visitor_id")?.value;
@@ -36,36 +38,38 @@ export async function POST(req: NextRequest) {
       visitorId = "vis_" + Math.random().toString(36).substring(2, 11);
     }
 
-    if (!visitorLikedProjects.has(visitorId)) {
-      visitorLikedProjects.set(visitorId, new Set());
+    if (!visitorLikedItems.has(visitorId)) {
+      visitorLikedItems.set(visitorId, new Set());
     }
 
-    const userLikedSet = visitorLikedProjects.get(visitorId)!;
+    const userLikedSet = visitorLikedItems.get(visitorId)!;
 
-    if (userLikedSet.has(projectId)) {
+    if (userLikedSet.has(targetId)) {
       // Unlike
-      userLikedSet.delete(projectId);
-      const current = projectLikesMap.get(projectId) || 1;
-      projectLikesMap.set(projectId, Math.max(0, current - 1));
+      userLikedSet.delete(targetId);
+      const current = likesMap.get(targetId) || 1;
+      likesMap.set(targetId, Math.max(0, current - 1));
 
       return NextResponse.json({
         success: true,
         action: "unliked",
-        count: projectLikesMap.get(projectId),
+        count: likesMap.get(targetId),
         isLiked: false,
+        targetType,
       });
     }
 
     // Like
-    userLikedSet.add(projectId);
-    const current = projectLikesMap.get(projectId) || 0;
-    projectLikesMap.set(projectId, current + 1);
+    userLikedSet.add(targetId);
+    const current = likesMap.get(targetId) || 0;
+    likesMap.set(targetId, current + 1);
 
     const response = NextResponse.json({
       success: true,
       action: "liked",
-      count: projectLikesMap.get(projectId),
+      count: likesMap.get(targetId),
       isLiked: true,
+      targetType,
     });
 
     response.cookies.set("visitor_id", visitorId, {

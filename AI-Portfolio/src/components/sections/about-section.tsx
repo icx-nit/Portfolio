@@ -1,71 +1,75 @@
+"use client";
+
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { GraduationCap, Code2, Sparkles, Database } from "lucide-react";
 import { Profile } from "@/types/portfolio";
+import { useApp } from "@/lib/i18n/context";
 
 interface AboutSectionProps {
   profile: Profile;
 }
 
 export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
+  const { t } = useApp();
+
   const highlights = [
     {
-      icon: <GraduationCap className="w-5 h-5 text-bone" />,
-      title: "University of Phayao",
-      description: "Studying Software Engineering at School of Information and Communication Technology.",
+      icon: <GraduationCap className="w-5 h-5 text-lilac-beam" />,
+      title: t.about.card1Title,
+      description: t.about.card1Desc,
     },
     {
-      icon: <Code2 className="w-5 h-5 text-bone" />,
-      title: "Full-Stack Development",
-      description: "Building modern web applications with React, Next.js, TypeScript, and Tailwind CSS.",
+      icon: <Code2 className="w-5 h-5 text-lilac-beam" />,
+      title: t.about.card2Title,
+      description: t.about.card2Desc,
     },
     {
-      icon: <Database className="w-5 h-5 text-bone" />,
-      title: "Database Engineering",
-      description: "Relational database modeling with PostgreSQL and Supabase with strict Row Level Security.",
+      icon: <Database className="w-5 h-5 text-lilac-beam" />,
+      title: t.about.card3Title,
+      description: t.about.card3Desc,
     },
     {
-      icon: <Sparkles className="w-5 h-5 text-bone" />,
-      title: "AI Integration",
-      description: "Developing intelligent retrieval assistants and data-driven web services.",
+      icon: <Sparkles className="w-5 h-5 text-lilac-beam" />,
+      title: t.about.card4Title,
+      description: t.about.card4Desc,
     },
   ];
 
   return (
-    <section id="about" className="py-24 px-6 bg-obsidian border-b border-char">
+    <section id="about" className="py-24 px-6 bg-night-violet border-b border-white/10">
       <div className="max-w-container mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Section Heading & Narrative */}
           <div className="lg:col-span-5 space-y-6">
-            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-bone font-normal leading-[1.05] tracking-[-0.03em]">
-              About the Developer
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-soft-quartz font-bold leading-[1.14] tracking-[-1.12px]">
+              {t.about.title}
             </h2>
 
-            <div className="space-y-4 text-[16px] text-bone/80 font-normal leading-relaxed">
-              <p>
-                Hello, I’m <span className="text-bone font-medium">{profile.name}</span>. Currently pursuing a Bachelor’s degree in Software Engineering at the{" "}
-                <span className="text-bone">School of Information and Communication Technology, University of Phayao</span>.
+            <div className="space-y-4 text-[15px] sm:text-[16px] text-ash-lilac font-normal leading-[1.6]">
+              <p className="text-soft-quartz/90 font-medium">
+                {t.about.intro}
               </p>
               <p>
-                My focus lies at the intersection of robust backend architecture and crafted frontends. I believe that software should be engineered cleanly—from normalized database schemas and type-safe APIs to minimal, high-contrast user interfaces.
+                {t.about.para1}
               </p>
-              <p className="text-[14px] text-slate">
-                Dedicated to continuous learning, building production-grade web systems, and contributing to open-source software.
+              <p>
+                {t.about.para2}
               </p>
             </div>
           </div>
 
-          {/* Cards Grid */}
+          {/* Feature Surface Cards Grid */}
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {highlights.map((item, idx) => (
-              <Card key={idx} variant="char" className="p-6 space-y-3">
-                <div className="w-10 h-10 rounded-full border border-char flex items-center justify-center bg-char/30">
+              <Card key={idx} variant="surface" className="p-6 space-y-3">
+                <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center bg-white/[0.04]">
                   {item.icon}
                 </div>
-                <h3 className="font-display text-xl text-bone tracking-tight">
+                <h3 className="font-display text-lg text-soft-quartz font-bold tracking-tight">
                   {item.title}
                 </h3>
-                <p className="text-[14px] text-slate leading-relaxed">
+                <p className="text-[14px] text-ash-lilac leading-relaxed">
                   {item.description}
                 </p>
               </Card>

@@ -2,20 +2,21 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "dark" | "bone" | "char";
+  variant?: "surface" | "frosted" | "overlay" | "char";
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, variant = "char", children, ...props }, ref) => {
+  ({ className, variant = "surface", children, ...props }, ref) => {
     return (
       <div
         ref={ref}
         className={cn(
-          // Clyde specification: 16px radius, flat (no box-shadows), 1px hairline border
-          "rounded-[16px] p-6 transition-all duration-200",
-          variant === "char" && "bg-obsidian border border-char hover:border-bone/40 text-bone",
-          variant === "dark" && "bg-char/40 border border-char hover:border-bone/30 text-bone",
-          variant === "bone" && "bg-bone border border-bone text-obsidian",
+          // Wope specification: 16px radius, flat (no drop-shadows), 1px translucent border or glow edge
+          "rounded-[16px] transition-all duration-200",
+          variant === "surface" && "bg-night-violet border border-white/10 text-soft-quartz hover:border-white/20",
+          variant === "frosted" && "bg-white/[0.02] border border-white/10 backdrop-blur-[4px] text-soft-quartz",
+          variant === "overlay" && "bg-[#0a0118]/80 border border-white/10 rounded-[10px] backdrop-blur-[8px]",
+          variant === "char" && "bg-night-violet border border-white/10 text-soft-quartz hover:border-white/20",
           className
         )}
         {...props}
