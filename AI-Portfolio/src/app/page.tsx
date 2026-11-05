@@ -16,10 +16,32 @@ import { Post } from "@/types/portfolio";
 
 export default function HomePage() {
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [followerCount, setFollowerCount] = useState(initialStats.followersCount);
-  const [hasFollowed, setHasFollowed] = useState(false);
+  const [followerCount, setFollowerCount] = useState<number>(() => {
+    if (typeof window !== "undefined") {
+      const cached = localStorage.getItem("portfolio_follower_count");
+      if (cached !== null) return parseInt(cached, 10);
+    }
+    return initialStats.followersCount;
+  });
+  const [hasFollowed, setHasFollowed] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("portfolio_has_followed") === "true";
+    }
+    return false;
+  });
   const [likedPostIds, setLikedPostIds] = useState<string[]>([]);
-  const [posts, setPosts] = useState<Post[]>(initialPosts);
+  const [posts, setPosts] = useState<Post[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const cached = localStorage.getItem("portfolio_posts");
+        if (cached !== null) {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed)) return parsed;
+        }
+      } catch (e) {}
+    }
+    return [];
+  });
   const [showIntro, setShowIntro] = useState(true);
 
   // Dynamic CMS States synced from Admin Dashboard
@@ -29,14 +51,49 @@ export default function HomePage() {
   const [cmsAboutDetails, setCmsAboutDetails] = useState<any>(null);
   const [cmsResumes, setCmsResumes] = useState<any[]>([]);
 
-  // Fetch initial follow status from Supabase
+  // Fetch initial follow status, posts cache, and CMS content
   useEffect(() => {
-    fetch("/api/interactions/follow")
+    // 1. Instant cache recovery and real-time sync with Admin Dashboard
+    const syncPosts = () => {
+      if (typeof window !== "undefined") {
+        const cached = localStorage.getItem("portfolio_posts");
+        if (cached !== null) {
+          try {
+            const parsed = JSON.parse(cached);
+            if (Array.isArray(parsed)) setPosts(parsed);
+          } catch (e) {}
+        }
+      }
+    };
+    syncPosts();
+
+    const syncFollowers = () => {
+      if (typeof window !== "undefined") {
+        const cachedCount = localStorage.getItem("portfolio_follower_count");
+        const cachedFollowed = localStorage.getItem("portfolio_has_followed");
+        if (cachedCount !== null) setFollowerCount(parseInt(cachedCount, 10));
+        if (cachedFollowed !== null) setHasFollowed(cachedFollowed === "true");
+      }
+    };
+    syncFollowers();
+
+    window.addEventListener("portfolio-posts-change", syncPosts);
+    window.addEventListener("portfolio-followers-change", syncFollowers);
+    window.addEventListener("storage", syncPosts);
+    window.addEventListener("storage", syncFollowers);
+
+    const visitorId = typeof window !== "undefined" ? localStorage.getItem("portfolio_visitor_id") : null;
+    const followUrl = visitorId ? `/api/interactions/follow?visitorId=${encodeURIComponent(visitorId)}` : "/api/interactions/follow";
+    fetch(followUrl)
       .then((res) => res.json())
       .then((data) => {
         if (data && typeof data.count === "number") {
           setFollowerCount(data.count);
-          setHasFollowed(data.hasFollowed);
+          setHasFollowed(Boolean(data.hasFollowed));
+          if (typeof window !== "undefined") {
+            localStorage.setItem("portfolio_follower_count", String(data.count));
+            localStorage.setItem("portfolio_has_followed", String(Boolean(data.hasFollowed)));
+          }
         }
       })
       .catch(() => {});
@@ -50,27 +107,59 @@ export default function HomePage() {
         if (data.skills) setCmsSkills(data.skills);
         if (data.aboutDetails) setCmsAboutDetails(data.aboutDetails);
         if (data.resumes) setCmsResumes(data.resumes);
-        if (data.posts && Array.isArray(data.posts) && data.posts.length > 0) {
+        if (data.posts !== undefined && Array.isArray(data.posts)) {
           setPosts(data.posts);
+          if (typeof window !== "undefined") {
+            localStorage.setItem("portfolio_posts", JSON.stringify(data.posts));
+          }
         }
       })
       .catch(() => {});
 
     // Track real visitor reach count
     fetch("/api/analytics/reach", { method: "POST" }).catch(() => {});
+
+    return () => {
+      window.removeEventListener("portfolio-posts-change", syncPosts);
+      window.removeEventListener("portfolio-followers-change", syncFollowers);
+      window.removeEventListener("storage", syncPosts);
+      window.removeEventListener("storage", syncFollowers);
+    };
   }, []);
 
   const handleFollow = async () => {
+    const nextFollowed = !hasFollowed;
+    const nextCount = nextFollowed ? followerCount + 1 : Math.max(0, followerCount - 1);
+
+    // Optimistic instant feedback
+    setHasFollowed(nextFollowed);
+    setFollowerCount(nextCount);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("portfolio_has_followed", String(nextFollowed));
+      localStorage.setItem("portfolio_follower_count", String(nextCount));
+      window.dispatchEvent(new Event("portfolio-followers-change"));
+    }
+
     try {
+      const visitorId = typeof window !== "undefined" ? localStorage.getItem("portfolio_visitor_id") : null;
       const res = await fetch("/api/interactions/follow", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: hasFollowed ? "unfollow" : "follow" }),
+        body: JSON.stringify({
+          action: nextFollowed ? "follow" : "unfollow",
+          visitorId,
+        }),
       });
       const data = await res.json();
       if (data && data.success) {
-        setFollowerCount(data.count);
         setHasFollowed(data.hasFollowed);
+        setFollowerCount(data.count);
+        if (typeof window !== "undefined") {
+          if (data.visitorId) localStorage.setItem("portfolio_visitor_id", data.visitorId);
+          localStorage.setItem("portfolio_has_followed", String(data.hasFollowed));
+          localStorage.setItem("portfolio_follower_count", String(data.count));
+          window.dispatchEvent(new Event("portfolio-followers-change"));
+        }
       }
     } catch (err) {
       console.error("Follow error:", err);

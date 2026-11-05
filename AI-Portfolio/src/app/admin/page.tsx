@@ -71,6 +71,7 @@ export default function AdminDashboardPage() {
     | "posts"
     | "resume"
     | "messages"
+    | "followers"
     | "github"
     | "settings"
   >("overview");
@@ -173,7 +174,18 @@ export default function AdminDashboardPage() {
     },
   ]);
 
-  const [postsList, setPostsList] = useState<Post[]>(initialPosts);
+  const [postsList, setPostsList] = useState<Post[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const cached = localStorage.getItem("portfolio_posts");
+        if (cached !== null) {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed)) return parsed;
+        }
+      } catch (e) {}
+    }
+    return [];
+  });
   const [resumesList, setResumesList] = useState<any[]>([
     {
       id: "res-1",
@@ -200,7 +212,15 @@ export default function AdminDashboardPage() {
   const [messageFilter, setMessageFilter] = useState<"all" | "unread" | "read">("all");
 
   const [totalReach, setTotalReach] = useState<number>(0);
-  const [followerCount, setFollowerCount] = useState<number>(0);
+  const [followerCount, setFollowerCount] = useState<number>(() => {
+    if (typeof window !== "undefined") {
+      const cached = localStorage.getItem("portfolio_follower_count");
+      if (cached !== null) return parseInt(cached, 10);
+    }
+    return 0;
+  });
+  const [followersList, setFollowersList] = useState<any[]>([]);
+  const [customFollowerInput, setCustomFollowerInput] = useState<string>("");
   const [githubRepos, setGithubRepos] = useState<any[]>([]);
   const [isSyncingGithub, setIsSyncingGithub] = useState(false);
   const [syncSuccess, setSyncSuccess] = useState(false);
@@ -388,6 +408,19 @@ export default function AdminDashboardPage() {
     followerSub: lang === "th" ? "สถานะการกดติดตามจริงของผู้เข้าชม" : "Real-time visitor follow status",
     likesCountTitle: lang === "th" ? "ยอดหัวใจทั้งหมด" : "Total Hearts Given",
     likesSub: lang === "th" ? "รวมหัวใจจากทุกโพสต์ใน Social Feed" : "Aggregated across all journal posts",
+    resetFollowersBtn: lang === "th" ? "รีเซ็ตยอดผู้ติดตามเป็น 0" : "Reset Followers to 0",
+    setCustomFollowersBtn: lang === "th" ? "บันทึกยอดผู้ติดตาม" : "Set Follower Count",
+    followerHistoryTitle: lang === "th" ? "บันทึกประวัติการกดติดตามของผู้เข้าชม" : "Recent Follower Activity Log",
+    followerHistorySub: lang === "th" ? "แสดงรายชื่อและอุปกรณ์ของผู้เข้าชมที่กดติดตามพอร์ตโฟลิโอแบบเรียลไทม์" : "Real-time log of visitors and devices following your portfolio.",
+    visitorIdLabel: lang === "th" ? "รหัสผู้เข้าชม (Visitor ID)" : "Visitor ID",
+    followedDateLabel: lang === "th" ? "วันเวลาที่กดติดตาม" : "Followed Timestamp",
+    deviceLabel: lang === "th" ? "อุปกรณ์ / เบราว์เซอร์" : "Device / Platform",
+    statusLabelCol: lang === "th" ? "สถานะ" : "Status",
+    activeStatus: lang === "th" ? "กำลังติดตาม (Active)" : "Active Following",
+    noFollowersYet: lang === "th" ? "ยังไม่มีประวัติผู้ติดตามใหม่ในขณะนี้ ผู้เข้าชมสามารถกดปุ่ม 'ติดตาม (Follow Me)' ได้ที่หน้าหลักของพอร์ตโฟลิโอ" : "No follower interactions recorded yet. Visitors can click 'Follow Me' on the public portfolio.",
+    enterNumberPlaceholder: lang === "th" ? "ระบุจำนวนตัวเลข..." : "Enter count...",
+    syncLiveStatus: lang === "th" ? "เชื่อมต่อสดกับหน้าพอร์ตโฟลิโอ" : "Live Connected to Portfolio Feed",
+    adjustCountTitle: lang === "th" ? "ปรับแต่งหรือรีเซ็ตยอดผู้ติดตาม" : "Manage & Adjust Follower Count",
 
     // GitHub
     githubHeading: lang === "th" ? "จัดการคลังโค้ด GitHub" : "GitHub Repositories",
@@ -463,13 +496,29 @@ export default function AdminDashboardPage() {
 
   // 2. Fetch CMS Data & Synchronize
   useEffect(() => {
+    // Instant cache recovery from localStorage
+    if (typeof window !== "undefined") {
+      const cachedPosts = localStorage.getItem("portfolio_posts");
+      if (cachedPosts) {
+        try {
+          const parsed = JSON.parse(cachedPosts);
+          if (Array.isArray(parsed)) setPostsList(parsed);
+        } catch (e) {}
+      }
+    }
+
     fetch("/api/admin/content")
       .then((res) => res.json())
       .then((data) => {
         if (data.profile) setProfileData(data.profile);
         if (data.education) setEducationList(data.education);
         if (data.skills) setSkillsCategories(data.skills);
-        if (data.posts) setPostsList(data.posts);
+        if (data.posts !== undefined && Array.isArray(data.posts)) {
+          setPostsList(data.posts);
+          if (typeof window !== "undefined") {
+            localStorage.setItem("portfolio_posts", JSON.stringify(data.posts));
+          }
+        }
         if (data.resumes) setResumesList(data.resumes);
       })
       .catch(() => {});
@@ -484,14 +533,23 @@ export default function AdminDashboardPage() {
       })
       .catch(() => {});
 
-    fetch("/api/interactions/follow")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && typeof data.count === "number") {
-          setFollowerCount(data.count);
-        }
-      })
-      .catch(() => {});
+    const syncFollowers = () => {
+      fetch("/api/interactions/follow")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && typeof data.count === "number") {
+            setFollowerCount(data.count);
+            if (Array.isArray(data.visitors)) setFollowersList(data.visitors);
+            if (typeof window !== "undefined") {
+              localStorage.setItem("portfolio_follower_count", String(data.count));
+            }
+          }
+        })
+        .catch(() => {});
+    };
+    syncFollowers();
+    window.addEventListener("portfolio-followers-change", syncFollowers);
+    window.addEventListener("storage", syncFollowers);
 
     fetch("/api/analytics/reach")
       .then((res) => res.json())
@@ -510,6 +568,11 @@ export default function AdminDashboardPage() {
         }
       })
       .catch(() => {});
+
+    return () => {
+      window.removeEventListener("portfolio-followers-change", syncFollowers);
+      window.removeEventListener("storage", syncFollowers);
+    };
   }, []);
 
   const triggerToast = (msg: string) => {
@@ -711,6 +774,10 @@ export default function AdminDashboardPage() {
 
     const updated = [newPost, ...postsList];
     setPostsList(updated);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("portfolio_posts", JSON.stringify(updated));
+      window.dispatchEvent(new Event("portfolio-posts-change"));
+    }
     setNewPostContent("");
     setNewPostContentTh("");
     setNewPostImageUrl("");
@@ -727,6 +794,10 @@ export default function AdminDashboardPage() {
   const handleDeletePost = async (id: string) => {
     const updated = postsList.filter((p) => p.id !== id);
     setPostsList(updated);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("portfolio_posts", JSON.stringify(updated));
+      window.dispatchEvent(new Event("portfolio-posts-change"));
+    }
     await fetch("/api/admin/content", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -804,6 +875,77 @@ export default function AdminDashboardPage() {
     );
   };
 
+  // Followers Management Handlers
+  const handleResetFollowers = async () => {
+    try {
+      const res = await fetch("/api/interactions/follow", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "reset" }),
+      });
+      const data = await res.json();
+      if (data && data.success) {
+        setFollowerCount(0);
+        setFollowersList([]);
+        if (typeof window !== "undefined") {
+          localStorage.setItem("portfolio_follower_count", "0");
+          localStorage.setItem("portfolio_has_followed", "false");
+          window.dispatchEvent(new Event("portfolio-followers-change"));
+        }
+        triggerToast("รีเซ็ตผู้ติดตามเป็น 0 เรียบร้อยแล้ว");
+      }
+    } catch {
+      triggerToast("Error resetting followers");
+    }
+  };
+
+  const handleSetCustomFollowers = async () => {
+    const val = parseInt(customFollowerInput, 10);
+    if (isNaN(val) || val < 0) return;
+    try {
+      const res = await fetch("/api/interactions/follow", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ count: val }),
+      });
+      const data = await res.json();
+      if (data && data.success) {
+        setFollowerCount(val);
+        if (typeof window !== "undefined") {
+          localStorage.setItem("portfolio_follower_count", String(val));
+          window.dispatchEvent(new Event("portfolio-followers-change"));
+        }
+        setCustomFollowerInput("");
+        triggerToast(`อัปเดตยอดผู้ติดตามเป็น ${val} เรียบร้อยแล้ว`);
+      }
+    } catch {
+      triggerToast("Error updating follower count");
+    }
+  };
+
+  const handleRemoveFollower = async (visitorId: string) => {
+    try {
+      const res = await fetch("/api/interactions/follow", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ removeVisitorId: visitorId }),
+      });
+      const data = await res.json();
+      if (data && data.success) {
+        setFollowersList(data.visitors || []);
+        const newCount = data.count ?? Math.max(0, followerCount - 1);
+        setFollowerCount(newCount);
+        if (typeof window !== "undefined") {
+          localStorage.setItem("portfolio_follower_count", String(newCount));
+          window.dispatchEvent(new Event("portfolio-followers-change"));
+        }
+        triggerToast("ลบผู้ติดตามออกจากระบบเรียบร้อย");
+      }
+    } catch {
+      triggerToast("Error removing follower");
+    }
+  };
+
   if (isAuthenticated === null) {
     return (
       <div className="min-h-screen bg-[#070014] flex items-center justify-center text-ash-lilac gap-3 font-mono text-xs">
@@ -824,6 +966,7 @@ export default function AdminDashboardPage() {
     { id: "posts", label: t.posts, icon: <FileText className="w-4 h-4" /> },
     { id: "resume", label: t.resume, icon: <FileDown className="w-4 h-4" /> },
     { id: "messages", label: t.messages, icon: <Mail className="w-4 h-4" />, badge: unreadMessagesCount },
+    { id: "followers", label: t.followers, icon: <Users className="w-4 h-4" />, badge: followerCount },
     { id: "github", label: t.github, icon: <Github className="w-4 h-4" /> },
     { id: "settings", label: t.settings, icon: <Settings className="w-4 h-4" /> },
   ];
@@ -2488,6 +2631,204 @@ export default function AdminDashboardPage() {
                       </Card>
                     ))}
                 </div>
+              </div>
+            )}
+
+
+            {/* ========================================================= */}
+            {/* VIEW 8: FOLLOWERS & LIKES MANAGEMENT                      */}
+            {/* ========================================================= */}
+            {activeTab === "followers" && (
+              <div className="space-y-6 w-full">
+                {/* Header */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <h3 className="font-display font-bold text-2xl text-white tracking-tight flex items-center gap-2.5">
+                      <Users className="w-6 h-6 text-purple-400" />
+                      <span>{t.followersHeading}</span>
+                    </h3>
+                    <p className="text-sm text-ash-lilac pt-1">
+                      {t.followersSub}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-xs font-mono text-cyan-300">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                    <span>{t.syncLiveStatus}</span>
+                  </div>
+                </div>
+
+                {/* Top Metrics Cards Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {/* Card 1: Followers */}
+                  <Card className="p-5 sm:p-6 rounded-3xl bg-[#0b041a] border border-white/15 shadow-[0_12px_32px_rgba(0,0,0,0.6)] flex flex-col justify-between">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-ash-lilac font-semibold">{t.followerCountTitle}</span>
+                      <div className="w-9 h-9 rounded-xl bg-purple-500/15 text-lilac-beam flex items-center justify-center">
+                        <Users className="w-4 h-4" />
+                      </div>
+                    </div>
+                    <div>
+                      <p className="font-display font-bold text-3xl sm:text-4xl text-white pt-3">
+                        {followerCount}
+                      </p>
+                      <span className="text-xs text-cyan-400 font-mono font-semibold pt-1 block">
+                        ● {t.followerSub}
+                      </span>
+                    </div>
+                  </Card>
+
+                  {/* Card 2: Likes */}
+                  <Card className="p-5 sm:p-6 rounded-3xl bg-[#0b041a] border border-white/15 shadow-[0_12px_32px_rgba(0,0,0,0.6)] flex flex-col justify-between">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-ash-lilac font-semibold">{t.likesCountTitle}</span>
+                      <div className="w-9 h-9 rounded-xl bg-pink-500/15 text-pink-400 flex items-center justify-center">
+                        <Heart className="w-4 h-4" />
+                      </div>
+                    </div>
+                    <div>
+                      <p className="font-display font-bold text-3xl sm:text-4xl text-white pt-3">
+                        {totalPostLikes}
+                      </p>
+                      <span className="text-xs text-pink-400 font-mono font-semibold pt-1 block">
+                        ● {t.likesSub}
+                      </span>
+                    </div>
+                  </Card>
+
+                  {/* Card 3: Reach / Engagement */}
+                  <Card className="p-5 sm:p-6 rounded-3xl bg-[#0b041a] border border-white/15 shadow-[0_12px_32px_rgba(0,0,0,0.6)] flex flex-col justify-between">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-ash-lilac font-semibold">
+                        {lang === "th" ? "อัตราการมีส่วนร่วม" : "Engagement Rate"}
+                      </span>
+                      <div className="w-9 h-9 rounded-xl bg-cyan-500/15 text-cyan-300 flex items-center justify-center">
+                        <Activity className="w-4 h-4" />
+                      </div>
+                    </div>
+                    <div>
+                      <p className="font-display font-bold text-3xl sm:text-4xl text-white pt-3">
+                        {totalReach > 0 ? `${Math.round(((followerCount + totalPostLikes) / totalReach) * 100)}%` : "100%"}
+                      </p>
+                      <span className="text-xs text-ash-lilac font-mono pt-1 block">
+                        {lang === "th" ? `จากยอดผู้เข้าชมจริง ${totalReach} ครั้ง` : `From ${totalReach} total visits`}
+                      </span>
+                    </div>
+                  </Card>
+                </div>
+
+                {/* Follower Management & Quick Adjust Card */}
+                <Card className="p-6 rounded-3xl bg-[#0b041a] border border-white/15 space-y-4 shadow-[0_12px_32px_rgba(0,0,0,0.6)]">
+                  <div>
+                    <h4 className="font-display font-bold text-base text-white">
+                      {t.adjustCountTitle}
+                    </h4>
+                    <p className="text-xs text-ash-lilac pt-0.5">
+                      {lang === "th"
+                        ? "จัดการยอดผู้ติดตาม กำหนดจำนวนตัวเลขที่ต้องการแสดง หรือกดรีเซ็ตเป็น 0 เมื่อต้องการเริ่มต้นใหม่"
+                        : "Customize display follower count or reset counter to zero."}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1">
+                    <div className="flex-1 max-w-xs">
+                      <Input
+                        type="number"
+                        min="0"
+                        value={customFollowerInput}
+                        onChange={(e) => setCustomFollowerInput(e.target.value)}
+                        placeholder={t.enterNumberPlaceholder}
+                        className="bg-[#120726] border-white/15 text-white placeholder:text-dim-fog rounded-xl h-10 text-sm"
+                      />
+                    </div>
+                    <Button
+                      onClick={handleSetCustomFollowers}
+                      className="bg-cyan-400 hover:bg-cyan-300 text-black font-semibold rounded-xl h-10 px-4 text-xs cursor-pointer shadow-md"
+                    >
+                      <Save className="w-3.5 h-3.5 mr-1.5" />
+                      {t.setCustomFollowersBtn}
+                    </Button>
+                    <Button
+                      onClick={handleResetFollowers}
+                      variant="outline"
+                      className="border-red-500/30 text-red-300 hover:bg-red-500/10 hover:border-red-500/50 rounded-xl h-10 px-4 text-xs cursor-pointer"
+                    >
+                      <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
+                      {t.resetFollowersBtn}
+                    </Button>
+                  </div>
+                </Card>
+
+                {/* Follower Activity Log / Table */}
+                <Card className="p-6 rounded-3xl bg-[#0b041a] border border-white/15 space-y-4 shadow-[0_12px_32px_rgba(0,0,0,0.6)]">
+                  <div>
+                    <h4 className="font-display font-bold text-base text-white">
+                      {t.followerHistoryTitle}
+                    </h4>
+                    <p className="text-xs text-ash-lilac pt-0.5">
+                      {t.followerHistorySub}
+                    </p>
+                  </div>
+
+                  {followersList.length === 0 ? (
+                    <div className="text-center py-10 space-y-2 border border-dashed border-white/10 rounded-2xl bg-white/[0.02]">
+                      <Users className="w-8 h-8 text-ash-lilac/40 mx-auto" />
+                      <p className="text-sm text-ash-lilac max-w-md mx-auto">
+                        {t.noFollowersYet}
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs">
+                        <thead>
+                          <tr className="border-b border-white/10 text-ash-lilac font-mono uppercase">
+                            <th className="pb-3 font-semibold">{t.visitorIdLabel}</th>
+                            <th className="pb-3 font-semibold">{t.followedDateLabel}</th>
+                            <th className="pb-3 font-semibold">{t.deviceLabel}</th>
+                            <th className="pb-3 font-semibold">{t.statusLabelCol}</th>
+                            <th className="pb-3 text-right font-semibold">
+                              {lang === "th" ? "จัดการ" : "Action"}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5">
+                          {followersList.map((follower) => (
+                            <tr key={follower.id} className="hover:bg-white/[0.02] transition-colors">
+                              <td className="py-3 font-mono text-cyan-300">
+                                {follower.id}
+                              </td>
+                              <td className="py-3 text-soft-quartz font-mono">
+                                {follower.followedAt
+                                  ? new Date(follower.followedAt).toLocaleString()
+                                  : "Recently"}
+                              </td>
+                              <td className="py-3 text-ash-lilac">
+                                {follower.device || "Desktop Browser"}
+                              </td>
+                              <td className="py-3">
+                                <Badge
+                                  variant="violet"
+                                  className="bg-emerald-500/10 text-emerald-400 border-emerald-400/20 text-[11px] font-mono"
+                                >
+                                  {t.activeStatus}
+                                </Badge>
+                              </td>
+                              <td className="py-3 text-right">
+                                <button
+                                  onClick={() => handleRemoveFollower(follower.id)}
+                                  className="text-red-400 hover:text-red-300 p-1 cursor-pointer transition-colors"
+                                  title={lang === "th" ? "ลบผู้ติดตามนี้" : "Remove Follower"}
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </Card>
               </div>
             )}
 

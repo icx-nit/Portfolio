@@ -1,10 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 import { initialProfile } from "@/data/profile";
 import { initialEducation, initialSkills } from "@/data/portfolio-seed";
 import { initialPosts } from "@/data/posts";
+import { supabase } from "@/lib/supabase/client";
 
-// In-memory CMS store initialized from seed data
-let currentProfile = {
+const STORE_PATH = path.join(process.cwd(), "src/data/cms-store.json");
+
+function loadStoreFromFile() {
+  try {
+    if (fs.existsSync(STORE_PATH)) {
+      const raw = fs.readFileSync(STORE_PATH, "utf-8");
+      return JSON.parse(raw);
+    }
+  } catch (e) {
+    console.error("[CMS Store] Error reading cms-store.json:", e);
+  }
+  return null;
+}
+
+function saveStoreToFile(store: any) {
+  try {
+    fs.writeFileSync(STORE_PATH, JSON.stringify(store, null, 2), "utf-8");
+  } catch (e) {
+    console.error("[CMS Store] Error writing cms-store.json:", e);
+  }
+}
+
+const savedData = loadStoreFromFile();
+
+// In-memory CMS store initialized from file store or fallback to seeds
+let currentProfile = savedData?.profile || {
   ...initialProfile,
   aboutAvatarUrl: "/images/profile_cutout.png",
   socialLinks: {
@@ -14,9 +41,9 @@ let currentProfile = {
   },
 };
 
-let currentEducation = [...initialEducation];
+let currentEducation = savedData?.education || [...initialEducation];
 
-let currentSkills = [
+let currentSkills = savedData?.skills || [
   {
     category: "Hard Skills",
     items: [
@@ -49,9 +76,9 @@ let currentSkills = [
   },
 ];
 
-let currentPosts = [...initialPosts];
+let currentPosts = savedData?.posts !== undefined ? savedData.posts : [...initialPosts];
 
-let currentResumes = [
+let currentResumes = savedData?.resumes || [
   {
     id: "resume-1",
     title: "Nittaya Pana - UX/UI Designer Resume (2026)",
@@ -72,7 +99,7 @@ let currentResumes = [
   },
 ];
 
-let currentAboutDetails = {
+let currentAboutDetails = savedData?.aboutDetails || {
   topic1Title: "1. ความสนใจด้านเทคโนโลยี (Technology Interests)",
   topic1Desc:
     "มีความสนใจด้าน UX/UI Design และการพัฒนาเว็บไซต์ โดยให้ความสำคัญกับการออกแบบที่คำนึงถึงผู้ใช้งานเป็นหลัก สนใจการออกแบบ User Interface การสร้าง User Experience ที่ดี และการนำเทคโนโลยีมาประยุกต์ใช้เพื่อแก้ไขปัญหาในการใช้งานจริง",
@@ -97,6 +124,15 @@ let currentAboutDetails = {
 
 export async function GET() {
   try {
+    // Check if store file has newer updates
+    const refreshed = loadStoreFromFile();
+    if (refreshed?.posts !== undefined) currentPosts = refreshed.posts;
+    if (refreshed?.profile) currentProfile = refreshed.profile;
+    if (refreshed?.education) currentEducation = refreshed.education;
+    if (refreshed?.skills) currentSkills = refreshed.skills;
+    if (refreshed?.resumes) currentResumes = refreshed.resumes;
+    if (refreshed?.aboutDetails) currentAboutDetails = refreshed.aboutDetails;
+
     return NextResponse.json({
       profile: currentProfile,
       education: currentEducation,
@@ -104,6 +140,8 @@ export async function GET() {
       aboutDetails: currentAboutDetails,
       posts: currentPosts,
       resumes: currentResumes,
+      followers: refreshed?.followers || { count: 0, visitors: [] },
+      likes: refreshed?.likes || { counts: {}, visitorLikes: {} },
     });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
@@ -115,7 +153,7 @@ export async function PUT(req: NextRequest) {
     const body = await req.json();
     const { section, data } = body;
 
-    if (!section || !data) {
+    if (!section || data === undefined) {
       return NextResponse.json({ error: "section and data are required" }, { status: 400 });
     }
 
@@ -137,7 +175,6 @@ export async function PUT(req: NextRequest) {
         break;
       case "resumes":
         currentResumes = data;
-        // Keep profile.resumeUrl in sync with default resume
         const activeRes = data.find((r: any) => r.isDefault);
         if (activeRes) {
           currentProfile.resumeUrl = activeRes.url;
@@ -146,6 +183,20 @@ export async function PUT(req: NextRequest) {
       default:
         return NextResponse.json({ error: "Invalid section" }, { status: 400 });
     }
+
+    // Persist to disk so changes are permanent across reboots and page refreshes
+    const existingStore = loadStoreFromFile() || {};
+    saveStoreToFile({
+      ...existingStore,
+      profile: currentProfile,
+      education: currentEducation,
+      skills: currentSkills,
+      aboutDetails: currentAboutDetails,
+      posts: currentPosts,
+      resumes: currentResumes,
+    });
+
+    console.log(`[CMS Content Updated] Section "${section}" persisted to disk (${Array.isArray(data) ? data.length + ' items' : 'object'}).`);
 
     return NextResponse.json({
       success: true,

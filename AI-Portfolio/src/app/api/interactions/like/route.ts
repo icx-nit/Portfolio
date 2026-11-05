@@ -1,17 +1,50 @@
 import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 
-// In-memory like counters for local state (Defaults to 0)
-const likesMap = new Map<string, number>();
+const STORE_PATH = path.join(process.cwd(), "src/data/cms-store.json");
 
-const visitorLikedItems = new Map<string, Set<string>>();
+function loadLikesStore() {
+  try {
+    if (fs.existsSync(STORE_PATH)) {
+      const raw = fs.readFileSync(STORE_PATH, "utf-8");
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.likes) {
+        return {
+          counts: parsed.likes.counts || {},
+          visitorLikes: parsed.likes.visitorLikes || {},
+        };
+      }
+    }
+  } catch (e) {
+    console.error("[Like API] Error reading cms-store.json:", e);
+  }
+  return { counts: {}, visitorLikes: {} };
+}
+
+function saveLikesStore(likes: { counts: Record<string, number>; visitorLikes: Record<string, string[]> }) {
+  try {
+    if (fs.existsSync(STORE_PATH)) {
+      const raw = fs.readFileSync(STORE_PATH, "utf-8");
+      const parsed = JSON.parse(raw);
+      parsed.likes = likes;
+      fs.writeFileSync(STORE_PATH, JSON.stringify(parsed, null, 2), "utf-8");
+    }
+  } catch (e) {
+    console.error("[Like API] Error writing cms-store.json:", e);
+  }
+}
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const targetId = url.searchParams.get("targetId") || url.searchParams.get("projectId") || "ai-portfolio";
-  const visitorId = req.cookies.get("visitor_id")?.value;
+  const visitorId = req.cookies.get("visitor_id")?.value || url.searchParams.get("visitorId");
 
-  const count = likesMap.get(targetId) || 0;
-  const isLiked = visitorId ? visitorLikedItems.get(visitorId)?.has(targetId) ?? false : false;
+  const store = loadLikesStore();
+  const count = store.counts[targetId] || 0;
+  const isLiked = visitorId && store.visitorLikes[visitorId]
+    ? store.visitorLikes[visitorId].includes(targetId)
+    : false;
 
   return NextResponse.json({ targetId, count, isLiked });
 }
@@ -26,49 +59,50 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "targetId is required" }, { status: 400 });
     }
 
-    let visitorId = req.cookies.get("visitor_id")?.value;
+    let visitorId = req.cookies.get("visitor_id")?.value || body.visitorId;
     if (!visitorId) {
       visitorId = "vis_" + Math.random().toString(36).substring(2, 11);
     }
 
-    if (!visitorLikedItems.has(visitorId)) {
-      visitorLikedItems.set(visitorId, new Set());
+    const store = loadLikesStore();
+    if (!store.visitorLikes[visitorId]) {
+      store.visitorLikes[visitorId] = [];
     }
 
-    const userLikedSet = visitorLikedItems.get(visitorId)!;
+    const userLikedList = store.visitorLikes[visitorId];
+    const isLiked = userLikedList.includes(targetId);
 
-    if (userLikedSet.has(targetId)) {
+    if (isLiked) {
       // Unlike
-      userLikedSet.delete(targetId);
-      const current = likesMap.get(targetId) || 1;
-      likesMap.set(targetId, Math.max(0, current - 1));
+      store.visitorLikes[visitorId] = userLikedList.filter((id: string) => id !== targetId);
+      store.counts[targetId] = Math.max(0, (store.counts[targetId] || 1) - 1);
+      saveLikesStore(store);
 
       return NextResponse.json({
         success: true,
         action: "unliked",
-        count: likesMap.get(targetId),
+        count: store.counts[targetId],
         isLiked: false,
         targetType,
       });
     }
 
     // Like
-    userLikedSet.add(targetId);
-    const current = likesMap.get(targetId) || 0;
-    likesMap.set(targetId, current + 1);
+    userLikedList.push(targetId);
+    store.counts[targetId] = (store.counts[targetId] || 0) + 1;
+    saveLikesStore(store);
 
     const response = NextResponse.json({
       success: true,
       action: "liked",
-      count: likesMap.get(targetId),
+      count: store.counts[targetId],
       isLiked: true,
       targetType,
     });
 
     response.cookies.set("visitor_id", visitorId, {
-      httpOnly: true,
-      maxAge: 60 * 60 * 24 * 365,
       path: "/",
+      maxAge: 60 * 60 * 24 * 365,
       sameSite: "lax",
     });
 
