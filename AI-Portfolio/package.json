@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "node --require ./wsl-fs-patch.cjs ./node_modules/next/dist/bin/next dev",
+    "build": "node --require ./wsl-fs-patch.cjs ./node_modules/next/dist/bin/next build",
+    "start": "node --require ./wsl-fs-patch.cjs ./node_modules/next/dist/bin/next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit"
   },

@@ -1,14 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// In-memory like counters for local state
-const likesMap = new Map<string, number>([
-  ["ai-portfolio", 14],
-  ["academic-management-system", 8],
-  ["dev-insights-hub", 11],
-  ["post-launch", 19],
-  ["post-coursework", 12],
-  ["portfolio-main", 33],
-]);
+// In-memory like counters for local state (Defaults to 0)
+const likesMap = new Map<string, number>();
 
 const visitorLikedItems = new Map<string, Set<string>>();
 

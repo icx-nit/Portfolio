@@ -36,7 +36,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
       : projects.filter((p) => p.category === selectedCategory);
 
   return (
-    <section id="projects" className="py-24 px-6 bg-night-violet border-b border-white/10">
+    <section id="projects" className="py-24 px-6 bg-transparent border-b border-white/10">
       <div className="max-w-container mx-auto space-y-12">
         {/* Section Heading & Category Filters */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">

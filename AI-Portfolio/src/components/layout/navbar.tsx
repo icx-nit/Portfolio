@@ -2,208 +2,202 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Download, Menu, X, Sparkles, Moon, Sun, Globe } from "lucide-react";
+import { Menu, X, LogIn, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/lib/i18n/context";
 
-interface NavbarProps {
-  onOpenChat?: () => void;
-  followerCount?: number;
-  onFollow?: () => void;
-  hasFollowed?: boolean;
-}
-
-export const Navbar: React.FC<NavbarProps> = ({
-  onOpenChat,
-  followerCount = 28,
-  onFollow,
-  hasFollowed = false,
-}) => {
-  const { language, setLanguage, t, theme, toggleTheme } = useApp();
+export const Navbar: React.FC = () => {
+  const { language, setLanguage, t } = useApp();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("home");
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+
+      const sections = ["home", "about", "posts", "skills", "contact"];
+      const scrollY = window.scrollY;
+
+      if (scrollY < 200) {
+        setActiveSection("home");
+        return;
+      }
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sections[i]);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 220 && rect.bottom >= 100) {
+            setActiveSection(sections[i]);
+            break;
+          }
+        }
+      }
     };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleNavClick = (id: string, e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    setActiveSection(id);
+    setMobileMenuOpen(false);
+
+    if (id === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    const element = document.getElementById(id);
+    if (element) {
+      const navOffset = 70;
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({
+        top: elementPosition - navOffset,
+        behavior: "smooth",
+      });
+    }
+  };
+
   const navLinks = [
-    { label: t.nav.about, href: "#about" },
-    { label: t.nav.feed, href: "#feed" },
-    { label: t.nav.education, href: "#education" },
-    { label: t.nav.skills, href: "#skills" },
-    { label: t.nav.projects, href: "#projects" },
-    { label: t.nav.contact, href: "#contact" },
+    { id: "home", label: t.nav.home, href: "#home" },
+    { id: "about", label: t.nav.about, href: "#about" },
+    { id: "posts", label: t.nav.posts, href: "#posts" },
+    { id: "skills", label: t.nav.skills, href: "#skills" },
+    { id: "contact", label: t.nav.contact, href: "#contact" },
   ];
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-night-violet/90 backdrop-blur-md border-b border-white/10"
+          ? "bg-night-violet/85 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/20"
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-container mx-auto px-6 h-20 flex items-center justify-between">
-        {/* Brand Lockup */}
-        <Link href="/" className="group flex flex-col focus:outline-none">
-          <span className="font-display font-bold text-xl tracking-tight text-soft-quartz group-hover:text-lilac-beam transition-colors">
-            Nittaya Pana
-          </span>
-          <span className="text-[12px] text-ash-lilac tracking-wide">
-            {language === "th" ? "ม.พะเยา · วิศวกรรมซอฟต์แวร์" : "UP · Software Engineering"}
+      <div className="w-full px-6 sm:px-10 lg:px-12 h-20 flex items-center justify-between">
+        {/* Left: Brand Logo Portfolio */}
+        <Link
+          href="#home"
+          onClick={(e) => handleNavClick("home", e)}
+          className="group flex items-center gap-2.5 focus:outline-none cursor-pointer"
+        >
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-ultraviolet-core to-cyan-400 p-0.5 shadow-md shadow-ultraviolet-core/20 group-hover:scale-105 transition-transform duration-200">
+            <div className="w-full h-full bg-night-violet rounded-[10px] flex items-center justify-center">
+              <span className="font-display font-bold text-sm text-soft-quartz">NP</span>
+            </div>
+          </div>
+          <span className="font-display font-bold text-xl tracking-tight text-soft-quartz group-hover:text-cyan-400 transition-colors">
+            {t.nav.brand}
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-7">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-[14px] text-ash-lilac hover:text-soft-quartz tracking-normal transition-colors"
-            >
-              {link.label}
-            </a>
-          ))}
+        {/* Center: Desktop Navigation Links with Moving Purple Oval Pill */}
+        <nav className="hidden md:flex items-center gap-2 md:gap-4 lg:gap-8 px-4 py-1.5 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-sm">
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.id;
+            return (
+              <a
+                key={link.id}
+                href={link.href}
+                onClick={(e) => handleNavClick(link.id, e)}
+                className={`min-h-[44px] px-4 lg:px-5 inline-flex items-center justify-center rounded-full text-[13px] font-medium transition-all duration-300 cursor-pointer ${
+                  isActive
+                    ? "bg-ultraviolet-core text-white shadow-lg shadow-ultraviolet-core/40 font-semibold scale-[1.02]"
+                    : "text-ash-lilac hover:text-soft-quartz hover:bg-white/[0.05]"
+                }`}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </nav>
 
-        {/* Action Controls */}
-        <div className="hidden md:flex items-center space-x-3">
+        {/* Right: Actions (Language Switcher, Owner Login) */}
+        <div className="hidden sm:flex items-center gap-3">
           {/* Language Switcher */}
           <button
             onClick={() => setLanguage(language === "en" ? "th" : "en")}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-mono border border-white/10 text-ash-lilac hover:text-soft-quartz hover:border-white/20 transition-colors min-h-[36px]"
-            title="Switch Language / เปลี่ยนภาษา"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.04] text-[12px] text-ash-lilac hover:text-soft-quartz hover:border-white/20 transition-all cursor-pointer"
+            title="Switch Language (TH/EN)"
           >
-            <Globe className="w-3.5 h-3.5 text-lilac-beam" />
-            <span>{language.toUpperCase()}</span>
+            <Globe className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="font-mono uppercase font-bold">{language}</span>
           </button>
 
-          {/* Theme Switcher */}
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-full border border-white/10 text-ash-lilac hover:text-soft-quartz hover:border-white/20 transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center"
-            title={`Switch to ${theme === "dark" ? "Light" : "Dark"} Mode`}
-            aria-label="Toggle Theme"
-          >
-            {theme === "dark" ? (
-              <Sun className="w-4 h-4 text-lilac-beam" />
-            ) : (
-              <Moon className="w-4 h-4 text-ultraviolet-core" />
-            )}
-          </button>
-
-          {/* Follow Button */}
-          <button
-            onClick={onFollow}
-            className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] border transition-all duration-200 min-h-[38px] ${
-              hasFollowed
-                ? "border-ultraviolet-core/50 text-lilac-beam bg-ultraviolet-core/10"
-                : "border-white/10 text-soft-quartz hover:border-white/30 bg-white/[0.03]"
-            }`}
-          >
-            <span>{hasFollowed ? t.nav.following : t.nav.follow}</span>
-            <span className="text-ash-lilac font-mono text-[11px]">({followerCount})</span>
-          </button>
-
-          {/* Ask AI Button */}
-          {onOpenChat && (
+          {/* Owner Login Button */}
+          <Link href="/admin/login">
             <Button
-              variant="glass"
+              variant="outline"
               size="sm"
-              onClick={onOpenChat}
-              className="gap-2 border-white/15 hover:border-ultraviolet-core/60"
+              className="border-cyan-400/30 text-cyan-400 hover:bg-cyan-400/10 hover:border-cyan-400/60 rounded-full text-[13px] font-medium gap-1.5 px-4 cursor-pointer"
             >
-              <Sparkles className="w-3.5 h-3.5 text-lilac-beam" />
-              <span>{t.nav.askAi}</span>
+              <LogIn className="w-3.5 h-3.5" />
+              <span>{t.nav.login}</span>
             </Button>
-          )}
-
-          {/* Resume Download Pill */}
-          <a
-            href="/resume.pdf"
-            download="Nittaya_Pana_Resume.pdf"
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-[13px] bg-white/[0.08] text-soft-quartz border border-white/20 hover:bg-white/[0.15] hover:border-white/40 transition-all duration-200 min-h-[38px]"
-          >
-            <Download className="w-3.5 h-3.5" />
-            <span>{t.nav.resume}</span>
-          </a>
+          </Link>
         </div>
 
-        {/* Mobile Menu & Quick Controls */}
-        <div className="flex items-center gap-2 md:hidden">
+        {/* Mobile Hamburger Button */}
+        <div className="flex sm:hidden items-center gap-2">
           <button
             onClick={() => setLanguage(language === "en" ? "th" : "en")}
-            className="px-2.5 py-1 rounded-full text-[12px] font-mono border border-white/10 text-ash-lilac"
+            className="p-2 rounded-full border border-white/10 bg-white/[0.04] text-xs font-mono font-bold text-cyan-400"
           >
             {language.toUpperCase()}
           </button>
 
           <button
-            onClick={toggleTheme}
-            className="p-2 rounded-full border border-white/10 text-ash-lilac"
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          </button>
-
-          {onOpenChat && (
-            <button
-              onClick={onOpenChat}
-              aria-label="Open AI Assistant"
-              className="p-2 rounded-full border border-white/10 text-lilac-beam"
-            >
-              <Sparkles className="w-4 h-4" />
-            </button>
-          )}
-
-          <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle Navigation"
-            className="p-2.5 rounded-full border border-white/10 text-soft-quartz min-w-[40px] min-h-[40px] flex items-center justify-center"
+            className="p-2.5 rounded-full border border-white/10 bg-white/[0.04] text-soft-quartz cursor-pointer"
+            aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-night-violet border-b border-white/10 px-6 py-6 flex flex-col space-y-4">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-[16px] text-soft-quartz/90 hover:text-soft-quartz py-2 border-b border-white/5"
-            >
-              {link.label}
-            </a>
-          ))}
-          <div className="pt-2 flex flex-col gap-3">
+        <div className="sm:hidden border-b border-white/10 bg-night-violet/98 px-6 py-6 space-y-4 backdrop-blur-xl animate-fade-in">
+          <div className="flex flex-col space-y-1">
+            {navLinks.map((link) => (
+              <a
+                key={link.id}
+                href={link.href}
+                onClick={(e) => handleNavClick(link.id, e)}
+                className={`min-h-[44px] flex items-center px-4 rounded-xl text-sm font-medium transition-colors cursor-pointer ${
+                  activeSection === link.id
+                    ? "bg-ultraviolet-core text-white font-semibold"
+                    : "text-ash-lilac hover:text-soft-quartz hover:bg-white/[0.04]"
+                }`}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="pt-4 border-t border-white/10 flex items-center justify-between">
             <button
-              onClick={() => {
-                onFollow?.();
-                setMobileMenuOpen(false);
-              }}
-              className="w-full text-center py-3 rounded-full border border-white/10 text-soft-quartz text-[14px]"
+              onClick={() => setLanguage(language === "en" ? "th" : "en")}
+              className="flex items-center gap-2 text-xs text-ash-lilac"
             >
-              {hasFollowed ? t.nav.following : t.nav.follow} ({followerCount})
+              <Globe className="w-4 h-4 text-cyan-400" />
+              <span>{language === "th" ? "สลับเป็น English" : "Switch to ภาษาไทย"}</span>
             </button>
-            <a
-              href="/resume.pdf"
-              download="Nittaya_Pana_Resume.pdf"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center py-3 rounded-full bg-white/[0.08] border border-white/20 text-soft-quartz text-[14px] flex items-center justify-center gap-2"
-            >
-              <Download className="w-4 h-4" />
-              <span>{t.nav.resume}</span>
-            </a>
+
+            <Link href="/admin/login" onClick={() => setMobileMenuOpen(false)}>
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-cyan-400/30 text-cyan-400 text-xs rounded-full gap-1.5"
+              >
+                <LogIn className="w-3.5 h-3.5" />
+                <span>{t.nav.login}</span>
+              </Button>
+            </Link>
           </div>
         </div>
       )}

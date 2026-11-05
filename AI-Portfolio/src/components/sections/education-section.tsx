@@ -14,7 +14,7 @@ export const EducationSection: React.FC<EducationSectionProps> = ({ education })
   const { language, t } = useApp();
 
   return (
-    <section id="education" className="py-24 px-6 bg-night-violet border-b border-white/10">
+    <section id="education" className="py-24 px-6 bg-transparent border-b border-white/10">
       <div className="max-w-container mx-auto space-y-12">
         {/* Section Heading */}
         <div className="max-w-xl space-y-3">

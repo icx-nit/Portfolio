@@ -5,6 +5,12 @@ export const revalidate = 3600; // Cache for 1 hour
 export async function GET(req: NextRequest) {
   const username = process.env.GITHUB_USERNAME || "icx-nit";
   const token = process.env.GITHUB_TOKEN;
+  const hasToken = Boolean(token && token.startsWith("ghp_") && !token.includes("optional_github"));
+
+  console.log(
+    "[GitHub Integration Check] Account:", username,
+    "| Token Status:", hasToken ? "ACTIVE (5,000 req/hr)" : "PUBLIC (60 req/hr)"
+  );
 
   try {
     const headers: Record<string, string> = {

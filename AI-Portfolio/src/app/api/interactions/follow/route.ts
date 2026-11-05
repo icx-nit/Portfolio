@@ -1,15 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase/client";
 
-// Simulated follower storage for local development
-let globalFollowerCount = 28;
+// In-memory set of followed visitors for accurate toggle
 const followedVisitors = new Set<string>();
 
 export async function GET(req: NextRequest) {
   const visitorId = req.cookies.get("visitor_id")?.value;
-  const hasFollowed = visitorId ? followedVisitors.has(visitorId) : false;
+  let hasFollowed = visitorId ? followedVisitors.has(visitorId) : false;
+  let count = followedVisitors.size;
+
+  try {
+    const { count: dbCount } = await supabase.from("follows").select("*", { count: "exact", head: true });
+    if (typeof dbCount === "number" && dbCount >= 0) {
+      count = dbCount;
+    }
+    if (visitorId) {
+      const { data } = await supabase.from("follows").select("id").eq("visitor_id", visitorId).maybeSingle();
+      if (data) {
+        hasFollowed = true;
+        followedVisitors.add(visitorId);
+      }
+    }
+  } catch {
+    // fallback to in-memory
+  }
 
   return NextResponse.json({
-    count: globalFollowerCount,
+    count,
     hasFollowed,
   });
 }
@@ -23,35 +40,60 @@ export async function POST(req: NextRequest) {
       visitorId = "vis_" + Math.random().toString(36).substring(2, 11);
     }
 
-    if (followedVisitors.has(visitorId)) {
-      return NextResponse.json({
-        success: false,
-        message: "You have already followed Nittaya.",
-        count: globalFollowerCount,
-        hasFollowed: true,
+    const isCurrentlyFollowed = followedVisitors.has(visitorId);
+    const shouldUnfollow = body.action === "unfollow" || (body.action !== "follow" && isCurrentlyFollowed);
+
+    if (shouldUnfollow) {
+      // Unfollow action: count becomes 0 (or decrements)
+      followedVisitors.delete(visitorId);
+      try {
+        await supabase.from("follows").delete().eq("visitor_id", visitorId);
+      } catch {
+        // ignore
+      }
+
+      const response = NextResponse.json({
+        success: true,
+        action: "unfollowed",
+        count: followedVisitors.size,
+        hasFollowed: false,
       });
+
+      response.cookies.set("visitor_id", visitorId, {
+        path: "/",
+        maxAge: 60 * 60 * 24 * 365,
+        sameSite: "lax",
+      });
+
+      return response;
     }
 
+    // Follow action: count becomes 1
     followedVisitors.add(visitorId);
-    globalFollowerCount += 1;
+    try {
+      await supabase.from("follows").insert([{ visitor_id: visitorId }]);
+    } catch {
+      // ignore
+    }
 
     const response = NextResponse.json({
       success: true,
-      count: globalFollowerCount,
+      action: "followed",
+      count: followedVisitors.size,
       hasFollowed: true,
     });
 
     response.cookies.set("visitor_id", visitorId, {
-      httpOnly: true,
-      maxAge: 60 * 60 * 24 * 365, // 1 year
       path: "/",
+      maxAge: 60 * 60 * 24 * 365,
       sameSite: "lax",
     });
 
     return response;
-  } catch (error) {
+  } catch (err) {
+    console.error("Follow error:", err);
     return NextResponse.json(
-      { error: "Failed to process follow request." },
+      { success: false, error: "Internal server error" },
       { status: 500 }
     );
   }

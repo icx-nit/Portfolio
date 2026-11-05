@@ -35,3 +35,5 @@ pnpm-debug.log*
 *.log
 playwright-report/
 test-results/
+wsl-fs-patch.cjs
+

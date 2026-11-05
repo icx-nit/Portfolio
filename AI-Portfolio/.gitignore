@@ -30,3 +30,5 @@ coverage/
 *.log
 playwright-report/
 test-results/
+wsl-fs-patch.cjs
+

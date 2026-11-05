@@ -18,11 +18,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [theme, setThemeState] = useState<"dark" | "light">("dark");
 
   useEffect(() => {
-    // 1. Language persistence
-    const savedLang = localStorage.getItem("portfolio_lang") as Language;
-    if (savedLang === "en" || savedLang === "th") {
-      setLanguageState(savedLang);
-    }
+    // 1. Language persistence & live synchronization
+    const syncLang = () => {
+      const savedLang = localStorage.getItem("portfolio_lang") as Language;
+      if (savedLang === "en" || savedLang === "th") {
+        setLanguageState(savedLang);
+      }
+    };
+    syncLang();
+    window.addEventListener("portfolio-lang-change", syncLang);
+    window.addEventListener("storage", syncLang);
 
     // 2. Theme persistence
     const savedTheme = localStorage.getItem("portfolio_theme") as "dark" | "light";
@@ -37,11 +42,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setThemeState(initialTheme);
       document.documentElement.classList.add(initialTheme);
     }
+
+    return () => {
+      window.removeEventListener("portfolio-lang-change", syncLang);
+      window.removeEventListener("storage", syncLang);
+    };
   }, []);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     localStorage.setItem("portfolio_lang", lang);
+    window.dispatchEvent(new Event("portfolio-lang-change"));
   };
 
   const toggleTheme = () => {

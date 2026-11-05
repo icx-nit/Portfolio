@@ -72,10 +72,11 @@ export interface ContactMessage {
 }
 
 export interface PortfolioStats {
-  projectsCount: number;
+  projectsCount?: number;
   followersCount: number;
-  totalLikesCount: number;
-  totalPostLikesCount: number;
-  repositoriesCount: number;
+  totalLikesCount?: number;
+  totalPostLikesCount?: number;
+  repositoriesCount?: number;
   postsCount: number;
+  likesCount?: number;
 }

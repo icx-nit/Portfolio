@@ -4,41 +4,149 @@ export const translations = {
   en: {
     // Navigation
     nav: {
-      about: "About",
-      feed: "Feed",
-      education: "Education",
+      brand: "Portfolio",
+      home: "Home",
+      about: "About Me",
+      posts: "Posts",
       skills: "Skills",
-      projects: "Projects",
-      contact: "Contact",
-      resume: "Resume",
-      follow: "+ Follow",
+      contact: "Contact Me",
+      login: "Login",
+      downloadResume: "Download Resume",
+      follow: "Follow Me",
       following: "Following",
-      askAi: "Ask AI",
+      askAi: "Ask Chatbot",
     },
 
     // Hero Section
     hero: {
-      badge: "Software Engineering · University of Phayao",
-      headline: "Violet horizon. Engineered with intent.",
+      greeting: "Hi, I'm Nittaya",
+      role: "UX/UI Designer",
       subheadline:
-        "I'm Nittaya Pana (นิตยา ปานา), a Software Engineering student at the School of Information and Communication Technology, University of Phayao. Building high-performance full-stack web applications, relational database systems, and accessible digital experiences.",
-      exploreProjects: "Explore Projects",
-      getInTouch: "Get in Touch",
-      askAssistant: "Ask AI Assistant",
-      githubSubtitle: "Explore code repositories on",
+        "Passionate about user-centered design, crafting intuitive interfaces, and bridging aesthetics with seamless functionality.",
+      downloadResume: "Download Resume",
+      followMe: "Follow Me",
+      following: "Following",
+      githubTitle: "GitHub Portfolio",
+      followersCount: "followers",
     },
 
-    // Social Feed
+    // Social Feed / Posts
     feed: {
-      title: "Social Feed & Updates",
-      subtitle: "Recent announcements, project launches, and university achievements.",
+      title: "Posts & Stories",
+      subtitle: "Behind-the-scenes UX research, design systems, and daily design thoughts.",
       like: "Like",
       liked: "Liked",
-      viewAll: "View all updates",
-      launchBadge: "Official Release",
+      emptyState: "No posts published yet.",
     },
 
-    // Stats
+    // About Section
+    about: {
+      title: "About Me",
+      fullNameLabel: "Full Name",
+      fullNameValue: "Nittaya Pana (Miss Nittaya Pana)",
+      universityLabel: "Institution",
+      universityValue: "University of Phayao",
+      facultyLabel: "Faculty",
+      facultyValue: "School of Information and Communication Technology",
+      majorLabel: "Major",
+      majorValue: "Software Engineering",
+
+      // 5 Topics
+      topic1Title: "1. Technology Interests",
+      topic1Desc:
+        "Passionate about UX/UI Design and web development with a strong focus on user-centered principles. Deeply interested in crafting intuitive user interfaces, elevating user experience, and applying modern technology to solve real-world problems.",
+
+      topic2Title: "2. Career Goals",
+      topic2Desc:
+        "Dedicated to advancing UX/UI Design capabilities through real internship experience. Eager to master the end-to-end design lifecycle from user research and wireframing to high-fidelity prototyping, while collaborating seamlessly with developers.",
+
+      topic3Title: "3. Strengths",
+      topic3Desc:
+        "Highly responsible, detail-oriented, and eager to learn new concepts. Receptive to constructive feedback and committed to continuously refining design work to achieve the highest quality standards.",
+
+      topic4Title: "4. Currently Learning",
+      topic4Items: [
+        "UX Research and user needs analysis",
+        "Wireframing and interactive Prototyping",
+        "Design Systems and Component Design",
+        "Responsive Web Design for all viewports",
+        "HTML, CSS, and Frontend Development fundamentals",
+      ],
+
+      topic5Title: "5. Working Approach",
+      topic5Desc:
+        "Committed to clean, accessible, and intuitive design. Working process begins with understanding the core problem, structuring user flow, crafting mockups, usability testing, and continuous iterative improvement.",
+    },
+
+    // Skills Section
+    skills: {
+      title: "Skills & Tools",
+      subtitle: "Comprehensive overview of design capabilities, interpersonal strengths, and industry tools.",
+      hardSkillsTitle: "Hard Skills",
+      softSkillsTitle: "Soft Skills",
+      toolsTitle: "Tools & Technologies",
+
+      // Hard skills
+      hard1Title: "Wireframing",
+      hard1Desc: "Structuring screen layouts, information architecture, and user journeys prior to visual design.",
+      hard2Title: "Design System",
+      hard2Desc: "Establishing unified color tokens, typography scales, components, and design guidelines for consistency.",
+      hard3Title: "Interaction & Motion Design",
+      hard3Desc: "Designing intuitive micro-interactions, states, page transitions, and subtle animations that enhance UX.",
+
+      // Soft skills
+      soft1Title: "Continuous Learning",
+      soft1Desc: "Actively seeking knowledge, exploring cutting-edge design trends, and embracing modern web technologies.",
+      soft2Title: "Responsibility",
+      soft2Desc: "Accountable, organized, and dedicated to delivering tasks punctually with high craftsmanship.",
+      soft3Title: "Dedication & Commitment",
+      soft3Desc: "Diligent, detail-oriented, and persistent in iterating designs to achieve optimal usability.",
+    },
+
+    // Contact Section
+    contact: {
+      title: "Contact Me",
+      subtitle:
+        "Feel free to reach out for UX/UI internship opportunities, collaborative projects, or design discussions.",
+      directEmail: "Direct Email",
+      copyEmail: "Copy Email",
+      copied: "Copied!",
+      githubProfile: "GitHub Profile",
+      nameLabel: "Name",
+      namePlaceholder: "Your full name",
+      emailLabel: "Email",
+      emailPlaceholder: "your.email@example.com",
+      messageLabel: "Message",
+      messagePlaceholder: "Write your message here...",
+      sendButton: "Send Message",
+      sending: "Sending Message...",
+      successTitle: "Message Sent Successfully!",
+      successDesc: "Thank you for reaching out. Your message has been delivered to Nittaya Pana.",
+      validationError: "Please fill in all required fields with a valid email address.",
+    },
+
+    // Footer
+    footer: {
+      role: "UX/UI Designer",
+      copyright: "© 2026 Nittaya Pana. All Rights Reserved.",
+      tagline: "Designed & Developed by Nittaya Pana",
+      subtagline: "Creating meaningful digital experiences through design and technology.",
+      adminLogin: "Owner Login",
+    },
+
+    // Chatbot
+    chat: {
+      title: "Portfolio Assistant",
+      subtitle: "Chatbot for Inquiries",
+      welcome:
+        "Hello! I'm Nittaya's UX/UI Portfolio Assistant. Feel free to ask about education, UX/UI skills, design process, or contact details!",
+      placeholder: "Ask about UX/UI skills, education, or projects...",
+      sourcePrefix: "Source:",
+      loading: "Searching portfolio knowledge...",
+      cleared: "Chat conversation cleared.",
+    },
+
+    // Legacy Stats, Education, Projects (for compatibility)
     stats: {
       university: "ICT Student",
       universityLabel: "University of Phayao",
@@ -49,206 +157,203 @@ export const translations = {
       followers: "Followers",
       followersLabel: "Community Subscriptions",
     },
-
-    // About Section
-    about: {
-      title: "About the Developer",
-      intro:
-        "Hello! I am Nittaya Pana, studying Software Engineering at the School of Information and Communication Technology, University of Phayao.",
-      para1:
-        "My passion is engineering clean, maintainable systems from the ground up: designing normalized PostgreSQL schemas with strict Row Level Security, architecting type-safe APIs, and building luminous, high-contrast user interfaces.",
-      para2:
-        "Dedicated to continuous software mastery, exploring full-stack web technologies, and crafting accessible digital products.",
-      card1Title: "University of Phayao",
-      card1Desc: "School of Information and Communication Technology. Software Engineering major.",
-      card2Title: "Full-Stack Development",
-      card2Desc: "Crafting modern web apps with Next.js, React, TypeScript, and Tailwind CSS.",
-      card3Title: "Database Architecture",
-      card3Desc: "Relational database modeling with PostgreSQL and Supabase Row Level Security.",
-      card4Title: "AI & Retrieval Systems",
-      card4Desc: "Designing free, non-paid Information Retrieval chatbots and data-driven tools.",
-    },
-
-    // Education
     education: {
-      title: "Education & Academic Foundation",
-      subtitle: "University background, degree timeline, and core engineering coursework.",
-      degree: "Bachelor of Science in Software Engineering",
+      title: "Academic Background",
+      subtitle: "Higher education details at University of Phayao",
+      degree: "Bachelor of Science (Software Engineering)",
       institution: "University of Phayao",
-      faculty: "School of Information and Communication Technology",
-      status: "In Progress",
+      faculty: "School of ICT",
+      status: "Current Student",
       timeline: "2023 — Present",
       location: "Phayao, Thailand",
-      description:
-        "Active coursework in Software Architecture, Database Systems, Web Engineering, Algorithms & Data Structures, and System Analysis.",
+      description: "Focusing on UX/UI design, software architecture, and web technologies.",
     },
-
-    // Skills
-    skills: {
-      title: "Technical Competencies",
-      subtitle: "Programming languages, frontend and backend frameworks, and engineering tools.",
-      cat1: "Programming Languages",
-      cat2: "Frontend Development",
-      cat3: "Backend & Databases",
-      cat4: "Tools & DevOps",
-      verified: "Applied in coursework and project development",
-    },
-
-    // Projects
     projects: {
-      title: "Selected Projects",
-      subtitle: "Real-world web software, coursework implementations, and engineering tools.",
+      title: "Featured Projects",
+      subtitle: "Software systems and design work",
       filterAll: "All",
       filterFullStack: "Full-Stack",
-      filterWeb: "Web Development",
-      filterTools: "System & Tools",
+      filterWeb: "Web Apps",
+      filterTools: "Tools",
       viewDetails: "View Details",
-      githubRepo: "GitHub Source",
+      githubRepo: "GitHub Repository",
       liveDemo: "Live Demo",
-      keyHighlights: "Key Architecture Highlights",
+      keyHighlights: "Architecture Highlights",
       technologies: "Technologies Used",
       close: "Close",
-    },
-
-    // Contact
-    contact: {
-      title: "Let's Connect",
-      subtitle:
-        "Have an internship opportunity, an open-source collaboration idea, or want to discuss software engineering? My inbox is always open.",
-      directEmail: "Direct Email",
-      location: "Location & Campus",
-      locationDetail: "School of ICT, University of Phayao, Phayao, Thailand",
-      githubProfile: "GitHub Profile",
-      nameLabel: "Your Name",
-      emailLabel: "Your Email",
-      subjectLabel: "Subject (Optional)",
-      messageLabel: "Message",
-      sendButton: "Send Message",
-      sending: "Sending...",
-      successTitle: "Message Dispatched",
-      successDesc: "Thank you for reaching out! Your message has been sent to Nittaya Pana.",
-      sendAnother: "Send Another Message",
-      validationError: "Please fill in your name, email, and message.",
-    },
-
-    // Chatbot
-    chat: {
-      title: "Portfolio Assistant",
-      subtitle: "Knowledge-Based Information Retrieval (No Paid AI)",
-      welcome:
-        "Hello! I am Nittaya Pana's portfolio assistant. Feel free to ask about Nittaya's Software Engineering studies at University of Phayao, projects, skills, or contact info.",
-      placeholder: "Ask about Nittaya's education, skills, projects...",
-      sourcePrefix: "Source:",
-      loading: "Retrieving portfolio knowledge...",
-      cleared: "Conversation cleared. What would you like to know about Nittaya's portfolio?",
-    },
-
-    // Footer
-    footer: {
-      description:
-        "Software Engineering · School of Information and Communication Technology · University of Phayao",
-      builtWith: "Engineered with Wope Violet Horizon aesthetic, Next.js, and TypeScript.",
-      adminLink: "Owner Dashboard",
     },
   },
 
   th: {
     // Navigation
     nav: {
-      about: "เกี่ยวกับ",
-      feed: "ฟีดข่าวสาร",
-      education: "การศึกษา",
+      brand: "Portfolio",
+      home: "หน้าแรก",
+      about: "เกี่ยวกับฉัน",
+      posts: "โพสต์",
       skills: "ทักษะ",
-      projects: "ผลงาน",
-      contact: "ติดต่อ",
-      resume: "เรซูเม่",
-      follow: "+ ติดตาม",
+      contact: "ติดต่อฉัน",
+      login: "เข้าสู่ระบบ",
+      downloadResume: "ดาวน์โหลดเรซูเม่",
+      follow: "ติดตาม",
       following: "กำลังติดตาม",
-      askAi: "ถาม AI",
+      askAi: "ถามแชทบอท",
     },
 
     // Hero Section
     hero: {
-      badge: "สาขาวิชาวิศวกรรมซอฟต์แวร์ · มหาวิทยาลัยพะเยา",
-      headline: "ขอบฟ้าสีม่วง. พัฒนาด้วยความมุ่งมั่น.",
+      greeting: "สวัสดี ฉัน นิตยา",
+      role: "UX/UI Designer",
       subheadline:
-        "สวัสดีครับ ผม นิตยา ปานา (Nittaya Pana) นิสิตสาขาวิชาวิศวกรรมซอฟต์แวร์ คณะเทคโนโลยีสารสนเทศและการสื่อสาร มหาวิทยาลัยพะเยา มุ่งมั่นพัฒนาเว็บแอปพลิเคชัน Full-Stack ประสิทธิภาพสูง สถาปัตยกรรมฐานข้อมูล และประสบการณ์ผู้ใช้ที่เข้าถึงง่าย",
-      exploreProjects: "ดูผลงานทั้งหมด",
-      getInTouch: "ติดต่อสอบถาม",
-      askAssistant: "ถามผู้ช่วย AI",
-      githubSubtitle: "ดูซอร์สโค้ดและคลังโปรเจกต์ได้ที่",
+        "มุ่งมั่นพัฒนาการออกแบบที่คำนึงถึงผู้ใช้งานเป็นหลัก สร้างสรรค์หน้าจอที่เข้าใจง่าย สวยงาม ทันสมัย และตอบโจทย์การใช้งานจริง",
+      downloadResume: "ดาวน์โหลดเรซูเม่",
+      followMe: "ติดตาม",
+      following: "กำลังติดตาม",
+      githubTitle: "GitHub Portfolio",
+      followersCount: "ผู้ติดตาม",
     },
 
-    // Social Feed
+    // Social Feed / Posts
     feed: {
-      title: "ฟีดอัปเดตและข่าวสาร",
-      subtitle: "ประกาศ ข่าวการเปิดตัวโปรเจกต์ และความก้าวหน้าทางการศึกษา",
+      title: "โพสต์และบันทึกผลงาน",
+      subtitle: "เบื้องหลังการวิจัย UX การจัดทำ Design System และบันทึกกระบวนการออกแบบ",
       like: "ถูกใจ",
       liked: "ถูกใจแล้ว",
-      viewAll: "ดูอัปเดตทั้งหมด",
-      launchBadge: "เปิดตัวอย่างเป็นทางการ",
-    },
-
-    // Stats
-    stats: {
-      university: "นิสิต ICT",
-      universityLabel: "มหาวิทยาลัยพะเยา",
-      repos: "คลังโค้ดสาธารณะ",
-      reposLabel: "เชื่อมต่อผ่าน GitHub API",
-      projects: "ผลงานที่นำเสนอ",
-      projectsLabel: "วิศวกรรมซอฟต์แวร์",
-      followers: "ผู้ติดตาม",
-      followersLabel: "การติดตามจากผู้เข้าชม",
+      emptyState: "ยังไม่มีโพสต์เผยแพร่ในขณะนี้",
     },
 
     // About Section
     about: {
-      title: "เกี่ยวกับผู้พัฒนา",
-      intro:
-        "สวัสดีครับ ผม นิตยา ปานา กำลังศึกษาหลักสูตรวิทยาศาสตรบัณฑิต สาขาวิชาวิศวกรรมซอฟต์แวร์ คณะเทคโนโลยีสารสนเทศและการสื่อสาร มหาวิทยาลัยพะเยา",
-      para1:
-        "ผมหลงใหลในการพัฒนาซอฟต์แวร์ที่เป็นระบบและมีประสิทธิภาพ ตั้งแต่การออกแบบฐานข้อมูล PostgreSQL ที่ปลอดภัยด้วย Row Level Security (RLS) การสร้าง API ที่ปลอดภัยด้วย TypeScript ไปจนถึงหน้าเว็บสไตล์ Wope ที่สวยงามและทันสมัย",
-      para2:
-        "มุ่งมั่นพัฒนาทักษะวิศวกรรมซอฟต์แวร์อย่างต่อเนื่อง พร้อมเรียนรู้เทคโนโลยีใหม่ๆ และสร้างสรรค์ผลงานที่เป็นประโยชน์ต่อผู้ใช้งานจริง",
-      card1Title: "มหาวิทยาลัยพะเยา",
-      card1Desc: "คณะเทคโนโลยีสารสนเทศและการสื่อสาร สาขาวิชาวิศวกรรมซอฟต์แวร์",
-      card2Title: "การพัฒนา Full-Stack",
-      card2Desc: "สร้างเว็บแอปพลิเคชันยุคใหม่ด้วย Next.js, React, TypeScript และ Tailwind CSS",
-      card3Title: "สถาปัตยกรรมฐานข้อมูล",
-      card3Desc: "ออกแบบฐานข้อมูลเชิงสัมพันธ์ด้วย PostgreSQL และ Supabase Row Level Security",
-      card4Title: "AI และระบบค้นคืนข้อมูล",
-      card4Desc: "พัฒนาระบบ Information Retrieval Chatbot โดยไม่มีค่าใช้จ่าย API ภายนอก",
+      title: "เกี่ยวกับฉัน",
+      fullNameLabel: "ชื่อ-นามสกุล",
+      fullNameValue: "นางสาวนิตยา ปานา",
+      universityLabel: "สถาบันการศึกษา",
+      universityValue: "มหาวิทยาลัยพะเยา",
+      facultyLabel: "คณะ",
+      facultyValue: "คณะเทคโนโลยีสารสนเทศและการสื่อสาร",
+      majorLabel: "สาขาวิชา",
+      majorValue: "สาขาวิชาวิศวกรรมซอฟต์แวร์",
+
+      // 5 Topics
+      topic1Title: "1. ความสนใจด้านเทคโนโลยี (Technology Interests)",
+      topic1Desc:
+        "มีความสนใจด้าน UX/UI Design และการพัฒนาเว็บไซต์ โดยให้ความสำคัญกับการออกแบบที่คำนึงถึงผู้ใช้งานเป็นหลัก สนใจการออกแบบ User Interface การสร้าง User Experience ที่ดี และการนำเทคโนโลยีมาประยุกต์ใช้เพื่อแก้ไขปัญหาในการใช้งานจริง",
+
+      topic2Title: "2. เป้าหมายในการทำงาน (Career Goals)",
+      topic2Desc:
+        "ต้องการพัฒนาทักษะด้าน UX/UI Design ผ่านการฝึกงานและประสบการณ์ทำงานจริง เรียนรู้กระบวนการออกแบบตั้งแต่การทำความเข้าใจผู้ใช้ การสร้าง Wireframe ไปจนถึงการออกแบบ Prototype พร้อมพัฒนาตนเองให้สามารถทำงานร่วมกับทีม Developer ได้อย่างมีประสิทธิภาพ",
+
+      topic3Title: "3. จุดเด่นในการทำงาน (Strengths)",
+      topic3Desc:
+        "เป็นคนตั้งใจทำงาน มีความรับผิดชอบ ใส่ใจรายละเอียด และพร้อมเรียนรู้สิ่งใหม่ ๆ สามารถรับฟังความคิดเห็นและนำคำแนะนำมาปรับปรุงงานออกแบบให้ดีขึ้น",
+
+      topic4Title: "4. สิ่งที่กำลังเรียนรู้ (Currently Learning)",
+      topic4Items: [
+        "UX Research และการวิเคราะห์ความต้องการของผู้ใช้งาน",
+        "Wireframing และ Prototyping",
+        "Design System และ Component Design",
+        "Responsive Web Design",
+        "HTML, CSS และพื้นฐาน Frontend Development",
+      ],
+
+      topic5Title: "5. แนวทางการทำงาน (Working Approach)",
+      topic5Desc:
+        "ให้ความสำคัญกับการออกแบบที่ใช้งานง่าย เข้าใจได้ไม่ซับซ้อน และตอบโจทย์ผู้ใช้งาน โดยเริ่มจากการทำความเข้าใจปัญหา วางโครงสร้าง ออกแบบ ทดลองใช้งาน และปรับปรุงผลงานอย่างต่อเนื่อง",
     },
 
-    // Education
+    // Skills Section
+    skills: {
+      title: "ทักษะและความสามารถ",
+      subtitle: "ทักษะความสามารถด้าน UX/UI Design ทักษะการทำงานร่วมกับผู้อื่น และเครื่องมือที่ใช้ทำงานจริง",
+      hardSkillsTitle: "Hard Skills",
+      softSkillsTitle: "Soft Skills",
+      toolsTitle: "Tools & Technologies",
+
+      // Hard skills
+      hard1Title: "Wireframing",
+      hard1Desc: "ความสามารถในการวางโครงสร้างหน้าจอและจัดลำดับองค์ประกอบ เพื่อกำหนดรูปแบบการใช้งานก่อนเข้าสู่ขั้นตอนการออกแบบจริง",
+      hard2Title: "Design System",
+      hard2Desc: "ความเข้าใจในการจัดทำระบบสี ตัวอักษร ปุ่ม Component และรูปแบบการออกแบบ เพื่อให้เว็บไซต์หรือแอปพลิเคชันมีความสม่ำเสมอ",
+      hard3Title: "Interaction & Motion Design",
+      hard3Desc: "ความสามารถในการออกแบบปฏิสัมพันธ์ระหว่างผู้ใช้กับระบบ เช่น การกดปุ่ม การเปลี่ยนหน้า การแสดงสถานะ และ Animation เพื่อเพิ่มประสบการณ์การใช้งาน",
+
+      // Soft skills
+      soft1Title: "Continuous Learning",
+      soft1Desc: "ชอบเรียนรู้และพัฒนาตนเองอยู่เสมอ พร้อมเปิดรับความรู้และเทคโนโลยีใหม่ ๆ",
+      soft2Title: "Responsibility",
+      soft2Desc: "มีความรับผิดชอบต่องานที่ได้รับมอบหมาย และพยายามทำงานให้สำเร็จตามเป้าหมาย",
+      soft3Title: "Dedication & Commitment",
+      soft3Desc: "มีความขยัน ตั้งใจ และใส่ใจในรายละเอียดของงาน พร้อมปรับปรุงผลงานให้ดีขึ้นอยู่เสมอ",
+    },
+
+    // Contact Section
+    contact: {
+      title: "ติดต่อฉัน",
+      subtitle:
+        "หากท่านมีโอกาสในการฝึกงาน UX/UI Designer หรือต้องการพูดคุยแลกเปลี่ยนด้านการออกแบบ สามารถติดต่อได้โดยตรงครับ",
+      directEmail: "อีเมลติดต่อโดยตรง",
+      copyEmail: "คัดลอกอีเมล",
+      copied: "คัดลอกแล้ว!",
+      githubProfile: "GitHub Profile",
+      nameLabel: "ชื่อของคุณ",
+      namePlaceholder: "กรุณาระบุชื่อของคุณ",
+      emailLabel: "อีเมลของคุณ",
+      emailPlaceholder: "your.email@example.com",
+      messageLabel: "ข้อความ",
+      messagePlaceholder: "เขียนข้อความที่ต้องการติดต่อที่นี่...",
+      sendButton: "ส่งข้อความ",
+      sending: "กำลังส่งข้อความ...",
+      successTitle: "ส่งข้อความสำเร็จเรียบร้อย!",
+      successDesc: "ขอบคุณสำหรับการติดต่อ ข้อความของคุณถูกส่งไปยัง นิตยา ปานา เรียบร้อยแล้วครับ",
+      validationError: "กรุณากรอกข้อมูลให้ครบถ้วนและใช้อีเมลที่ถูกต้อง",
+    },
+
+    // Footer
+    footer: {
+      role: "UX/UI Designer",
+      copyright: "© 2026 Nittaya Pana. All Rights Reserved.",
+      tagline: "ออกแบบและพัฒนาโดย นิตยา ปานา",
+      subtagline: "สร้างสรรค์ประสบการณ์ดิจิทัลที่มีคุณค่าผ่านการออกแบบและเทคโนโลยี",
+      adminLogin: "เข้าสู่ระบบเจ้าของเว็บไซต์",
+    },
+
+    // Chatbot
+    chat: {
+      title: "ผู้ช่วยตอบคำถามพอร์ตโฟลิโอ",
+      subtitle: "Chatbot สำหรับสอบถาม",
+      welcome:
+        "สวัสดีค่ะ! ฉันคือผู้ช่วย AI ประจำพอร์ตโฟลิโอของ นิตยา ปานา คุณสามารถสอบถามเกี่ยวกับการศึกษา ทักษะ UX/UI เครื่องมือที่ใช้ หรือข้อมูลการติดต่อได้เลยค่ะ",
+      placeholder: "สอบถามเกี่ยวกับทักษะ UX/UI, การศึกษา หรือเครื่องมือ...",
+      sourcePrefix: "แหล่งอ้างอิง:",
+      loading: "กำลังค้นหาข้อมูลพอร์ตโฟลิโอ...",
+      cleared: "ล้างการสนทนาเรียบร้อยแล้วค่ะ",
+    },
+
+    // Legacy Stats, Education, Projects (for compatibility)
+    stats: {
+      university: "นิสิต ICT",
+      universityLabel: "มหาวิทยาลัยพะเยา",
+      repos: "Public Repos",
+      reposLabel: "Synced ผ่าน GitHub API",
+      projects: "ผลงานโปรเจกต์",
+      projectsLabel: "วิศวกรรมซอฟต์แวร์",
+      followers: "ผู้ติดตาม",
+      followersLabel: "การติดตามจากผู้เข้าชม",
+    },
     education: {
       title: "ประวัติการศึกษาและพื้นฐานทางวิศวกรรม",
-      subtitle: "ข้อมูลการศึกษาระดับอุดมศึกษา และรายวิชาหลักด้านวิศวกรรมซอฟต์แวร์",
+      subtitle: "ข้อมูลการศึกษาระดับอุดมศึกษา",
       degree: "วิทยาศาสตรบัณฑิต (วิศวกรรมซอฟต์แวร์)",
       institution: "มหาวิทยาลัยพะเยา",
       faculty: "คณะเทคโนโลยีสารสนเทศและการสื่อสาร",
       status: "กำลังศึกษา",
       timeline: "2566 — ปัจจุบัน",
       location: "พะเยา, ประเทศไทย",
-      description:
-        "ศึกษาด้านสถาปัตยกรรมซอฟต์แวร์ ระบบฐานข้อมูล วิศวกรรมเว็บ โครงสร้างข้อมูลและอัลกอริทึม และการวิเคราะห์ออกแบบระบบ",
+      description: "ศึกษาด้านสถาปัตยกรรมซอฟต์แวร์ และการออกแบบ UX/UI",
     },
-
-    // Skills
-    skills: {
-      title: "ทักษะและความสามารถทางเทคนิค",
-      subtitle: "ภาษาโปรแกรม เฟรมเวิร์ก Frontend/Backend และเครื่องมือวิศวกรรมซอฟต์แวร์",
-      cat1: "ภาษาโปรแกรม",
-      cat2: "การพัฒนา Frontend",
-      cat3: "การพัฒนา Backend & ฐานข้อมูล",
-      cat4: "เครื่องมือและ DevOps",
-      verified: "ผ่านการใช้งานจริงในรายวิชาและโปรเจกต์",
-    },
-
-    // Projects
     projects: {
       title: "ผลงานโปรเจกต์เด่น",
-      subtitle: "ระบบซอฟต์แวร์ที่พัฒนาขึ้นจริง โปรเจกต์ในชั้นเรียน และเครื่องมือสำหรับนักพัฒนา",
+      subtitle: "ระบบซอฟต์แวร์ที่พัฒนาขึ้นจริง",
       filterAll: "ทั้งหมด",
       filterFullStack: "Full-Stack",
       filterWeb: "เว็บแอปพลิเคชัน",
@@ -259,47 +364,6 @@ export const translations = {
       keyHighlights: "ไฮไลต์สถาปัตยกรรมระบบ",
       technologies: "เทคโนโลยีที่ใช้",
       close: "ปิด",
-    },
-
-    // Contact
-    contact: {
-      title: "ติดต่อสอบถาม",
-      subtitle:
-        "หากท่านมีโอกาสในการฝึกงาน ร่วมโปรเจกต์โอเพนซอร์ส หรือต้องการแลกเปลี่ยนด้านวิศวกรรมซอฟต์แวร์ สามารถติดต่อได้ทันทีครับ",
-      directEmail: "อีเมลติดต่อโดยตรง",
-      location: "สถานที่ศึกษา",
-      locationDetail: "คณะเทคโนโลยีสารสนเทศและการสื่อสาร มหาวิทยาลัยพะเยา จ.พะเยา",
-      githubProfile: "โปรไฟล์ GitHub",
-      nameLabel: "ชื่อของคุณ",
-      emailLabel: "อีเมลของคุณ",
-      subjectLabel: "หัวข้อ (ไม่บังคับ)",
-      messageLabel: "ข้อความ",
-      sendButton: "ส่งข้อความ",
-      sending: "กำลังส่งข้อความ...",
-      successTitle: "ส่งข้อความสำเร็จ",
-      successDesc: "ขอบคุณสำหรับการติดต่อ ข้อความของคุณถูกส่งไปยัง นิตยา ปานา เรียบร้อยแล้วครับ",
-      sendAnother: "ส่งข้อความอื่นเพิ่มเติม",
-      validationError: "กรุณากรอกชื่อ อีเมล และข้อความให้ครบถ้วน",
-    },
-
-    // Chatbot
-    chat: {
-      title: "ผู้ช่วยตอบคำถามพอร์ตโฟลิโอ",
-      subtitle: "ระบบค้นคืนข้อมูลเฉพาะของพอร์ตโฟลิโอ (ไม่มีค่าใช้จ่าย API)",
-      welcome:
-        "สวัสดีครับ! ผมคือผู้ช่วย AI ประจำพอร์ตโฟลิโอของ นิตยา ปานา คุณสามารถสอบถามเกี่ยวกับการศึกษาที่ ม.พะเยา ทักษะทางเทคนิค โปรเจกต์ หรือข้อมูลการติดต่อได้เลยครับ",
-      placeholder: "สอบถามเกี่ยวกับการศึกษา, ทักษะ, หรือโปรเจกต์...",
-      sourcePrefix: "แหล่งอ้างอิง:",
-      loading: "กำลังค้นหาข้อมูลพอร์ตโฟลิโอ...",
-      cleared: "ล้างการสนทนาเรียบร้อยแล้ว ต้องการสอบถามข้อมูลใดเกี่ยวกับ นิตยา ปานา เพิ่มเติมไหมครับ?",
-    },
-
-    // Footer
-    footer: {
-      description:
-        "สาขาวิชาวิศวกรรมซอฟต์แวร์ · คณะเทคโนโลยีสารสนเทศและการสื่อสาร · มหาวิทยาลัยพะเยา",
-      builtWith: "ออกแบบด้วยเอกลักษณ์ Wope Violet Horizon พัฒนาด้วย Next.js และ TypeScript",
-      adminLink: "แดชบอร์ดเจ้าของพอร์ตโฟลิโอ",
     },
   },
 };

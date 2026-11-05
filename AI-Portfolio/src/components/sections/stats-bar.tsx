@@ -20,7 +20,7 @@ export const StatsBar: React.FC<StatsBarProps> = ({ stats }) => {
   ];
 
   return (
-    <section className="w-full border-y border-white/10 bg-night-violet py-8 px-6 overflow-x-auto">
+    <section className="w-full border-y border-white/10 bg-transparent py-8 px-6 overflow-x-auto">
       <div className="max-w-container mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-0 lg:divide-x lg:divide-white/10">
         {items.map((item, idx) => (
           <div

@@ -10,21 +10,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Wope Design Tokens from DESIGN.md
-        "night-violet": "#0a0118",
-        "void-plum": "#0c0616",
-        "soft-quartz": "#ffffff",
-        "muted-steel": "#d2d0dd",
-        "ash-lilac": "#9b96b0",
-        "dim-fog": "#85808c",
-        "ultraviolet-core": "#713dff",
-        "lilac-beam": "#b7a4fb",
-        "horizon-glow": "#8562ff",
+        // Wope Design Tokens wired via CSS variables for dynamic dark/light switching
+        "night-violet": "var(--color-night-violet)",
+        "void-plum": "var(--color-void-plum)",
+        "soft-quartz": "var(--color-soft-quartz)",
+        "muted-steel": "var(--color-muted-steel)",
+        "ash-lilac": "var(--color-ash-lilac)",
+        "dim-fog": "var(--color-dim-fog)",
+        "ultraviolet-core": "var(--color-ultraviolet-core)",
+        "lilac-beam": "var(--color-lilac-beam)",
+        "horizon-glow": "var(--color-horizon-glow)",
         // Backward-compatible semantic aliases
-        obsidian: "#0a0118",
-        bone: "#ffffff",
-        char: "rgba(255, 255, 255, 0.1)",
-        slate: "#9b96b0",
+        obsidian: "var(--color-night-violet)",
+        bone: "var(--color-soft-quartz)",
+        char: "var(--color-glass-border)",
+        slate: "var(--color-ash-lilac)",
       },
       backgroundImage: {
         "ultraviolet-horizon":

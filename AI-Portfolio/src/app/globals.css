@@ -27,14 +27,34 @@
 
 /* Light Mode Overrides */
 html.light {
-  --color-night-violet: #f7f6fb;
+  --color-night-violet: #f8fafc;
   --color-void-plum: #ffffff;
-  --color-soft-quartz: #0c0616;
-  --color-muted-steel: #2a203f;
-  --color-ash-lilac: #5a5570;
-  --color-dim-fog: #85808c;
-  --color-glass-fill: rgba(113, 61, 255, 0.05);
-  --color-glass-border: rgba(113, 61, 255, 0.15);
+  --color-soft-quartz: #0f172a;
+  --color-muted-steel: #334155;
+  --color-ash-lilac: #475569;
+  --color-dim-fog: #64748b;
+  --color-ultraviolet-core: #0284c7;
+  --color-lilac-beam: #0284c7;
+  --color-horizon-glow: #0ea5e9;
+  --color-glass-fill: rgba(0, 0, 0, 0.03);
+  --color-glass-border: rgba(0, 0, 0, 0.12);
+}
+
+html.light .animate-aurora-1,
+html.light .animate-aurora-2,
+html.light .animate-aurora-3,
+html.light .animate-aurora-4 {
+  opacity: 0.08 !important;
+}
+
+html.light .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light .bg-white\/\[0\.02\],
+html.light .bg-white\/\[0\.03\],
+html.light .bg-white\/\[0\.04\] {
+  background-color: rgba(255, 255, 255, 0.8) !important;
 }
 
 * {
@@ -89,6 +109,190 @@ body {
   animation: ultraviolet-pulse 7s ease-in-out infinite;
 }
 
+/* Aurora & Floating Shape Animations */
+@keyframes aurora-1 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(80px, 60px, 0) scale(1.15);
+  }
+}
+
+@keyframes aurora-2 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1.1);
+  }
+  50% {
+    transform: translate3d(-70px, -50px, 0) scale(0.95);
+  }
+}
+
+@keyframes aurora-3 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(0.95);
+  }
+  50% {
+    transform: translate3d(50px, -70px, 0) scale(1.12);
+  }
+}
+
+@keyframes aurora-4 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-60px, 70px, 0) scale(1.08);
+  }
+}
+
+@keyframes float-shape-1 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(30px, -35px, 0) rotate(15deg);
+  }
+}
+
+@keyframes float-shape-2 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(-25px, 30px, 0) rotate(-18deg);
+  }
+}
+
+@keyframes float-shape-3 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(20px, 25px, 0) scale(1.06);
+  }
+}
+
+.animate-aurora-1 {
+  animation: aurora-1 22s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-aurora-2 {
+  animation: aurora-2 28s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-aurora-3 {
+  animation: aurora-3 25s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-aurora-4 {
+  animation: aurora-4 30s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-float-1 {
+  animation: float-shape-1 20s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-float-2 {
+  animation: float-shape-2 24s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-float-3 {
+  animation: float-shape-3 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-aurora-1,
+  .animate-aurora-2,
+  .animate-aurora-3,
+  .animate-aurora-4,
+  .animate-float-1,
+  .animate-float-2,
+  .animate-float-3 {
+    animation: none !important;
+  }
+  .animate-intro-in,
+  .animate-intro-out {
+    animation: none !important;
+  }
+}
+
+/* Intro Card Diagonal Glide Animations with Sideways Tilt (เฉียงข้าง) */
+@keyframes intro-card-glide-in {
+  0% {
+    transform: translate3d(-100vw, 100vh, 0) rotate(-14deg) scale(0.92);
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-4.5deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes intro-card-glide-out {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-4.5deg) scale(1);
+    opacity: 1;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(100vw, -100vh, 0) rotate(12deg) scale(1.05);
+    opacity: 0;
+  }
+}
+
+@keyframes intro-fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes intro-avatar-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-intro-in {
+  animation: intro-card-glide-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.animate-intro-out {
+  animation: intro-card-glide-out 0.8s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+  will-change: transform, opacity;
+}
+
+.animate-intro-text {
+  animation: intro-fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-intro-avatar {
+  animation: intro-avatar-pop 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* Focus styles */
 button:focus-visible,
 a:focus-visible,
@@ -114,4 +318,13 @@ textarea:focus-visible {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-ultraviolet-core);
+}
+
+/* Hide scrollbar for Chrome, Safari, Edge, Firefox */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
