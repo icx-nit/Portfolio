@@ -1,0 +1,9 @@
+{
+  "name": "nittaya-portfolio-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix AI-Portfolio install && npm --prefix AI-Portfolio run build",
+    "start": "npm --prefix AI-Portfolio start"
+  }
+}
