@@ -281,7 +281,7 @@ export default function AdminDashboardPage() {
     adminRole: lang === "th" ? "ผู้ดูแลระบบ" : "Admin",
 
     // Overview
-    overviewHeading: lang === "th" ? "ภาพรวมสถิติ" : "Overview",
+    overviewHeading: lang === "th" ? "ภาพรวมแดชบอร์ด" : "Dashboard Overview",
     dateRangeLabel: getDateRangeForOffset(selectedMonthOffset),
     totalReach: lang === "th" ? "ยอดการเข้าถึงทั้งหมด" : "Total Reach",
     totalFollowers: lang === "th" ? "ยอดผู้ติดตามทั้งหมด" : "Total Followers",
@@ -469,11 +469,20 @@ export default function AdminDashboardPage() {
 
   // 1. Verify Authentication Session
   useEffect(() => {
+    const OWNER_EMAIL = "nittaya503555@gmail.com";
     const isLocalAuth =
       typeof window !== "undefined" &&
       sessionStorage.getItem("owner_authenticated") === "true";
 
     supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session && session.user?.email && session.user.email.toLowerCase() !== OWNER_EMAIL.toLowerCase()) {
+        supabase.auth.signOut();
+        if (typeof window !== "undefined") {
+          sessionStorage.removeItem("owner_authenticated");
+        }
+        router.push("/admin/login");
+        return;
+      }
       if (!session && !isLocalAuth) {
         router.push("/admin/login");
       } else {
@@ -484,6 +493,14 @@ export default function AdminDashboardPage() {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session && session.user?.email && session.user.email.toLowerCase() !== OWNER_EMAIL.toLowerCase()) {
+        supabase.auth.signOut();
+        if (typeof window !== "undefined") {
+          sessionStorage.removeItem("owner_authenticated");
+        }
+        router.push("/admin/login");
+        return;
+      }
       if (!session && !isLocalAuth) {
         router.push("/admin/login");
       } else {
@@ -957,7 +974,7 @@ export default function AdminDashboardPage() {
 
   const totalPostLikes = postsList.reduce((sum, p) => sum + p.likesCount, 0);
 
-  // Sidebar Menu Items (Followers tab removed per request, stats displayed in Overview)
+  // Sidebar Menu Items (Followers menu item removed per request; stats remain in Overview)
   const menuItems = [
     { id: "overview", label: t.overview, icon: <LayoutGrid className="w-4 h-4" /> },
     { id: "profile", label: t.profile, icon: <User className="w-4 h-4" /> },
@@ -966,7 +983,6 @@ export default function AdminDashboardPage() {
     { id: "posts", label: t.posts, icon: <FileText className="w-4 h-4" /> },
     { id: "resume", label: t.resume, icon: <FileDown className="w-4 h-4" /> },
     { id: "messages", label: t.messages, icon: <Mail className="w-4 h-4" />, badge: unreadMessagesCount },
-    { id: "followers", label: t.followers, icon: <Users className="w-4 h-4" />, badge: followerCount },
     { id: "github", label: t.github, icon: <Github className="w-4 h-4" /> },
     { id: "settings", label: t.settings, icon: <Settings className="w-4 h-4" /> },
   ];
@@ -1455,49 +1471,6 @@ export default function AdminDashboardPage() {
                       >
                         {t.manageSkillsBtn}
                       </Button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bottom Feature Highlights Ribbon (Matches BizFlow Screenshot Image 1 & 4) */}
-                <div className="w-full rounded-3xl bg-[#0b041a] border border-white/10 p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 shadow-lg">
-                  <div className="flex items-center gap-3.5">
-                    <div className="w-10 h-10 rounded-2xl bg-cyan-500/15 border border-cyan-400/30 text-cyan-400 flex items-center justify-center shrink-0">
-                      <Clock className="w-5 h-5" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-sm font-bold text-white tracking-tight">{lang === "th" ? "อัปเดตแบบเรียลไทม์" : "Real-time Updates"}</p>
-                      <p className="text-xs text-ash-lilac truncate">{lang === "th" ? "เชื่อมต่อข้อมูลสดทันที" : "Live data synchronization"}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3.5">
-                    <div className="w-10 h-10 rounded-2xl bg-purple-500/15 border border-purple-400/30 text-lilac-beam flex items-center justify-center shrink-0">
-                      <ShieldCheck className="w-5 h-5" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-sm font-bold text-white tracking-tight">{lang === "th" ? "ปลอดภัยและขยายได้" : "Secure & Scalable"}</p>
-                      <p className="text-xs text-ash-lilac truncate">{lang === "th" ? "ความปลอดภัยระดับองค์กร" : "Enterprise-grade security"}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3.5">
-                    <div className="w-10 h-10 rounded-2xl bg-amber-500/15 border border-amber-400/30 text-amber-400 flex items-center justify-center shrink-0">
-                      <Zap className="w-5 h-5" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-sm font-bold text-white tracking-tight">{lang === "th" ? "ประสิทธิภาพสูงสุด" : "Performance Optimized"}</p>
-                      <p className="text-xs text-ash-lilac truncate">{lang === "th" ? "โหลดข้อมูลเร็วเป็นพิเศษ" : "Lightning fast dashboards"}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3.5">
-                    <div className="w-10 h-10 rounded-2xl bg-pink-500/15 border border-pink-400/30 text-pink-400 flex items-center justify-center shrink-0">
-                      <Sliders className="w-5 h-5" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-sm font-bold text-white tracking-tight">{lang === "th" ? "ปรับแต่งได้เต็มที่" : "Fully Customizable"}</p>
-                      <p className="text-xs text-ash-lilac truncate">{lang === "th" ? "ออกแบบเพื่อพอร์ตของคุณ" : "Built for your portfolio"}</p>
                     </div>
                   </div>
                 </div>

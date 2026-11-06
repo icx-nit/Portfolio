@@ -57,7 +57,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
       className="py-28 px-6 bg-transparent border-b border-white/10 relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-8 xl:gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 xl:gap-14 items-center">
           {/* ========================================================= */}
           {/* LEFT COLUMN: Transparent Cutout Portrait Only (No Text)  */}
           {/* Slides in from LEFT                                      */}

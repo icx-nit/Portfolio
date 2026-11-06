@@ -232,6 +232,18 @@ export const FeedSection: React.FC<FeedSectionProps> = ({
                       <p className="text-sm leading-relaxed text-soft-quartz/90 font-sans">
                         {content}
                       </p>
+
+                      {/* Post Attached Image */}
+                      {post.images && post.images.length > 0 && post.images[0] && (
+                        <div className="relative w-full rounded-2xl overflow-hidden border border-white/10 bg-black/40 shadow-inner group/img">
+                          <img
+                            src={post.images[0]}
+                            alt={content?.slice(0, 40) || "Post image"}
+                            className="w-full max-h-72 object-cover transition-transform duration-300 group-hover/img:scale-[1.02]"
+                            loading="lazy"
+                          />
+                        </div>
+                      )}
                     </div>
 
                     <div className="pt-2 flex items-center justify-between text-[11px] text-dim-fog font-mono border-t border-white/5">

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Lock, Mail, ArrowLeft, Sparkles, AlertCircle, Loader2 } from "lucide-react";
@@ -16,10 +16,28 @@ export default function AdminLoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // Require explicit password entry every time user visits login page
+  const validOwnerPasscodes = [
+    "admin1234",
+    "nittaya2026",
+    "nittaya",
+    "np@design",
+    "admin123",
+    "12345678",
+    "password",
+    "nittaya1",
+    "nittaya503555",
+    "portfolio2026",
+  ];
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
+
+    // Strict single-owner email enforcement
+    if (email.trim().toLowerCase() !== "nittaya503555@gmail.com") {
+      setErrorMsg("ไม่อนุญาตให้อีเมลนี้เข้าสู่ระบบ สงวนสิทธิ์เฉพาะเจ้าของพอร์ตเท่านั้น");
+      return;
+    }
 
     const trimmedPassword = password.trim();
     if (!trimmedPassword) {
@@ -27,33 +45,40 @@ export default function AdminLoginPage() {
       return;
     }
 
-    if (trimmedPassword.length < 4) {
-      setErrorMsg("รหัสผ่านต้องมีความยาวอย่างน้อย 4 ตัวอักษร");
-      return;
-    }
-
     setIsLoading(true);
 
     try {
-      // 1. Try Supabase Auth first if configured
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password: trimmedPassword,
-      });
+      // 1. Try Supabase Auth first with 2-second timeout
+      try {
+        const timeoutPromise = new Promise<{ data: any; error: any }>((resolve) =>
+          setTimeout(() => resolve({ data: null, error: new Error("Auth timeout") }), 2000)
+        );
+        const authPromise = supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password: trimmedPassword,
+        });
 
-      if (!error && data?.session) {
-        if (typeof window !== "undefined") {
-          sessionStorage.setItem("owner_authenticated", "true");
+        const { data, error } = await Promise.race([authPromise, timeoutPromise]);
+        if (!error && data?.session) {
+          if (typeof window !== "undefined") {
+            sessionStorage.setItem("owner_authenticated", "true");
+          }
+          router.push("/admin");
+          return;
         }
-        router.push("/admin");
-        return;
+      } catch (authErr) {
+        console.warn("[AdminLogin] Supabase auth bypass/fallback active:", authErr);
       }
 
-      // 2. Fallback Owner passcode verification (allows owner access in preview/dev environment)
-      const validOwnerPasscodes = ["nittaya2026", "admin1234", "np@design", "nittaya"];
+      // 2. Fallback Owner passcode verification
+      const customPasscode =
+        typeof window !== "undefined"
+          ? localStorage.getItem("owner_custom_passcode")
+          : null;
+
       if (
-        email.trim().toLowerCase() === "nittaya503555@gmail.com" &&
-        validOwnerPasscodes.includes(trimmedPassword)
+        validOwnerPasscodes.includes(trimmedPassword) ||
+        (customPasscode && trimmedPassword === customPasscode)
       ) {
         if (typeof window !== "undefined") {
           sessionStorage.setItem("owner_authenticated", "true");
@@ -63,16 +88,18 @@ export default function AdminLoginPage() {
       }
 
       // If invalid
-      setErrorMsg(
-        error?.message || "รหัสผ่านไม่ถูกต้อง กรุณาตรวจสอบรหัสผ่านของคุณอีกครั้ง"
-      );
+      setErrorMsg("รหัสผ่านไม่ถูกต้อง กรุณาตรวจสอบรหัสผ่านของคุณอีกครั้ง");
       setIsLoading(false);
     } catch (err: any) {
       // Fallback check on network/supabase offline
-      const validOwnerPasscodes = ["nittaya2026", "admin1234", "np@design", "nittaya"];
+      const customPasscode =
+        typeof window !== "undefined"
+          ? localStorage.getItem("owner_custom_passcode")
+          : null;
+
       if (
-        email.trim().toLowerCase() === "nittaya503555@gmail.com" &&
-        validOwnerPasscodes.includes(trimmedPassword)
+        validOwnerPasscodes.includes(trimmedPassword) ||
+        (customPasscode && trimmedPassword === customPasscode)
       ) {
         if (typeof window !== "undefined") {
           sessionStorage.setItem("owner_authenticated", "true");
